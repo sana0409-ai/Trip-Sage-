@@ -253,17 +253,28 @@ function HotelSelection({ text }: { text: string }) {
   if (!isHotelSelection) return null;
 
   const getHotelDetails = () => {
-    // Extract only the part after "Selected Hotel" 
-    const selectedHotelMatch = text.match(/\*\*Selected Hotel\*\*\n([\s\S]*?)(?=Please provide|$)/);
-    const hotelSection = selectedHotelMatch ? selectedHotelMatch[1] : text;
+    // Extract ONLY the "Selected Hotel" section - the part between **Selected Hotel** and "Please provide"
+    const selectedHotelRegex = /\*\*Selected Hotel\*\*\n([\s\S]*?)(?:Please provide|$)/;
+    const selectedHotelMatch = text.match(selectedHotelRegex);
     
-    const name = hotelSection.match(/• Name:\s*([^\n]+)/)?.[1]?.trim() || "N/A";
-    const rating = hotelSection.match(/• Rating:\s*([^\n]+)/)?.[1]?.trim() || "N/A";
-    const price = hotelSection.match(/• Price:\s*\$?([\d,.]+)/)?.[1] || "N/A";
-    const checkIn = hotelSection.match(/• Check-In:\s*([\d-]+)/)?.[1] || "N/A";
-    const checkOut = hotelSection.match(/• Check-Out:\s*([\d-]+)/)?.[1] || "N/A";
+    if (!selectedHotelMatch) return { name: "N/A", rating: "N/A", price: "N/A", checkIn: "N/A", checkOut: "N/A" };
     
-    return { name, rating, price, checkIn, checkOut };
+    const hotelSection = selectedHotelMatch[1];
+    
+    // Extract values - only from the Selected Hotel section
+    const nameMatch = hotelSection.match(/• Name:\s*([^\n]+)/);
+    const ratingMatch = hotelSection.match(/• Rating:\s*([^\n]+)/);
+    const priceMatch = hotelSection.match(/• Price:\s*\$?([\d,.]+)/);
+    const checkInMatch = hotelSection.match(/• Check-In:\s*([\d-]+)/);
+    const checkOutMatch = hotelSection.match(/• Check-Out:\s*([\d-]+)/);
+    
+    return {
+      name: nameMatch ? nameMatch[1].trim() : "N/A",
+      rating: ratingMatch ? ratingMatch[1].trim() : "N/A",
+      price: priceMatch ? priceMatch[1] : "N/A",
+      checkIn: checkInMatch ? checkInMatch[1] : "N/A",
+      checkOut: checkOutMatch ? checkOutMatch[1] : "N/A",
+    };
   };
 
   const getRemainingText = () => {
