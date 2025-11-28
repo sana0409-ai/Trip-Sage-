@@ -78,10 +78,22 @@ export function ChatUI() {
   const [message, setMessage] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [sessionId] = useState(() => `session-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+  const [sessionId, setSessionId] = useState(() => `session-${Date.now()}-${Math.random().toString(36).slice(2)}`);
   const [hasInteracted, setHasInteracted] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const resetChat = () => {
+    setMessages([]);
+    setHasInteracted(false);
+    setMessage("");
+    setSessionId(`session-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+  };
+
+  const handleCloseChat = () => {
+    setIsExpanded(false);
+    resetChat();
+  };
 
 
   const chatMutation = useMutation({
@@ -164,7 +176,7 @@ export function ChatUI() {
                   <span className="font-bold text-foreground">TripSage AI</span>
                 </div>
                 <button 
-                  onClick={() => setIsExpanded(false)}
+                  onClick={handleCloseChat}
                   className="w-8 h-8 rounded-full hover:bg-muted/50 flex items-center justify-center text-muted-foreground"
                   data-testid="close-chat"
                 >
