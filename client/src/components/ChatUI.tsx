@@ -29,6 +29,14 @@ interface HotelOption {
   checkOut: string;
 }
 
+interface CarRentalOption {
+  option: number;
+  car: string;
+  price: string;
+  pickUp: string;
+  dropOff: string;
+}
+
 interface ActionButton {
   id: string;
   label: string;
@@ -144,6 +152,45 @@ function parseHotelOptions(text: string): { hotels: HotelOption[], hasHotels: bo
   return { hotels: [], hasHotels: false, remainingText: text };
 }
 
+function parseCarRentalOptions(text: string): { cars: CarRentalOption[], hasCars: boolean, remainingText: string } {
+  const cars: CarRentalOption[] = [];
+  
+  // Split by empty lines to get individual option blocks
+  const blocks = text.split(/\n\s*\n/);
+  
+  for (const block of blocks) {
+    if (block.includes("Option") && block.includes("Car:")) {
+      const optionMatch = block.match(/\*\*Option (\d+)\*\*/);
+      const carMatch = block.match(/Car:\s*([^\n]+)/);
+      const priceMatch = block.match(/Price:\s*\$?([\d,.]+)/);
+      const pickUpMatch = block.match(/Pick-Up:\s*([^\n]+)/);
+      const dropOffMatch = block.match(/Drop-Off:\s*([^\n]+)/);
+      
+      if (optionMatch && carMatch && priceMatch && pickUpMatch && dropOffMatch) {
+        cars.push({
+          option: parseInt(optionMatch[1]),
+          car: carMatch[1].trim(),
+          price: priceMatch[1],
+          pickUp: pickUpMatch[1].trim(),
+          dropOff: dropOffMatch[1].trim(),
+        });
+      }
+    }
+  }
+  
+  if (cars.length > 0) {
+    let remainingText = text
+      .replace(/🚗\s*\*\*Best Car Rental Options:\*\*/gi, '')
+      .split(/Choose a car:/)[0]
+      .replace(/🚗[\s\S]*?Drop-Off:\s*[^\n]+/g, '')
+      .trim();
+    
+    return { cars, hasCars: true, remainingText };
+  }
+  
+  return { cars: [], hasCars: false, remainingText: text };
+}
+
 function formatTime(dateString: string): string {
   try {
     const date = new Date(dateString);
@@ -240,6 +287,44 @@ function HotelCard({ hotel, onSelect }: { hotel: HotelOption; onSelect: (option:
           <span>{formatDate(hotel.checkIn)}</span>
           <span className="mx-1">→</span>
           <span>{formatDate(hotel.checkOut)}</span>
+        </div>
+      </div>
+    </motion.button>
+  );
+}
+
+function CarRentalCard({ car, onSelect }: { car: CarRentalOption; onSelect: (option: number) => void }) {
+  return (
+    <motion.button
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => onSelect(car.option)}
+      className="w-full bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 text-left hover:shadow-md transition-all"
+    >
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <div className="bg-green-100 p-1.5 rounded-lg">
+            <Car className="w-4 h-4 text-green-600" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <span className="font-bold text-foreground text-sm line-clamp-1">{car.car}</span>
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="font-bold text-green-600 text-lg">${car.price}</div>
+        </div>
+      </div>
+      
+      <div className="space-y-1 text-xs text-muted-foreground">
+        <div className="flex items-start gap-1">
+          <span className="text-foreground font-medium">Pick-Up:</span>
+          <span className="line-clamp-1">{car.pickUp}</span>
+        </div>
+        <div className="flex items-start gap-1">
+          <span className="text-foreground font-medium">Drop-Off:</span>
+          <span className="line-clamp-1">{car.dropOff}</span>
         </div>
       </div>
     </motion.button>
@@ -506,6 +591,7 @@ function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () 
 function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSelect: (option: number) => void }) {
   const { flights, hasFlights } = parseFlightOptions(text);
   const { hotels, hasHotels } = parseHotelOptions(text);
+  const { cars, hasCars } = parseCarRentalOptions(text);
   const isFlightBooking = text.includes("Flight Booking Summary") && text.includes("Passenger");
   const isHotelBooking = text.includes("Hotel Booking Summary");
   const isHotelSelected = text.includes("Selected Hotel") && text.includes("Name:");
@@ -550,6 +636,20 @@ function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSele
         ))}
         <div className="text-xs text-muted-foreground mt-2 text-center">
           Tap a hotel to select it
+        </div>
+      </div>
+    );
+  }
+  
+  if (hasCars) {
+    return (
+      <div className="space-y-2 w-full">
+        <div className="text-sm font-medium text-foreground mb-3">Best Car Rental Options</div>
+        {cars.map((car) => (
+          <CarRentalCard key={car.option} car={car} onSelect={onFlightSelect} />
+        ))}
+        <div className="text-xs text-muted-foreground mt-2 text-center">
+          Tap a car to select it
         </div>
       </div>
     );
