@@ -1067,16 +1067,11 @@ export function ChatUI() {
       
       // Check if showing booking options (Flight_Options, Hotel_Options, Car_Options)
       // BUT only if there are actual options in the response
-      const hasFlightOptions = data.response.includes("**Option");
-      const hasHotelOptions = data.response.includes("**Option") && data.response.includes("Hotel:");
-      const hasCarOptions = data.response.includes("**Option") && data.response.includes("Type:");
-      const isShowingOptions = (hasFlightOptions || hasHotelOptions || hasCarOptions) && data.currentPage && data.currentPage.endsWith("_Options");
+      const hasAnyOptions = data.response.includes("**Option");
+      const isShowingOptions = hasAnyOptions && data.currentPage && data.currentPage.endsWith("_Options");
       
-      if (isShowingOptions) {
-        setHasDisplayableOptions(true);
-      } else {
-        setHasDisplayableOptions(false);
-      }
+      // Always reset hasDisplayableOptions - only set true if we're actually showing options
+      setHasDisplayableOptions(isShowingOptions);
       
       // Check if this is a duplicate itinerary (same one coming back) AND we haven't already shown booking buttons
       const isDuplicate = isItinerary && lastItinerary !== "" && lastItinerary === data.response && !showBookingButtons;
