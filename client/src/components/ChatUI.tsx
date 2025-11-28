@@ -240,11 +240,15 @@ function HotelSelection({ text }: { text: string }) {
   if (!isHotelSelection) return null;
 
   const getHotelDetails = () => {
-    const name = text.match(/• Name:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
-    const rating = text.match(/• Rating:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
-    const price = text.match(/• Price:\s*\$?([\d,.]+)/)?.[1] || "N/A";
-    const checkIn = text.match(/• Check-In:\s*([\d-]+)/)?.[1] || "N/A";
-    const checkOut = text.match(/• Check-Out:\s*([\d-]+)/)?.[1] || "N/A";
+    // Extract only the part after "Selected Hotel" 
+    const selectedHotelMatch = text.match(/\*\*Selected Hotel\*\*\n([\s\S]*?)(?=Please provide|$)/);
+    const hotelSection = selectedHotelMatch ? selectedHotelMatch[1] : text;
+    
+    const name = hotelSection.match(/• Name:\s*([^\n]+)/)?.[1]?.trim() || "N/A";
+    const rating = hotelSection.match(/• Rating:\s*([^\n]+)/)?.[1]?.trim() || "N/A";
+    const price = hotelSection.match(/• Price:\s*\$?([\d,.]+)/)?.[1] || "N/A";
+    const checkIn = hotelSection.match(/• Check-In:\s*([\d-]+)/)?.[1] || "N/A";
+    const checkOut = hotelSection.match(/• Check-Out:\s*([\d-]+)/)?.[1] || "N/A";
     
     return { name, rating, price, checkIn, checkOut };
   };
