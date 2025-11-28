@@ -770,7 +770,54 @@ function ItineraryCard({ text, onProceed }: { text: string; onProceed: () => voi
   );
 }
 
-function FormattedMessage({ text, onFlightSelect, isDuplicateItinerary }: { text: string; onFlightSelect: (option: number) => void; isDuplicateItinerary?: boolean }) {
+function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSelect: (option: number) => void }) {
+  // Special case: duplicate itinerary marker
+  if (text === "duplicate-itinerary") {
+    return (
+      <div className="space-y-2 w-full">
+        <span className="text-sm text-foreground block mb-2">Great! What would you like to book?</span>
+        <motion.button
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => onFlightSelect(1)}
+          className="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg py-2 font-medium text-sm flex items-center justify-center gap-2 transition-colors"
+          data-testid="button-book-flight"
+        >
+          <Plane className="w-4 h-4" />
+          Book a Flight
+        </motion.button>
+        <motion.button
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => onFlightSelect(2)}
+          className="w-full bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg py-2 font-medium text-sm flex items-center justify-center gap-2 transition-colors"
+          data-testid="button-book-hotel"
+        >
+          <Building2 className="w-4 h-4" />
+          Book a Hotel
+        </motion.button>
+        <motion.button
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => onFlightSelect(3)}
+          className="w-full bg-green-100 hover:bg-green-200 text-green-700 rounded-lg py-2 font-medium text-sm flex items-center justify-center gap-2 transition-colors"
+          data-testid="button-rent-car"
+        >
+          <Car className="w-4 h-4" />
+          Rent a Car
+        </motion.button>
+      </div>
+    );
+  }
+  
   const { flights, hasFlights } = parseFlightOptions(text);
   const { hotels, hasHotels } = parseHotelOptions(text);
   const { cars, hasCars } = parseCarRentalOptions(text);
@@ -806,52 +853,8 @@ function FormattedMessage({ text, onFlightSelect, isDuplicateItinerary }: { text
     return <SelectedCarDisplay text={text} />;
   }
   
-  if (isItinerary && !isDuplicateItinerary) {
+  if (isItinerary) {
     return <ItineraryCard text={text} onProceed={handleProceedItinerary} />;
-  }
-  
-  // If duplicate itinerary, show booking options instead
-  if (isDuplicateItinerary && isItinerary) {
-    return (
-      <div className="space-y-2 w-full">
-        <span className="text-sm text-foreground block mb-2">Great! What would you like to book?</span>
-        <motion.button
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => onFlightSelect(1)}
-          className="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg py-2 font-medium text-sm flex items-center justify-center gap-2 transition-colors"
-        >
-          <Plane className="w-4 h-4" />
-          Book a Flight
-        </motion.button>
-        <motion.button
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => onFlightSelect(2)}
-          className="w-full bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg py-2 font-medium text-sm flex items-center justify-center gap-2 transition-colors"
-        >
-          <Building2 className="w-4 h-4" />
-          Book a Hotel
-        </motion.button>
-        <motion.button
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => onFlightSelect(3)}
-          className="w-full bg-green-100 hover:bg-green-200 text-green-700 rounded-lg py-2 font-medium text-sm flex items-center justify-center gap-2 transition-colors"
-        >
-          <Car className="w-4 h-4" />
-          Rent a Car
-        </motion.button>
-      </div>
-    );
   }
   
   if (hasFlights) {
@@ -956,20 +959,26 @@ export function ChatUI() {
         setLastItinerary(data.response);
       }
       
-      // If we see the same itinerary twice and user clicked proceed, show booking buttons
-      if (isDuplicate && showBookingButtons) {
-        // Keep showBookingButtons true
-      } else if (isDuplicate) {
+      // If duplicate itinerary, don't show it again - instead show booking options
+      if (isDuplicate) {
         setShowBookingButtons(true);
+        // Add a new message showing booking options instead of the duplicate itinerary
+        setMessages(prev => [...prev, {
+          id: `bot-${Date.now()}`,
+          text: "duplicate-itinerary", // Special marker to show booking buttons
+          sender: "bot",
+          timestamp: new Date(),
+        }]);
+      } else {
+        setMessages(prev => [...prev, {
+          id: `bot-${Date.now()}`,
+          text: data.response,
+          sender: "bot",
+          timestamp: new Date(),
+          showActions: isWelcome,
+        }]);
       }
       
-      setMessages(prev => [...prev, {
-        id: `bot-${Date.now()}`,
-        text: data.response,
-        sender: "bot",
-        timestamp: new Date(),
-        showActions: isWelcome,
-      }]);
       if (!hasInteracted) setHasInteracted(true);
     },
     onError: (error: Error) => {
@@ -1123,14 +1132,14 @@ export function ChatUI() {
                       className={`px-4 py-2.5 rounded-2xl text-sm ${
                         msg.sender === "user"
                           ? "max-w-[80%] bg-primary text-primary-foreground rounded-br-md"
-                          : hasFlightOptions(msg.text) 
+                          : (hasFlightOptions(msg.text) || msg.text === "duplicate-itinerary")
                             ? "w-full bg-transparent p-0" 
                             : "max-w-[80%] bg-white/80 text-foreground border border-white/50 rounded-bl-md"
                       }`}
                       data-testid={`message-${msg.sender}-${msg.id}`}
                     >
                       {msg.sender === "bot" ? (
-                        <FormattedMessage text={msg.text} onFlightSelect={handleFlightSelect} isDuplicateItinerary={showBookingButtons && lastItinerary === msg.text} />
+                        <FormattedMessage text={msg.text} onFlightSelect={handleFlightSelect} />
                       ) : (
                         msg.text
                       )}
