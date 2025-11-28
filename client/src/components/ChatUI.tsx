@@ -408,6 +408,76 @@ function HotelSelection({ text }: { text: string }) {
   );
 }
 
+function SelectedCarDisplay({ text }: { text: string }) {
+  const isCarSelection = text.includes("Selected Car") && text.includes("Type:");
+  
+  if (!isCarSelection) return null;
+
+  const getCarDetails = () => {
+    // Extract ONLY the "Selected Car" section - the part between **Selected Car** and "Let me" or "Please"
+    const selectedCarRegex = /\*\*Selected Car\*\*\n([\s\S]*?)(?:Let me|Please|$)/;
+    const selectedCarMatch = text.match(selectedCarRegex);
+    
+    if (!selectedCarMatch) return { type: "N/A", price: "N/A", pickUp: "N/A", dropOff: "N/A" };
+    
+    const carSection = selectedCarMatch[1];
+    
+    // Extract values - only from the Selected Car section
+    const typeMatch = carSection.match(/• Type:\s*([^\n]+)/);
+    const priceMatch = carSection.match(/• Price:\s*\$?([\d,.]+)/);
+    const pickUpMatch = carSection.match(/• Pick-Up:\s*([^\n]+)/);
+    const dropOffMatch = carSection.match(/• Drop-Off:\s*([^\n]+)/);
+    
+    return {
+      type: typeMatch ? typeMatch[1].trim() : "N/A",
+      price: priceMatch ? priceMatch[1] : "N/A",
+      pickUp: pickUpMatch ? pickUpMatch[1].trim() : "N/A",
+      dropOff: dropOffMatch ? dropOffMatch[1].trim() : "N/A",
+    };
+  };
+
+  const getRemainingText = () => {
+    // Extract text after Drop-Off info
+    const match = text.match(/Drop-Off:\s*[^\n]+([\s\S]+)$/);
+    return match ? match[1].trim() : "";
+  };
+
+  const car = getCarDetails();
+  const remainingText = getRemainingText();
+
+  return (
+    <div className="w-full space-y-3">
+      <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 space-y-3">
+        <div className="flex items-start justify-between mb-2">
+          <div className="flex items-start gap-2 flex-1">
+            <div className="bg-green-100 p-2 rounded-lg mt-1 flex-shrink-0">
+              <Car className="w-4 h-4 text-green-600" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-bold text-foreground line-clamp-2">{car.type}</h3>
+            </div>
+          </div>
+          <div className="text-right flex-shrink-0">
+            <div className="font-bold text-green-600 text-lg">${car.price}</div>
+          </div>
+        </div>
+        
+        <div className="space-y-2 text-xs">
+          <div className="bg-green-50 rounded-lg p-2">
+            <span className="text-muted-foreground block text-xs mb-1">Pick-Up</span>
+            <div className="font-semibold text-foreground line-clamp-2">{car.pickUp}</div>
+          </div>
+          <div className="bg-green-50 rounded-lg p-2">
+            <span className="text-muted-foreground block text-xs mb-1">Drop-Off</span>
+            <div className="font-semibold text-foreground line-clamp-2">{car.dropOff}</div>
+          </div>
+        </div>
+      </div>
+      {remainingText && <span className="text-sm text-foreground">{remainingText}</span>}
+    </div>
+  );
+}
+
 function HotelBookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () => void }) {
   const isBookingSummary = text.includes("Hotel Booking Summary");
   
@@ -595,6 +665,7 @@ function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSele
   const isFlightBooking = text.includes("Flight Booking Summary") && text.includes("Passenger");
   const isHotelBooking = text.includes("Hotel Booking Summary");
   const isHotelSelected = text.includes("Selected Hotel") && text.includes("Name:");
+  const isCarSelected = text.includes("Selected Car") && text.includes("Type:");
   
   const handleConfirmBooking = () => {
     const event = new CustomEvent('confirmBooking');
@@ -611,6 +682,10 @@ function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSele
   
   if (isHotelSelected) {
     return <HotelSelection text={text} />;
+  }
+  
+  if (isCarSelected) {
+    return <SelectedCarDisplay text={text} />;
   }
   
   if (hasFlights) {
