@@ -50,5 +50,5 @@ mockupState = "FULLSTACK"
 
 [userenv.shared]
 DIALOGFLOW_PROJECT_ID = "gentle-oxygen-471614-c2"
-DIALOGFLOW_AGENT_ID = "1cb57cddf33dc38e053bb88e9af457485ba91ae6"
+DIALOGFLOW_AGENT_ID = "6b6ca8cb-339c-44bc-823b-ff8f96359c4c"
 DIALOGFLOW_LOCATION = "us-central1"
