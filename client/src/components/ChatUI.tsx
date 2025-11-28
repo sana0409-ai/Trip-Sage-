@@ -160,16 +160,21 @@ function BookingConfirmation({ text }: { text: string }) {
 
   const parsePassengerData = (): Array<{ name: string; email: string; dob: string }> => {
     const passengers: Array<{ name: string; email: string; dob: string }> = [];
-    const passengerMatches = text.match(/🧍 \*\*Passenger \d+\*\*[\s\S]*?(?=🧍|Would you|$)/g);
+    const passengerMatches = text.match(/🧍 \*\*Passenger \d+\*\*([\s\S]*?)(?=🧍|Would you|$)/g);
     
     if (passengerMatches) {
       passengerMatches.forEach((p) => {
-        const nameMatch = p.match(/• Name:\s*(?:\{[^}]*'name':\s*)?'?([^',}]+)'?/);
+        const nameMatch = p.match(/• Name:\s*(?:\{[^}]*'name':\s*['"])?([^'"\n•}]+)/);
         const emailMatch = p.match(/• Email:\s*([^\n•]+)/);
         const dobMatch = p.match(/• DOB:\s*\{?'?year'?:\s*([\d.]+)[\s\S]*?'?month'?:\s*([\d.]+)[\s\S]*?'?day'?:\s*([\d.]+)/);
         
+        let name = "Unknown";
+        if (nameMatch) {
+          name = nameMatch[1].trim().replace(/['"{}]/g, '');
+        }
+        
         passengers.push({
-          name: nameMatch ? nameMatch[1].trim() : "Unknown",
+          name,
           email: emailMatch ? emailMatch[1].trim() : "N/A",
           dob: dobMatch ? `${String(Math.round(parseFloat(dobMatch[1]))).padStart(2, '0')}/${String(Math.round(parseFloat(dobMatch[2]))).padStart(2, '0')}/${Math.round(parseFloat(dobMatch[3]))}` : "N/A",
         });
