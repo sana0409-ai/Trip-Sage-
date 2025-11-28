@@ -106,26 +106,36 @@ function parseFlightOptions(text: string): { flights: FlightOption[], hasFlights
 function parseHotelOptions(text: string): { hotels: HotelOption[], hasHotels: boolean, remainingText: string } {
   const hotels: HotelOption[] = [];
   
-  // Find all option blocks - more flexible regex
-  const optionRegex = /⭐\s*\*\*Option (\d+)\*\*\s*\n\s*Hotel:\s*([^\n]+)\s*\n\s*Rating:\s*([^\n]+)\s*\n\s*Price:\s*\$?([\d,.]+)\s*\n\s*Check-In:\s*([\d-]+)\s*\n\s*Check-Out:\s*([\d-]+)/g;
-  let match;
+  // Split by empty lines to get individual option blocks
+  const blocks = text.split(/\n\s*\n/);
   
-  while ((match = optionRegex.exec(text)) !== null) {
-    hotels.push({
-      option: parseInt(match[1]),
-      hotel: match[2].trim(),
-      rating: match[3].trim(),
-      price: match[4],
-      checkIn: match[5],
-      checkOut: match[6],
-    });
+  for (const block of blocks) {
+    if (block.includes("Option") && block.includes("Hotel:")) {
+      const optionMatch = block.match(/\*\*Option (\d+)\*\*/);
+      const hotelMatch = block.match(/Hotel:\s*([^\n]+)/);
+      const ratingMatch = block.match(/Rating:\s*([^\n]+)/);
+      const priceMatch = block.match(/Price:\s*\$?([\d,.]+)/);
+      const checkInMatch = block.match(/Check-In:\s*([\d-]+)/);
+      const checkOutMatch = block.match(/Check-Out:\s*([\d-]+)/);
+      
+      if (optionMatch && hotelMatch && ratingMatch && priceMatch && checkInMatch && checkOutMatch) {
+        hotels.push({
+          option: parseInt(optionMatch[1]),
+          hotel: hotelMatch[1].trim(),
+          rating: ratingMatch[1].trim(),
+          price: priceMatch[1],
+          checkIn: checkInMatch[1],
+          checkOut: checkOutMatch[1],
+        });
+      }
+    }
   }
   
   if (hotels.length > 0) {
     let remainingText = text
       .replace(/🏨\s*\*\*Best Hotel Options:\*\*/gi, '')
-      .replace(/⭐\s*\*\*Option \d+[\s\S]*?Check-Out:\s*[\d-]+/g, '')
-      .replace(/Choose a hotel:.*$/i, '')
+      .split(/Choose a hotel:/)[0]
+      .replace(/⭐[\s\S]*?Check-Out:\s*[\d-]+/g, '')
       .trim();
     
     return { hotels, hasHotels: true, remainingText };
