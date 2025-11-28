@@ -1,4 +1,4 @@
-import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car } from "lucide-react";
+import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
@@ -21,6 +21,14 @@ interface ActionButton {
 }
 
 const actionButtons: ActionButton[] = [
+  {
+    id: "trip",
+    label: "Plan a Trip",
+    icon: <Map className="w-5 h-5" />,
+    trigger: "I want to plan a trip itinerary",
+    color: "text-purple-600",
+    bgColor: "bg-purple-100 hover:bg-purple-200",
+  },
   {
     id: "flight",
     label: "Flights",
@@ -75,11 +83,6 @@ export function ChatUI() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const suggestions = [
-    "Plan a trip to Italy 🍝",
-    "Best beaches in Bali 🏖️",
-    "Weekend getaway ideas 🚗"
-  ];
 
   const chatMutation = useMutation({
     mutationFn: (msg: string) => sendMessage(msg, sessionId),
@@ -125,11 +128,6 @@ export function ChatUI() {
     handleSend(action.trigger);
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
-    setMessage(suggestion);
-    setIsExpanded(true);
-    setTimeout(() => inputRef.current?.focus(), 100);
-  };
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -147,28 +145,6 @@ export function ChatUI() {
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-lg px-4 z-40">
       <div className="relative w-full">
         
-        {/* Suggestions Bubbles - Only show when not expanded and no messages */}
-        <AnimatePresence>
-          {!isExpanded && messages.length === 0 && (
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              className="absolute bottom-full left-0 w-full mb-4 flex flex-wrap justify-center gap-2"
-            >
-              {suggestions.map((s, i) => (
-                <button 
-                  key={i}
-                  data-testid={`suggestion-${i}`}
-                  className="bg-white/80 backdrop-blur-md shadow-sm border border-white/50 px-4 py-2 rounded-full text-sm font-medium text-foreground hover:bg-white transition-colors"
-                  onClick={() => handleSuggestionClick(s)}
-                >
-                  {s}
-                </button>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* Expanded Chat Window */}
         <AnimatePresence>

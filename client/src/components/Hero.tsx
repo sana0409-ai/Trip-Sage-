@@ -1,4 +1,4 @@
-import { ArrowRight, MapPin, Star, Calendar, Plane } from "lucide-react";
+import { Star, Calendar, Plane } from "lucide-react";
 import { motion } from "framer-motion";
 import illustration from "@assets/generated_images/3d_pastel_travel_icons_composition.png";
 
@@ -43,19 +43,6 @@ export function Hero() {
             TripSage is your personal AI travel companion. From flights to hidden gems, we plan it all in seconds.
           </motion.p>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
-          >
-            <button className="bg-foreground text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:scale-105 transition-transform flex items-center gap-2">
-              Start Planning <ArrowRight className="w-5 h-5" />
-            </button>
-            <button className="bg-white/50 backdrop-blur-md border border-white/60 text-foreground px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/80 transition-colors">
-              View Demo
-            </button>
-          </motion.div>
         </div>
 
         {/* Hero Image / Illustration */}
