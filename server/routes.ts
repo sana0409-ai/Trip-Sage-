@@ -90,6 +90,20 @@ export async function registerRoutes(
         }
       }
 
+      // Check if there's a generated itinerary in session parameters
+      let itinerary = "";
+      if (queryResult.parameters && queryResult.parameters.fields) {
+        const generatedItinerary = queryResult.parameters.fields["session.params.generated_itinerary"];
+        if (generatedItinerary && generatedItinerary.stringValue) {
+          itinerary = generatedItinerary.stringValue;
+        }
+      }
+
+      // If we have an itinerary, prepend it to the response
+      if (itinerary && !responseText.includes(itinerary)) {
+        responseText = itinerary + "\n\n" + responseText;
+      }
+
       // Fallback to transcript if no response messages
       if (!responseText && queryResult.transcript) {
         responseText = queryResult.transcript;
