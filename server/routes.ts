@@ -99,9 +99,10 @@ export async function registerRoutes(
         }
       }
 
-      // If we have an itinerary, prepend it to the response
-      if (itinerary && !responseText.includes(itinerary)) {
-        responseText = itinerary + "\n\n" + responseText;
+      // If we have an itinerary and the current response is asking to collect details,
+      // show the itinerary instead (it will be shown once, then the flow continues)
+      if (itinerary && (responseText.includes("Please provide") || responseText.includes("pick-up"))) {
+        responseText = itinerary;
       }
 
       // Fallback to transcript if no response messages
