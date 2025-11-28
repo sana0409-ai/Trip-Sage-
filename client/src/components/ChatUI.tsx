@@ -414,8 +414,8 @@ function SelectedCarDisplay({ text }: { text: string }) {
   if (!isCarSelection) return null;
 
   const getCarDetails = () => {
-    // Extract ONLY the "Selected Car" section - the part between **Selected Car** and "Let me" or "Please"
-    const selectedCarRegex = /\*\*Selected Car\*\*\n([\s\S]*?)(?:Let me|Please|$)/;
+    // Extract ONLY the "Selected Car" section - the part between **Selected Car** and text that follows
+    const selectedCarRegex = /\*\*Selected Car\*\*\s*([\s\S]*?)(?=Let me|Please enter|$)/;
     const selectedCarMatch = text.match(selectedCarRegex);
     
     if (!selectedCarMatch) return { type: "N/A", price: "N/A", pickUp: "N/A", dropOff: "N/A" };
@@ -437,9 +437,22 @@ function SelectedCarDisplay({ text }: { text: string }) {
   };
 
   const getRemainingText = () => {
-    // Extract everything after "Selected Car" section ends (after Drop-Off line)
-    const match = text.match(/• Drop-Off:[^\n]*\n([\s\S]*)$/);
-    return match && match[1] ? match[1].trim() : "";
+    // Extract everything after the Selected Car section
+    const match = text.match(/• Drop-Off:\s*[^\n]+(?:\n|)([^]*?)$/);
+    if (!match) return "";
+    
+    let remaining = text;
+    // Find where the car details end by looking for key prompts
+    const carEndIdx = Math.max(
+      remaining.indexOf("Let me collect"),
+      remaining.indexOf("Please enter")
+    );
+    
+    if (carEndIdx > 0) {
+      return remaining.substring(carEndIdx).trim();
+    }
+    
+    return "";
   };
 
   const car = getCarDetails();
