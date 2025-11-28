@@ -153,7 +153,7 @@ function FlightCard({ flight, onSelect }: { flight: FlightOption; onSelect: (opt
   );
 }
 
-function BookingConfirmation({ text }: { text: string }) {
+function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () => void }) {
   const isBookingSummary = text.includes("Flight Booking Summary") && text.includes("Passenger");
   
   if (!isBookingSummary) return null;
@@ -257,6 +257,7 @@ function BookingConfirmation({ text }: { text: string }) {
         animate={{ opacity: 1, y: 0 }}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
+        onClick={onConfirm}
         className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
       >
         <Check className="w-4 h-4" />
@@ -270,8 +271,13 @@ function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSele
   const { flights, hasFlights, remainingText } = parseFlightOptions(text);
   const isBooking = text.includes("Flight Booking Summary");
   
+  const handleConfirmBooking = () => {
+    const event = new CustomEvent('confirmBooking');
+    window.dispatchEvent(event);
+  };
+  
   if (isBooking) {
-    return <BookingConfirmation text={text} />;
+    return <BookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
   }
   
   if (hasFlights) {
@@ -378,6 +384,15 @@ export function ChatUI() {
   const handleFlightSelect = (option: number) => {
     handleSend(option.toString());
   };
+
+  useEffect(() => {
+    const handleConfirmBooking = () => {
+      handleSend("Yes");
+    };
+    
+    window.addEventListener('confirmBooking', handleConfirmBooking);
+    return () => window.removeEventListener('confirmBooking', handleConfirmBooking);
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
