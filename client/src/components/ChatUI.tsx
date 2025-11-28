@@ -414,18 +414,20 @@ function SelectedFlightDisplay({ text }: { text: string }) {
   if (!isFlightSelection) return null;
 
   const getFlightDetails = () => {
-    const selectedFlightRegex = /\*\*Selected Flight\*\*\s*([\s\S]*?)(?:Please enter|Let me|$)/;
+    // Extract ONLY the "Selected Flight Details" section
+    const selectedFlightRegex = /\*\*Selected Flight.*?\*\*\s*([\s\S]*?)(?:Please|Let me|$)/i;
     const selectedFlightMatch = text.match(selectedFlightRegex);
     
     if (!selectedFlightMatch) return { airline: "N/A", class: "N/A", price: "N/A", departure: "N/A", arrival: "N/A" };
     
     const flightSection = selectedFlightMatch[1];
     
-    const airlineMatch = flightSection.match(/• Airline:\s*([^\n]+)/);
-    const classMatch = flightSection.match(/• Class:\s*([^\n]+)/);
-    const priceMatch = flightSection.match(/• Price:\s*\$?([\d,.]+)/);
-    const departureMatch = flightSection.match(/• Departure:\s*([^\n]+)/);
-    const arrivalMatch = flightSection.match(/• Arrival:\s*([^\n]+)/);
+    // Match bullet point format: • Airline: TW
+    const airlineMatch = flightSection.match(/•\s*Airline:\s*([^\n]+)/);
+    const classMatch = flightSection.match(/•\s*Class:\s*([^\n]+)/);
+    const priceMatch = flightSection.match(/•\s*Price:\s*\$?([\d,.]+)/);
+    const departureMatch = flightSection.match(/•\s*Departure:\s*([^\n]+)/);
+    const arrivalMatch = flightSection.match(/•\s*Arrival:\s*([^\n]+)/);
     
     return {
       airline: airlineMatch ? airlineMatch[1].trim() : "N/A",
@@ -437,20 +439,9 @@ function SelectedFlightDisplay({ text }: { text: string }) {
   };
 
   const getRemainingText = () => {
-    const match = text.match(/• Arrival:\s*[^\n]+(?:\n|)([^]*?)$/);
-    if (!match) return "";
-    
-    let remaining = text;
-    const flightEndIdx = Math.max(
-      remaining.indexOf("Let me collect"),
-      remaining.indexOf("Please enter")
-    );
-    
-    if (flightEndIdx > 0) {
-      return remaining.substring(flightEndIdx).trim();
-    }
-    
-    return "";
+    // Find text after the Selected Flight section
+    const idx = text.indexOf("Please enter");
+    return idx > 0 ? text.substring(idx).trim() : "";
   };
 
   const flight = getFlightDetails();
