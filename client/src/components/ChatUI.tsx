@@ -911,6 +911,7 @@ async function sendMessage(message: string, sessionId: string): Promise<{
   response: string;
   intent: string | null;
   confidence: number;
+  currentPage: string | null;
 }> {
   const res = await fetch("/api/chat", {
     method: "POST",
@@ -939,6 +940,7 @@ export function ChatUI() {
   const [activeBookingType, setActiveBookingType] = useState<string | null>(null);
   const [bookingFormActive, setBookingFormActive] = useState(false);
   const [bookingPrompt, setBookingPrompt] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -954,6 +956,7 @@ export function ChatUI() {
     setActiveBookingType(null);
     setBookingFormActive(false);
     setBookingPrompt("");
+    setCurrentPage(null);
   };
 
   const handleCloseChat = () => {
@@ -967,6 +970,9 @@ export function ChatUI() {
       const isWelcome = !hasInteracted;
       const isItinerary = data.response.includes("Best Time to Visit:") && (data.response.includes("Top Activities:") || data.response.includes("Budget:"));
       
+      // Capture current page from Dialogflow
+      setCurrentPage(data.currentPage);
+      
       // Check if Dialogflow is asking for booking info
       const isBookingPrompt = inBookingFlow && (
         data.response.includes("Please provide the departure city") ||
@@ -974,6 +980,9 @@ export function ChatUI() {
         data.response.includes("Please provide") ||
         data.response.includes("provide the")
       );
+      
+      // Check if showing booking options (Flight_Options, Hotel_Options, Car_Options)
+      const isShowingOptions = data.currentPage && data.currentPage.endsWith("_Options");
       
       // Check if this is a duplicate itinerary (same one coming back) AND we haven't already shown booking buttons
       const isDuplicate = isItinerary && lastItinerary !== "" && lastItinerary === data.response && !showBookingButtons;
@@ -983,8 +992,16 @@ export function ChatUI() {
         setLastItinerary(data.response);
       }
       
-      // If booking form is active, handle the response appropriately
-      if (isBookingPrompt) {
+      // If showing booking options, disable input
+      if (isShowingOptions) {
+        setBookingFormActive(false);
+        setMessages(prev => [...prev, {
+          id: `bot-${Date.now()}`,
+          text: data.response,
+          sender: "bot",
+          timestamp: new Date(),
+        }]);
+      } else if (isBookingPrompt) {
         setBookingPrompt(data.response);
         setBookingFormActive(true);
         setMessages(prev => [...prev, {
@@ -1258,18 +1275,24 @@ export function ChatUI() {
             <Sparkles className="w-5 h-5" />
           </div>
           
-          <input 
-            ref={inputRef}
-            type="text" 
-            placeholder="Ask TripSage anything..." 
-            className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground font-medium text-base px-2 h-10"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onFocus={handleOpenChat}
-            onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            disabled={chatMutation.isPending}
-            data-testid="chat-input"
-          />
+          {currentPage && currentPage.endsWith("_Options") ? (
+            <div className="flex-1 text-muted-foreground text-sm px-2 py-1 italic">
+              Select an option above
+            </div>
+          ) : (
+            <input 
+              ref={inputRef}
+              type="text" 
+              placeholder="Ask TripSage anything..." 
+              className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground font-medium text-base px-2 h-10"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onFocus={handleOpenChat}
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              disabled={chatMutation.isPending}
+              data-testid="chat-input"
+            />
+          )}
 
           <div className="flex items-center gap-1">
              <button 
