@@ -106,8 +106,9 @@ export async function registerRoutes(
       console.log(`User input: "${message}" | Destination: "${destination}" | Itinerary starts with: "${itinerary.substring(0, 50)}..."`);
       
 
-      // If we have an itinerary, show it (and remove the "proceed" prompt if present)
-      if (itinerary) {
+      // Only show itinerary if this is the trip_itinerary_plan intent (not for booking flows)
+      const intentName = queryResult.intent?.displayName || "";
+      if (itinerary && intentName === "trip_itinerary_plan") {
         responseText = itinerary;
       }
       
