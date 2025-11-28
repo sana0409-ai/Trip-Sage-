@@ -1,4 +1,4 @@
-import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map } from "lucide-react";
+import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map, Clock, DollarSign } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
@@ -9,6 +9,15 @@ interface Message {
   sender: "user" | "bot";
   timestamp: Date;
   showActions?: boolean;
+}
+
+interface FlightOption {
+  option: number;
+  airline: string;
+  class: string;
+  price: string;
+  departure: string;
+  arrival: string;
 }
 
 interface ActionButton {
@@ -55,6 +64,115 @@ const actionButtons: ActionButton[] = [
   },
 ];
 
+function parseFlightOptions(text: string): { flights: FlightOption[], hasFlights: boolean, remainingText: string } {
+  const flightPattern = /\*\*Option (\d+)\*\*\s*Airline:\s*(\w+)\s*Class:\s*(\w+)\s*Price:\s*\$?([\d,.]+)\s*Departure:\s*([\dT:-]+)\s*Arrival:\s*([\dT:-]+)/g;
+  const flights: FlightOption[] = [];
+  let match;
+  
+  while ((match = flightPattern.exec(text)) !== null) {
+    flights.push({
+      option: parseInt(match[1]),
+      airline: match[2],
+      class: match[3],
+      price: match[4],
+      departure: match[5],
+      arrival: match[6],
+    });
+  }
+  
+  if (flights.length > 0) {
+    let remainingText = text
+      .replace(/✈️\s*\*\*Best Flight Options:\*\*/gi, '')
+      .replace(flightPattern, '')
+      .replace(/✈️/g, '')
+      .replace(/Choose an option:.*$/i, '')
+      .trim();
+    
+    return { flights, hasFlights: true, remainingText };
+  }
+  
+  return { flights: [], hasFlights: false, remainingText: text };
+}
+
+function formatTime(dateString: string): string {
+  try {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+  } catch {
+    return dateString;
+  }
+}
+
+function formatDate(dateString: string): string {
+  try {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch {
+    return '';
+  }
+}
+
+function FlightCard({ flight, onSelect }: { flight: FlightOption; onSelect: (option: number) => void }) {
+  return (
+    <motion.button
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => onSelect(flight.option)}
+      className="w-full bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 text-left hover:shadow-md transition-all"
+    >
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <div className="bg-blue-100 p-1.5 rounded-lg">
+            <Plane className="w-4 h-4 text-blue-600" />
+          </div>
+          <div>
+            <span className="font-bold text-foreground text-sm">{flight.airline}</span>
+            <span className="ml-2 text-xs px-2 py-0.5 bg-gray-100 rounded-full text-muted-foreground">
+              {flight.class}
+            </span>
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="font-bold text-green-600 text-lg">${flight.price}</div>
+        </div>
+      </div>
+      
+      <div className="flex items-center gap-3 text-xs text-muted-foreground">
+        <div className="flex items-center gap-1">
+          <Clock className="w-3 h-3" />
+          <span>{formatTime(flight.departure)}</span>
+          <span className="mx-1">→</span>
+          <span>{formatTime(flight.arrival)}</span>
+        </div>
+        <span className="text-gray-300">|</span>
+        <span>{formatDate(flight.departure)}</span>
+      </div>
+    </motion.button>
+  );
+}
+
+function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSelect: (option: number) => void }) {
+  const { flights, hasFlights, remainingText } = parseFlightOptions(text);
+  
+  if (hasFlights) {
+    return (
+      <div className="space-y-2 w-full">
+        <div className="text-sm font-medium text-foreground mb-3">Best Flight Options</div>
+        {flights.map((flight) => (
+          <FlightCard key={flight.option} flight={flight} onSelect={onFlightSelect} />
+        ))}
+        <div className="text-xs text-muted-foreground mt-2 text-center">
+          Tap a flight to select it
+        </div>
+      </div>
+    );
+  }
+  
+  return <span>{text}</span>;
+}
+
 async function sendMessage(message: string, sessionId: string): Promise<{
   response: string;
   intent: string | null;
@@ -94,7 +212,6 @@ export function ChatUI() {
     setIsExpanded(false);
     resetChat();
   };
-
 
   const chatMutation = useMutation({
     mutationFn: (msg: string) => sendMessage(msg, sessionId),
@@ -140,12 +257,14 @@ export function ChatUI() {
     handleSend(action.trigger);
   };
 
+  const handleFlightSelect = (option: number) => {
+    handleSend(option.toString());
+  };
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Send initial greeting when chat opens for the first time
   const handleOpenChat = () => {
     setIsExpanded(true);
     if (messages.length === 0) {
@@ -153,12 +272,14 @@ export function ChatUI() {
     }
   };
 
+  const hasFlightOptions = (text: string) => {
+    return text.includes('**Option') && text.includes('Airline:');
+  };
+
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-lg px-4 z-40">
       <div className="relative w-full">
-        
 
-        {/* Expanded Chat Window */}
         <AnimatePresence>
           {isExpanded && (
             <motion.div
@@ -167,7 +288,6 @@ export function ChatUI() {
               exit={{ opacity: 0, height: 0 }}
               className="glass-panel rounded-t-[2rem] mb-0 overflow-hidden"
             >
-              {/* Chat Header */}
               <div className="flex items-center justify-between px-5 py-3 border-b border-white/30">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
@@ -184,7 +304,6 @@ export function ChatUI() {
                 </button>
               </div>
 
-              {/* Messages Area */}
               <div className="h-[350px] overflow-y-auto p-4 space-y-3">
                 {messages.length === 0 && !chatMutation.isPending && (
                   <div className="h-full flex items-center justify-center text-muted-foreground text-sm">
@@ -199,17 +318,22 @@ export function ChatUI() {
                     className={`flex flex-col ${msg.sender === "user" ? "items-end" : "items-start"}`}
                   >
                     <div
-                      className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm ${
+                      className={`px-4 py-2.5 rounded-2xl text-sm ${
                         msg.sender === "user"
-                          ? "bg-primary text-primary-foreground rounded-br-md"
-                          : "bg-white/80 text-foreground border border-white/50 rounded-bl-md"
+                          ? "max-w-[80%] bg-primary text-primary-foreground rounded-br-md"
+                          : hasFlightOptions(msg.text) 
+                            ? "w-full bg-transparent p-0" 
+                            : "max-w-[80%] bg-white/80 text-foreground border border-white/50 rounded-bl-md"
                       }`}
                       data-testid={`message-${msg.sender}-${msg.id}`}
                     >
-                      {msg.text}
+                      {msg.sender === "bot" ? (
+                        <FormattedMessage text={msg.text} onFlightSelect={handleFlightSelect} />
+                      ) : (
+                        msg.text
+                      )}
                     </div>
                     
-                    {/* Action Buttons after bot welcome message */}
                     {msg.sender === "bot" && msg.showActions && (
                       <motion.div 
                         initial={{ opacity: 0, y: 10 }}
@@ -250,7 +374,6 @@ export function ChatUI() {
           )}
         </AnimatePresence>
 
-        {/* Main Chat Input */}
         <motion.div 
           layout
           className={`glass-panel p-2 flex items-center gap-2 transition-all duration-300 ${
