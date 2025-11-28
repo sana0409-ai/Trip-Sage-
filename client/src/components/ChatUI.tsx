@@ -1,4 +1,4 @@
-import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map, Clock, DollarSign } from "lucide-react";
+import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map, Clock, DollarSign, User, Mail, Calendar as CalendarIcon, Check } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
@@ -153,8 +153,121 @@ function FlightCard({ flight, onSelect }: { flight: FlightOption; onSelect: (opt
   );
 }
 
+function BookingConfirmation({ text }: { text: string }) {
+  const isBookingSummary = text.includes("Flight Booking Summary") && text.includes("Passenger");
+  
+  if (!isBookingSummary) return null;
+
+  const parsePassengerData = (): Array<{ name: string; email: string; dob: string }> => {
+    const passengers: Array<{ name: string; email: string; dob: string }> = [];
+    const passengerMatches = text.match(/🧍 \*\*Passenger \d+\*\*[\s\S]*?(?=🧍|Would you|$)/g);
+    
+    if (passengerMatches) {
+      passengerMatches.forEach((p) => {
+        const nameMatch = p.match(/• Name:\s*(?:\{[^}]*'name':\s*)?'?([^',}]+)'?/);
+        const emailMatch = p.match(/• Email:\s*([^\n•]+)/);
+        const dobMatch = p.match(/• DOB:\s*\{?'?year'?:\s*([\d.]+)[\s\S]*?'?month'?:\s*([\d.]+)[\s\S]*?'?day'?:\s*([\d.]+)/);
+        
+        passengers.push({
+          name: nameMatch ? nameMatch[1].trim() : "Unknown",
+          email: emailMatch ? emailMatch[1].trim() : "N/A",
+          dob: dobMatch ? `${String(Math.round(parseFloat(dobMatch[1]))).padStart(2, '0')}/${String(Math.round(parseFloat(dobMatch[2]))).padStart(2, '0')}/${Math.round(parseFloat(dobMatch[3]))}` : "N/A",
+        });
+      });
+    }
+    
+    return passengers;
+  };
+
+  const getFlightDetails = () => {
+    const airline = text.match(/• Airline:\s*(\w+)/)?.[1] || "N/A";
+    const flightClass = text.match(/• Class:\s*(\w+)/)?.[1] || "N/A";
+    const price = text.match(/• Price:\s*\$?([\d,.]+)/)?.[1] || "N/A";
+    const route = text.match(/• Route:\s*([^\n•]+)/)?.[1] || "N/A";
+    const departure = text.match(/• Departure:\s*([\dT:-]+)/)?.[1] || "N/A";
+    const arrival = text.match(/• Arrival:\s*([\dT:-]+)/)?.[1] || "N/A";
+    
+    return { airline, flightClass, price, route, departure, arrival };
+  };
+
+  const passengers = parsePassengerData();
+  const flight = getFlightDetails();
+
+  return (
+    <div className="w-full space-y-3">
+      <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 space-y-2">
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="font-bold text-foreground flex items-center gap-2">
+            <Plane className="w-4 h-4 text-blue-600" />
+            Flight Booking
+          </h3>
+          <div className="text-right">
+            <div className="font-bold text-green-600 text-lg">${flight.price}</div>
+            <div className="text-xs text-muted-foreground">{flight.flightClass}</div>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-2 text-xs">
+          <div>
+            <span className="text-muted-foreground">Airline</span>
+            <div className="font-semibold text-foreground">{flight.airline}</div>
+          </div>
+          <div>
+            <span className="text-muted-foreground">Route</span>
+            <div className="font-semibold text-foreground">{flight.route}</div>
+          </div>
+          <div>
+            <span className="text-muted-foreground">Departure</span>
+            <div className="font-semibold text-foreground">{formatTime(flight.departure)}</div>
+          </div>
+          <div>
+            <span className="text-muted-foreground">Arrival</span>
+            <div className="font-semibold text-foreground">{formatTime(flight.arrival)}</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <div className="text-sm font-medium text-foreground">Passengers</div>
+        {passengers.map((p, i) => (
+          <div key={i} className="bg-white/70 border border-white/60 rounded-lg p-2 text-xs space-y-1">
+            <div className="flex items-center gap-2">
+              <User className="w-3.5 h-3.5 text-primary" />
+              <span className="font-semibold text-foreground">{p.name}</span>
+            </div>
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Mail className="w-3.5 h-3.5" />
+              <span>{p.email}</span>
+            </div>
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <CalendarIcon className="w-3.5 h-3.5" />
+              <span>DOB: {p.dob}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <motion.button
+        initial={{ opacity: 0, y: 5 }}
+        animate={{ opacity: 1, y: 0 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+      >
+        <Check className="w-4 h-4" />
+        Confirm Booking
+      </motion.button>
+    </div>
+  );
+}
+
 function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSelect: (option: number) => void }) {
   const { flights, hasFlights, remainingText } = parseFlightOptions(text);
+  const isBooking = text.includes("Flight Booking Summary");
+  
+  if (isBooking) {
+    return <BookingConfirmation text={text} />;
+  }
   
   if (hasFlights) {
     return (
