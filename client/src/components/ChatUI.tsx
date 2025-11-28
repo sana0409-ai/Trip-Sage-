@@ -944,6 +944,10 @@ export function ChatUI() {
     setHasInteracted(false);
     setMessage("");
     setSessionId(`session-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+    setWaitingForDestination(false);
+    setLastItinerary("");
+    setShowBookingButtons(false);
+    setInBookingFlow(false);
   };
 
   const handleCloseChat = () => {
@@ -1039,6 +1043,11 @@ export function ChatUI() {
   const handleActionClick = (action: ActionButton) => {
     // For plan_trip, show destination question first
     if (action.trigger === "plan_trip") {
+      // Reset state for new trip
+      setShowBookingButtons(false);
+      setInBookingFlow(false);
+      setLastItinerary("");
+      
       const botQuestion: Message = {
         id: `bot-${Date.now()}`,
         text: "Where do you want to plan your trip to?",
