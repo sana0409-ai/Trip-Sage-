@@ -823,10 +823,22 @@ export function ChatUI() {
     
     setMessages(prev => [...prev, userMessage]);
     
-    // If waiting for destination, send it with plan_trip
+    // If waiting for destination, extract just the city/destination name
     if (waitingForDestination) {
       setWaitingForDestination(false);
-      chatMutation.mutate(`I want to plan a trip to ${msgToSend}`);
+      // Extract destination - remove common phrases like "trip to", "adventure", "vacation", etc
+      let destination = msgToSend
+        .toLowerCase()
+        .replace(/^(.*?)(trip|vacation|journey|adventure|holiday)?\s*to\s+/i, '')
+        .replace(/^(an?|the)\s+/i, '')
+        .trim();
+      
+      // If nothing extracted, use the whole message
+      if (!destination || destination.length < 2) {
+        destination = msgToSend;
+      }
+      
+      chatMutation.mutate(`I want to plan a trip to ${destination}`);
     } else {
       chatMutation.mutate(msgToSend);
     }
