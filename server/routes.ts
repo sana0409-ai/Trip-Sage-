@@ -76,12 +76,16 @@ export async function registerRoutes(
         return res.status(500).json({ error: "No response from Dialogflow CX" });
       }
 
+      // Log full response for debugging
+      console.log("Dialogflow full response:", JSON.stringify(response, null, 2));
+      console.log("Query result:", JSON.stringify(queryResult, null, 2));
+
       // Extract the response text from response messages
       let responseText = "";
       if (queryResult.responseMessages && queryResult.responseMessages.length > 0) {
         for (const msg of queryResult.responseMessages) {
           if (msg.text && msg.text.text && msg.text.text.length > 0) {
-            responseText += msg.text.text.join(" ");
+            responseText += msg.text.text.join("\n");
           }
         }
       }
