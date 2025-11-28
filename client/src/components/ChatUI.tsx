@@ -1107,7 +1107,8 @@ export function ChatUI() {
   };
 
   const handleFlightSelect = (option: number) => {
-    // Handle booking option buttons (1=flight, 2=hotel, 3=car)
+    // If we're on booking options page (duplicate-itinerary showing flight/hotel/car buttons)
+    // then 1=flight, 2=hotel, 3=car
     const bookingMessages: { [key: number]: string } = {
       1: "I want to book a flight",
       2: "I want to book a hotel",
@@ -1118,10 +1119,18 @@ export function ChatUI() {
       2: "hotel",
       3: "car",
     };
-    setActiveBookingType(bookingTypes[option] || null);
-    setInBookingFlow(true);
-    setBookingFormActive(false);
-    handleSend(bookingMessages[option] || option.toString());
+    
+    // If we're showing actual booking options (Flight_Options, Hotel_Options, Car_Options),
+    // send just the option number
+    if (currentPage && currentPage.endsWith("_Options")) {
+      handleSend(option.toString());
+    } else {
+      // Otherwise we're selecting booking type from duplicate-itinerary
+      setActiveBookingType(bookingTypes[option] || null);
+      setInBookingFlow(true);
+      setBookingFormActive(false);
+      handleSend(bookingMessages[option] || option.toString());
+    }
   };
 
   useEffect(() => {
