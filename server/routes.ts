@@ -89,12 +89,22 @@ export async function registerRoutes(
 
       // Check if there's a generated itinerary in session parameters
       let itinerary = "";
+      let destination = "";
       if (queryResult.parameters && queryResult.parameters.fields) {
         const generatedItinerary = queryResult.parameters.fields["session.params.generated_itinerary"];
         if (generatedItinerary && generatedItinerary.stringValue) {
           itinerary = generatedItinerary.stringValue;
         }
+        
+        // Try to find the destination parameter
+        const destParam = queryResult.parameters.fields["destination"];
+        if (destParam && destParam.stringValue) {
+          destination = destParam.stringValue;
+        }
       }
+      
+      console.log(`User input: "${message}" | Destination: "${destination}" | Itinerary starts with: "${itinerary.substring(0, 50)}..."`);
+      
 
       // If we have an itinerary, show it (and remove the "proceed" prompt if present)
       if (itinerary) {
