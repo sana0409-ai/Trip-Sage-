@@ -99,14 +99,12 @@ export async function registerRoutes(
         }
       }
 
-      // If we have an itinerary and the current response is asking to collect details,
-      // show the itinerary instead (it will be shown once, then the flow continues)
-      if (itinerary && (responseText.includes("Please provide") || responseText.includes("pick-up"))) {
-        // Remove the "Would you like to proceed" prompt to show just the itinerary
+      // If we have an itinerary, show it (and remove the "proceed" prompt if present)
+      if (itinerary) {
         responseText = itinerary;
       }
       
-      // Remove "Would you like to proceed with planning this trip?" if it comes after showing itinerary
+      // Remove "Would you like to proceed with planning this trip?" prompt
       responseText = responseText.replace(/Would you like to proceed with planning this trip\?/gi, "").trim();
 
       // Fallback to transcript if no response messages
