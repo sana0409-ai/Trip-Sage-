@@ -14,12 +14,6 @@ export function Navbar() {
         </span>
       </Link>
 
-      <div className="hidden md:flex items-center gap-8 bg-white/50 backdrop-blur-md px-8 py-3 rounded-full border border-white/60 shadow-sm">
-        <a href="#" className="font-medium text-muted-foreground hover:text-primary transition-colors">Destinations</a>
-        <a href="#" className="font-medium text-muted-foreground hover:text-primary transition-colors">Hotels</a>
-        <a href="#" className="font-medium text-muted-foreground hover:text-primary transition-colors">Flights</a>
-        <a href="#" className="font-medium text-muted-foreground hover:text-primary transition-colors">Stories</a>
-      </div>
 
       <div className="flex items-center gap-4">
         <Button variant="ghost" className="font-medium hidden sm:flex hover:bg-white/50">Log in</Button>
