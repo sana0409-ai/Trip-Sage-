@@ -106,30 +106,19 @@ function parseFlightOptions(text: string): { flights: FlightOption[], hasFlights
 function parseHotelOptions(text: string): { hotels: HotelOption[], hasHotels: boolean, remainingText: string } {
   const hotels: HotelOption[] = [];
   
-  // Split by option markers
-  const optionSections = text.split(/⭐\s*\*\*Option (\d+)\*\*/);
+  // Find all option blocks - more flexible regex
+  const optionRegex = /⭐\s*\*\*Option (\d+)\*\*\s*\n\s*Hotel:\s*([^\n]+)\s*\n\s*Rating:\s*([^\n]+)\s*\n\s*Price:\s*\$?([\d,.]+)\s*\n\s*Check-In:\s*([\d-]+)\s*\n\s*Check-Out:\s*([\d-]+)/g;
+  let match;
   
-  // Process pairs of (optionNumber, optionContent)
-  for (let i = 1; i < optionSections.length; i += 2) {
-    const optionNum = optionSections[i];
-    const optionContent = optionSections[i + 1] || '';
-    
-    const hotelMatch = optionContent.match(/Hotel:\s*([^\n]+)/);
-    const ratingMatch = optionContent.match(/Rating:\s*([^\n]+)/);
-    const priceMatch = optionContent.match(/Price:\s*\$?([\d,.]+)/);
-    const checkInMatch = optionContent.match(/Check-In:\s*([\d-]+)/);
-    const checkOutMatch = optionContent.match(/Check-Out:\s*([\d-]+)/);
-    
-    if (hotelMatch && ratingMatch && priceMatch && checkInMatch && checkOutMatch) {
-      hotels.push({
-        option: parseInt(optionNum),
-        hotel: hotelMatch[1].trim(),
-        rating: ratingMatch[1].trim(),
-        price: priceMatch[1],
-        checkIn: checkInMatch[1],
-        checkOut: checkOutMatch[1],
-      });
-    }
+  while ((match = optionRegex.exec(text)) !== null) {
+    hotels.push({
+      option: parseInt(match[1]),
+      hotel: match[2].trim(),
+      rating: match[3].trim(),
+      price: match[4],
+      checkIn: match[5],
+      checkOut: match[6],
+    });
   }
   
   if (hotels.length > 0) {
