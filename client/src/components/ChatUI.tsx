@@ -671,6 +671,93 @@ function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () 
   );
 }
 
+function ItineraryCard({ text }: { text: string }) {
+  const isItinerary = text.includes("Best Time to Visit:") && (text.includes("Top Activities:") || text.includes("Budget:"));
+  
+  if (!isItinerary) return null;
+  
+  const parseItinerary = () => {
+    const bestTimeMatch = text.match(/\*\*Best Time to Visit:\*\*\s*([^*]+?)(?=\*\*|$)/);
+    const activitiesMatch = text.match(/\*\*Top Activities:\*\*\s*([\s\S]*?)(?=\*\*Unique|Budget:|$)/);
+    const uniqueMatch = text.match(/\*\*Unique Experience:\*\*\s*([^*]+?)(?=\*\*|$)/);
+    const budgetMatch = text.match(/\*\*Budget:\*\*\s*([^*]+?)(?=\*\*|$)/);
+    const packingMatch = text.match(/\*\*Packing Tip:\*\*\s*([^*]+?)(?=\*\*|$)/);
+    
+    const activities = activitiesMatch 
+      ? activitiesMatch[1]
+          .split('*')
+          .map(a => a.trim())
+          .filter(a => a && !a.includes('•'))
+      : [];
+    
+    return {
+      bestTime: bestTimeMatch ? bestTimeMatch[1].trim() : "",
+      activities,
+      unique: uniqueMatch ? uniqueMatch[1].trim() : "",
+      budget: budgetMatch ? budgetMatch[1].trim() : "",
+      packing: packingMatch ? packingMatch[1].trim() : "",
+    };
+  };
+  
+  const itinerary = parseItinerary();
+  
+  return (
+    <div className="w-full space-y-3">
+      <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-4 space-y-3">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="bg-purple-100 p-2 rounded-lg flex-shrink-0">
+            <Map className="w-4 h-4 text-purple-600" />
+          </div>
+          <h3 className="font-bold text-foreground">Trip Itinerary</h3>
+        </div>
+        
+        {itinerary.bestTime && (
+          <div className="space-y-1">
+            <span className="text-xs font-semibold text-muted-foreground block">Best Time to Visit</span>
+            <p className="text-sm text-foreground">{itinerary.bestTime}</p>
+          </div>
+        )}
+        
+        {itinerary.activities.length > 0 && (
+          <div className="space-y-2">
+            <span className="text-xs font-semibold text-muted-foreground block">Top Activities</span>
+            <ul className="space-y-1">
+              {itinerary.activities.map((activity, i) => (
+                <li key={i} className="text-sm text-foreground flex gap-2">
+                  <span className="text-purple-400 flex-shrink-0">•</span>
+                  <span>{activity}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        
+        {itinerary.unique && (
+          <div className="bg-purple-50 rounded-lg p-2 space-y-1">
+            <span className="text-xs font-semibold text-purple-900 block">Unique Experience</span>
+            <p className="text-sm text-purple-900">{itinerary.unique}</p>
+          </div>
+        )}
+        
+        <div className="grid grid-cols-2 gap-2">
+          {itinerary.budget && (
+            <div className="bg-green-50 rounded-lg p-2">
+              <span className="text-xs text-muted-foreground block mb-1">Budget</span>
+              <p className="text-xs font-semibold text-foreground">{itinerary.budget}</p>
+            </div>
+          )}
+          {itinerary.packing && (
+            <div className="bg-blue-50 rounded-lg p-2">
+              <span className="text-xs text-muted-foreground block mb-1">Packing Tip</span>
+              <p className="text-xs font-semibold text-foreground">{itinerary.packing}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSelect: (option: number) => void }) {
   const { flights, hasFlights } = parseFlightOptions(text);
   const { hotels, hasHotels } = parseHotelOptions(text);
@@ -679,6 +766,7 @@ function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSele
   const isHotelBooking = text.includes("Hotel Booking Summary");
   const isHotelSelected = text.includes("Selected Hotel") && text.includes("Name:");
   const isCarSelected = text.includes("Selected Car") && text.includes("Type:");
+  const isItinerary = text.includes("Best Time to Visit:") && (text.includes("Top Activities:") || text.includes("Budget:"));
   
   const handleConfirmBooking = () => {
     const event = new CustomEvent('confirmBooking');
@@ -699,6 +787,10 @@ function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSele
   
   if (isCarSelected) {
     return <SelectedCarDisplay text={text} />;
+  }
+  
+  if (isItinerary) {
+    return <ItineraryCard text={text} />;
   }
   
   if (hasFlights) {
