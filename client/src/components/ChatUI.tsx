@@ -770,7 +770,7 @@ function ItineraryCard({ text, onProceed }: { text: string; onProceed: () => voi
   );
 }
 
-function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSelect: (option: number) => void }) {
+function FormattedMessage({ text, onFlightSelect, inBookingFlow }: { text: string; onFlightSelect: (option: number) => void; inBookingFlow?: boolean }) {
   // Special case: duplicate itinerary marker
   if (text === "duplicate-itinerary") {
     return (
@@ -853,8 +853,13 @@ function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSele
     return <SelectedCarDisplay text={text} />;
   }
   
-  if (isItinerary) {
+  if (isItinerary && !inBookingFlow) {
     return <ItineraryCard text={text} onProceed={handleProceedItinerary} />;
+  }
+  
+  // If we're in booking flow but got itinerary response, just show as text
+  if (isItinerary && inBookingFlow) {
+    return <span>{text}</span>;
   }
   
   if (hasFlights) {
@@ -930,6 +935,7 @@ export function ChatUI() {
   const [waitingForDestination, setWaitingForDestination] = useState(false);
   const [lastItinerary, setLastItinerary] = useState<string>("");
   const [showBookingButtons, setShowBookingButtons] = useState(false);
+  const [inBookingFlow, setInBookingFlow] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -951,8 +957,8 @@ export function ChatUI() {
       const isWelcome = !hasInteracted;
       const isItinerary = data.response.includes("Best Time to Visit:") && (data.response.includes("Top Activities:") || data.response.includes("Budget:"));
       
-      // Check if this is a duplicate itinerary (same one coming back)
-      const isDuplicate = isItinerary && lastItinerary !== "" && lastItinerary === data.response;
+      // Check if this is a duplicate itinerary (same one coming back) AND we haven't already shown booking buttons
+      const isDuplicate = isItinerary && lastItinerary !== "" && lastItinerary === data.response && !showBookingButtons;
       
       // Set or update last itinerary only if this is the first time seeing it
       if (isItinerary && lastItinerary === "") {
@@ -962,6 +968,7 @@ export function ChatUI() {
       // If duplicate itinerary, don't show it again - instead show booking options
       if (isDuplicate) {
         setShowBookingButtons(true);
+        setLastItinerary(""); // Clear it so we don't trigger duplicate detection again
         // Add a new message showing booking options instead of the duplicate itinerary
         setMessages(prev => [...prev, {
           id: `bot-${Date.now()}`,
@@ -970,6 +977,7 @@ export function ChatUI() {
           timestamp: new Date(),
         }]);
       } else {
+        // Normal message display
         setMessages(prev => [...prev, {
           id: `bot-${Date.now()}`,
           text: data.response,
@@ -1051,6 +1059,7 @@ export function ChatUI() {
       2: "I want to book a hotel",
       3: "I want to rent a car",
     };
+    setInBookingFlow(true);
     handleSend(bookingMessages[option] || option.toString());
   };
 
@@ -1139,7 +1148,7 @@ export function ChatUI() {
                       data-testid={`message-${msg.sender}-${msg.id}`}
                     >
                       {msg.sender === "bot" ? (
-                        <FormattedMessage text={msg.text} onFlightSelect={handleFlightSelect} />
+                        <FormattedMessage text={msg.text} onFlightSelect={handleFlightSelect} inBookingFlow={inBookingFlow} />
                       ) : (
                         msg.text
                       )}
