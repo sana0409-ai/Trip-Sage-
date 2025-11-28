@@ -104,7 +104,7 @@ function parseFlightOptions(text: string): { flights: FlightOption[], hasFlights
 }
 
 function parseHotelOptions(text: string): { hotels: HotelOption[], hasHotels: boolean, remainingText: string } {
-  const hotelPattern = /⭐\s*\*\*Option (\d+)\*\*\s*\nHotel:\s*([^\n]+)\s*\nRating:\s*([^\n]+)\s*\nPrice:\s*\$?([\d,.]+)\s*\nCheck-In:\s*([\d-]+)\s*\nCheck-Out:\s*([\d-]+)/g;
+  const hotelPattern = /⭐\s*\*\*Option (\d+)\*\*[\s\S]*?Hotel:\s*([^\n]+)\s*\nRating:\s*([^\n]+)\s*\nPrice:\s*\$?([\d,.]+)\s*\nCheck-In:\s*([\d-]+)\s*\nCheck-Out:\s*([\d-]+)/g;
   const hotels: HotelOption[] = [];
   let match;
   
