@@ -857,9 +857,9 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow }: { text: strin
     return <ItineraryCard text={text} onProceed={handleProceedItinerary} />;
   }
   
-  // If we're in booking flow but got itinerary response, just show as text
+  // If we're in booking flow but got itinerary response, hide it (Dialogflow returning cached data)
   if (isItinerary && inBookingFlow) {
-    return <span>{text}</span>;
+    return null;
   }
   
   if (hasFlights) {
