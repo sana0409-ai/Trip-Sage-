@@ -1068,7 +1068,7 @@ export function ChatUI() {
       // Check if showing booking options (Flight_Options, Hotel_Options, Car_Options)
       // BUT only if there are actual options in the response
       const hasAnyOptions = data.response.includes("**Option");
-      const isShowingOptions = hasAnyOptions && data.currentPage && data.currentPage.endsWith("_Options");
+      const isShowingOptions = !!(hasAnyOptions && data.currentPage && data.currentPage.endsWith("_Options"));
       
       // Always reset hasDisplayableOptions - only set true if we're actually showing options
       setHasDisplayableOptions(isShowingOptions);
