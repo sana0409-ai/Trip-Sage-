@@ -941,6 +941,7 @@ export function ChatUI() {
   const [bookingFormActive, setBookingFormActive] = useState(false);
   const [bookingPrompt, setBookingPrompt] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<string | null>(null);
+  const [hasDisplayableOptions, setHasDisplayableOptions] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -957,6 +958,7 @@ export function ChatUI() {
     setBookingFormActive(false);
     setBookingPrompt("");
     setCurrentPage(null);
+    setHasDisplayableOptions(false);
   };
 
   const handleCloseChat = () => {
@@ -982,7 +984,17 @@ export function ChatUI() {
       );
       
       // Check if showing booking options (Flight_Options, Hotel_Options, Car_Options)
-      const isShowingOptions = data.currentPage && data.currentPage.endsWith("_Options");
+      // BUT only if there are actual options in the response
+      const hasFlightOptions = data.response.includes("**Option");
+      const hasHotelOptions = data.response.includes("**Option") && data.response.includes("Hotel:");
+      const hasCarOptions = data.response.includes("**Option") && data.response.includes("Type:");
+      const isShowingOptions = (hasFlightOptions || hasHotelOptions || hasCarOptions) && data.currentPage && data.currentPage.endsWith("_Options");
+      
+      if (isShowingOptions) {
+        setHasDisplayableOptions(true);
+      } else {
+        setHasDisplayableOptions(false);
+      }
       
       // Check if this is a duplicate itinerary (same one coming back) AND we haven't already shown booking buttons
       const isDuplicate = isItinerary && lastItinerary !== "" && lastItinerary === data.response && !showBookingButtons;
@@ -1284,7 +1296,7 @@ export function ChatUI() {
             <Sparkles className="w-5 h-5" />
           </div>
           
-          {currentPage && currentPage.endsWith("_Options") ? (
+          {hasDisplayableOptions ? (
             <div className="flex-1 text-muted-foreground text-sm px-2 py-1 italic">
               Select an option above
             </div>
