@@ -287,6 +287,72 @@ function HotelSelection({ text }: { text: string }) {
   );
 }
 
+function HotelBookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () => void }) {
+  const isBookingSummary = text.includes("Hotel Booking Summary");
+  
+  if (!isBookingSummary) return null;
+
+  const getHotelDetails = () => {
+    const hotel = text.match(/• Hotel:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    const rating = text.match(/• Rating:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    const price = text.match(/• Price:\s*\$?([\d,.]+)/)?.[1] || "N/A";
+    const checkIn = text.match(/• Check-In:\s*([\d-]+)/)?.[1] || "N/A";
+    const checkOut = text.match(/• Check-Out:\s*([\d-]+)/)?.[1] || "N/A";
+    
+    return { hotel, rating, price, checkIn, checkOut };
+  };
+
+  const hotelDetails = getHotelDetails();
+
+  return (
+    <div className="w-full space-y-3">
+      <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 space-y-2">
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="font-bold text-foreground flex items-center gap-2">
+            <Building2 className="w-4 h-4 text-orange-600" />
+            Hotel Booking
+          </h3>
+          <div className="text-right">
+            <div className="font-bold text-green-600 text-lg">${hotelDetails.price}</div>
+            {hotelDetails.rating !== "N/A" && (
+              <div className="text-xs text-yellow-700">⭐ {hotelDetails.rating}</div>
+            )}
+          </div>
+        </div>
+        
+        <div className="space-y-2">
+          <div>
+            <span className="text-xs text-muted-foreground">Hotel Name</span>
+            <div className="font-semibold text-foreground text-sm">{hotelDetails.hotel}</div>
+          </div>
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <div>
+              <span className="text-muted-foreground">Check-In</span>
+              <div className="font-semibold text-foreground">{formatDate(hotelDetails.checkIn)}</div>
+            </div>
+            <div>
+              <span className="text-muted-foreground">Check-Out</span>
+              <div className="font-semibold text-foreground">{formatDate(hotelDetails.checkOut)}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <motion.button
+        initial={{ opacity: 0, y: 5 }}
+        animate={{ opacity: 1, y: 0 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={onConfirm}
+        className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+      >
+        <Check className="w-4 h-4" />
+        Confirm Booking
+      </motion.button>
+    </div>
+  );
+}
+
 function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () => void }) {
   const isBookingSummary = text.includes("Flight Booking Summary") && text.includes("Passenger");
   
@@ -404,16 +470,21 @@ function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () 
 function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSelect: (option: number) => void }) {
   const { flights, hasFlights } = parseFlightOptions(text);
   const { hotels, hasHotels } = parseHotelOptions(text);
-  const isBooking = text.includes("Flight Booking Summary");
-  const isHotelSelected = text.includes("Selected Hotel");
+  const isFlightBooking = text.includes("Flight Booking Summary") && text.includes("Passenger");
+  const isHotelBooking = text.includes("Hotel Booking Summary");
+  const isHotelSelected = text.includes("Selected Hotel") && text.includes("Name:");
   
   const handleConfirmBooking = () => {
     const event = new CustomEvent('confirmBooking');
     window.dispatchEvent(event);
   };
   
-  if (isBooking) {
+  if (isFlightBooking) {
     return <BookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
+  }
+  
+  if (isHotelBooking) {
+    return <HotelBookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
   }
   
   if (isHotelSelected) {
