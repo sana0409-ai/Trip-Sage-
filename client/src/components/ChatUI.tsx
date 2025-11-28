@@ -408,6 +408,92 @@ function HotelSelection({ text }: { text: string }) {
   );
 }
 
+function SelectedFlightDisplay({ text }: { text: string }) {
+  const isFlightSelection = text.includes("Selected Flight") && text.includes("Airline:");
+  
+  if (!isFlightSelection) return null;
+
+  const getFlightDetails = () => {
+    const selectedFlightRegex = /\*\*Selected Flight\*\*\s*([\s\S]*?)(?:Please enter|Let me|$)/;
+    const selectedFlightMatch = text.match(selectedFlightRegex);
+    
+    if (!selectedFlightMatch) return { airline: "N/A", class: "N/A", price: "N/A", departure: "N/A", arrival: "N/A" };
+    
+    const flightSection = selectedFlightMatch[1];
+    
+    const airlineMatch = flightSection.match(/• Airline:\s*([^\n]+)/);
+    const classMatch = flightSection.match(/• Class:\s*([^\n]+)/);
+    const priceMatch = flightSection.match(/• Price:\s*\$?([\d,.]+)/);
+    const departureMatch = flightSection.match(/• Departure:\s*([^\n]+)/);
+    const arrivalMatch = flightSection.match(/• Arrival:\s*([^\n]+)/);
+    
+    return {
+      airline: airlineMatch ? airlineMatch[1].trim() : "N/A",
+      class: classMatch ? classMatch[1].trim() : "N/A",
+      price: priceMatch ? priceMatch[1] : "N/A",
+      departure: departureMatch ? departureMatch[1].trim() : "N/A",
+      arrival: arrivalMatch ? arrivalMatch[1].trim() : "N/A",
+    };
+  };
+
+  const getRemainingText = () => {
+    const match = text.match(/• Arrival:\s*[^\n]+(?:\n|)([^]*?)$/);
+    if (!match) return "";
+    
+    let remaining = text;
+    const flightEndIdx = Math.max(
+      remaining.indexOf("Let me collect"),
+      remaining.indexOf("Please enter")
+    );
+    
+    if (flightEndIdx > 0) {
+      return remaining.substring(flightEndIdx).trim();
+    }
+    
+    return "";
+  };
+
+  const flight = getFlightDetails();
+  const remainingText = getRemainingText();
+
+  return (
+    <div className="w-full space-y-3">
+      <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 space-y-3">
+        <div className="flex items-start justify-between mb-2">
+          <div className="flex items-start gap-2 flex-1">
+            <div className="bg-blue-100 p-2 rounded-lg mt-1 flex-shrink-0">
+              <Plane className="w-4 h-4 text-blue-600" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-bold text-foreground">{flight.airline}</h3>
+              <span className="text-xs px-2 py-0.5 bg-gray-100 rounded-full text-muted-foreground inline-block mt-1">
+                {flight.class}
+              </span>
+            </div>
+          </div>
+          <div className="text-right flex-shrink-0">
+            <div className="font-bold text-green-600 text-lg">${flight.price}</div>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-3 text-xs">
+          <div className="bg-blue-50 rounded-lg p-2">
+            <span className="text-muted-foreground block text-xs mb-1">Departure</span>
+            <div className="font-semibold text-foreground">{formatTime(flight.departure)}</div>
+            <div className="text-muted-foreground text-xs">{formatDate(flight.departure)}</div>
+          </div>
+          <div className="bg-blue-50 rounded-lg p-2">
+            <span className="text-muted-foreground block text-xs mb-1">Arrival</span>
+            <div className="font-semibold text-foreground">{formatTime(flight.arrival)}</div>
+            <div className="text-muted-foreground text-xs">{formatDate(flight.arrival)}</div>
+          </div>
+        </div>
+      </div>
+      {remainingText && <span className="text-sm text-foreground">{remainingText}</span>}
+    </div>
+  );
+}
+
 function SelectedCarDisplay({ text }: { text: string }) {
   const isCarSelection = text.includes("Selected Car") && text.includes("Type:");
   
@@ -823,6 +909,7 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow }: { text: strin
   const { cars, hasCars } = parseCarRentalOptions(text);
   const isFlightBooking = text.includes("Flight Booking Summary") && text.includes("Passenger");
   const isHotelBooking = text.includes("Hotel Booking Summary");
+  const isFlightSelected = text.includes("Selected Flight") && text.includes("Airline:");
   const isHotelSelected = text.includes("Selected Hotel") && text.includes("Name:");
   const isCarSelected = text.includes("Selected Car") && text.includes("Type:");
   const isItinerary = text.includes("Best Time to Visit:") && (text.includes("Top Activities:") || text.includes("Budget:"));
@@ -843,6 +930,10 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow }: { text: strin
   
   if (isHotelBooking) {
     return <HotelBookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
+  }
+  
+  if (isFlightSelected) {
+    return <SelectedFlightDisplay text={text} />;
   }
   
   if (isHotelSelected) {
