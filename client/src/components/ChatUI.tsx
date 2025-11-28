@@ -926,6 +926,7 @@ export function ChatUI() {
   const [hasInteracted, setHasInteracted] = useState(false);
   const [waitingForDestination, setWaitingForDestination] = useState(false);
   const [lastItinerary, setLastItinerary] = useState<string>("");
+  const [showBookingButtons, setShowBookingButtons] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -946,10 +947,20 @@ export function ChatUI() {
     onSuccess: (data) => {
       const isWelcome = !hasInteracted;
       const isItinerary = data.response.includes("Best Time to Visit:") && (data.response.includes("Top Activities:") || data.response.includes("Budget:"));
-      const isDuplicate = isItinerary && lastItinerary === data.response;
       
-      if (isItinerary && !isDuplicate) {
+      // Check if this is a duplicate itinerary (same one coming back)
+      const isDuplicate = isItinerary && lastItinerary !== "" && lastItinerary === data.response;
+      
+      // Set or update last itinerary only if this is the first time seeing it
+      if (isItinerary && lastItinerary === "") {
         setLastItinerary(data.response);
+      }
+      
+      // If we see the same itinerary twice and user clicked proceed, show booking buttons
+      if (isDuplicate && showBookingButtons) {
+        // Keep showBookingButtons true
+      } else if (isDuplicate) {
+        setShowBookingButtons(true);
       }
       
       setMessages(prev => [...prev, {
@@ -1119,7 +1130,7 @@ export function ChatUI() {
                       data-testid={`message-${msg.sender}-${msg.id}`}
                     >
                       {msg.sender === "bot" ? (
-                        <FormattedMessage text={msg.text} onFlightSelect={handleFlightSelect} isDuplicateItinerary={lastItinerary !== "" && lastItinerary === msg.text} />
+                        <FormattedMessage text={msg.text} onFlightSelect={handleFlightSelect} isDuplicateItinerary={showBookingButtons && lastItinerary === msg.text} />
                       ) : (
                         msg.text
                       )}
