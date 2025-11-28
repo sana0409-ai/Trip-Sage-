@@ -437,8 +437,8 @@ function SelectedCarDisplay({ text }: { text: string }) {
   };
 
   const getRemainingText = () => {
-    // Extract everything after the Drop-Off value (which ends with closing paren)
-    const match = text.match(/Drop-Off:[^)]*\)([\s\S]*)$/);
+    // Extract everything after "Selected Car" section ends (after Drop-Off line)
+    const match = text.match(/• Drop-Off:[^\n]*\n([\s\S]*)$/);
     return match && match[1] ? match[1].trim() : "";
   };
 
