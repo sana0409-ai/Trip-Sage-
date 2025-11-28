@@ -1,4 +1,4 @@
-import { Send, Sparkles, Mic, X, Loader2 } from "lucide-react";
+import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
@@ -8,7 +8,44 @@ interface Message {
   text: string;
   sender: "user" | "bot";
   timestamp: Date;
+  showActions?: boolean;
 }
+
+interface ActionButton {
+  id: string;
+  label: string;
+  icon: React.ReactNode;
+  trigger: string;
+  color: string;
+  bgColor: string;
+}
+
+const actionButtons: ActionButton[] = [
+  {
+    id: "flight",
+    label: "Flights",
+    icon: <Plane className="w-5 h-5" />,
+    trigger: "I want to book a flight",
+    color: "text-blue-600",
+    bgColor: "bg-blue-100 hover:bg-blue-200",
+  },
+  {
+    id: "hotel",
+    label: "Hotels",
+    icon: <Building2 className="w-5 h-5" />,
+    trigger: "I want to book a hotel",
+    color: "text-orange-600",
+    bgColor: "bg-orange-100 hover:bg-orange-200",
+  },
+  {
+    id: "car",
+    label: "Car Rental",
+    icon: <Car className="w-5 h-5" />,
+    trigger: "I want to rent a car",
+    color: "text-green-600",
+    bgColor: "bg-green-100 hover:bg-green-200",
+  },
+];
 
 async function sendMessage(message: string, sessionId: string): Promise<{
   response: string;
@@ -34,6 +71,7 @@ export function ChatUI() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [sessionId] = useState(() => `session-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -46,12 +84,15 @@ export function ChatUI() {
   const chatMutation = useMutation({
     mutationFn: (msg: string) => sendMessage(msg, sessionId),
     onSuccess: (data) => {
+      const isWelcome = !hasInteracted;
       setMessages(prev => [...prev, {
         id: `bot-${Date.now()}`,
         text: data.response,
         sender: "bot",
         timestamp: new Date(),
+        showActions: isWelcome,
       }]);
+      if (!hasInteracted) setHasInteracted(true);
     },
     onError: (error: Error) => {
       setMessages(prev => [...prev, {
@@ -63,20 +104,25 @@ export function ChatUI() {
     }
   });
 
-  const handleSend = () => {
-    if (!message.trim() || chatMutation.isPending) return;
+  const handleSend = (text?: string) => {
+    const msgToSend = text || message.trim();
+    if (!msgToSend || chatMutation.isPending) return;
     
     const userMessage: Message = {
       id: `user-${Date.now()}`,
-      text: message.trim(),
+      text: msgToSend,
       sender: "user",
       timestamp: new Date(),
     };
     
     setMessages(prev => [...prev, userMessage]);
-    chatMutation.mutate(message.trim());
-    setMessage("");
+    chatMutation.mutate(msgToSend);
+    if (!text) setMessage("");
     setIsExpanded(true);
+  };
+
+  const handleActionClick = (action: ActionButton) => {
+    handleSend(action.trigger);
   };
 
   const handleSuggestionClick = (suggestion: string) => {
@@ -88,6 +134,14 @@ export function ChatUI() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Send initial greeting when chat opens for the first time
+  const handleOpenChat = () => {
+    setIsExpanded(true);
+    if (messages.length === 0) {
+      chatMutation.mutate("Hi");
+    }
+  };
 
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-lg px-4 z-40">
@@ -143,8 +197,8 @@ export function ChatUI() {
               </div>
 
               {/* Messages Area */}
-              <div className="h-[300px] overflow-y-auto p-4 space-y-3">
-                {messages.length === 0 && (
+              <div className="h-[350px] overflow-y-auto p-4 space-y-3">
+                {messages.length === 0 && !chatMutation.isPending && (
                   <div className="h-full flex items-center justify-center text-muted-foreground text-sm">
                     Start a conversation with TripSage AI
                   </div>
@@ -154,7 +208,7 @@ export function ChatUI() {
                     key={msg.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
+                    className={`flex flex-col ${msg.sender === "user" ? "items-end" : "items-start"}`}
                   >
                     <div
                       className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm ${
@@ -166,6 +220,29 @@ export function ChatUI() {
                     >
                       {msg.text}
                     </div>
+                    
+                    {/* Action Buttons after bot welcome message */}
+                    {msg.sender === "bot" && msg.showActions && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="flex flex-wrap gap-2 mt-3"
+                      >
+                        {actionButtons.map((action) => (
+                          <button
+                            key={action.id}
+                            onClick={() => handleActionClick(action)}
+                            disabled={chatMutation.isPending}
+                            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all hover:scale-105 active:scale-95 disabled:opacity-50 ${action.bgColor} ${action.color}`}
+                            data-testid={`action-${action.id}`}
+                          >
+                            {action.icon}
+                            {action.label}
+                          </button>
+                        ))}
+                      </motion.div>
+                    )}
                   </motion.div>
                 ))}
                 {chatMutation.isPending && (
@@ -192,7 +269,10 @@ export function ChatUI() {
             isExpanded ? 'rounded-b-[2rem] rounded-t-none' : 'rounded-[2rem]'
           } ${isExpanded ? 'shadow-glow ring-2 ring-primary/20' : ''}`}
         >
-          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary">
+          <div 
+            className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary cursor-pointer"
+            onClick={handleOpenChat}
+          >
             <Sparkles className="w-5 h-5" />
           </div>
           
@@ -203,7 +283,7 @@ export function ChatUI() {
             className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground font-medium text-base px-2 h-10"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            onFocus={() => setIsExpanded(true)}
+            onFocus={handleOpenChat}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
             disabled={chatMutation.isPending}
             data-testid="chat-input"
@@ -217,7 +297,7 @@ export function ChatUI() {
               <Mic className="w-5 h-5" />
             </button>
             <button 
-              onClick={handleSend}
+              onClick={() => handleSend()}
               disabled={!message.trim() || chatMutation.isPending}
               className="w-12 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg shadow-primary/25 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100"
               data-testid="send-button"
