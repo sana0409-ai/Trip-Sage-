@@ -51,7 +51,7 @@ const actionButtons: ActionButton[] = [
     id: "trip",
     label: "Plan a Trip",
     icon: <Map className="w-5 h-5" />,
-    trigger: "I want to plan a trip itinerary",
+    trigger: "Where do you want to plan your trip to?",
     color: "text-purple-600",
     bgColor: "bg-purple-100 hover:bg-purple-200",
   },
