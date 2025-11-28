@@ -250,39 +250,49 @@ function HotelSelection({ text }: { text: string }) {
     return { name, rating, price, checkIn, checkOut };
   };
 
+  const getRemainingText = () => {
+    // Extract text after Check-Out date
+    const match = text.match(/Check-Out:\s*[\d-]+([\s\S]+)$/);
+    return match ? match[1].trim() : "";
+  };
+
   const hotel = getHotelDetails();
+  const remainingText = getRemainingText();
 
   return (
-    <div className="w-full bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 space-y-3">
-      <div className="flex items-start justify-between mb-2">
-        <div className="flex items-start gap-2 flex-1">
-          <div className="bg-orange-100 p-2 rounded-lg mt-1 flex-shrink-0">
-            <Building2 className="w-4 h-4 text-orange-600" />
+    <div className="w-full space-y-3">
+      <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 space-y-3">
+        <div className="flex items-start justify-between mb-2">
+          <div className="flex items-start gap-2 flex-1">
+            <div className="bg-orange-100 p-2 rounded-lg mt-1 flex-shrink-0">
+              <Building2 className="w-4 h-4 text-orange-600" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-bold text-foreground line-clamp-2">{hotel.name}</h3>
+              {hotel.rating !== "N/A" && (
+                <span className="text-xs px-2 py-0.5 bg-yellow-100 rounded-full text-yellow-700 inline-flex items-center gap-1 mt-1">
+                  ⭐ {hotel.rating}
+                </span>
+              )}
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-bold text-foreground line-clamp-2">{hotel.name}</h3>
-            {hotel.rating !== "N/A" && (
-              <span className="text-xs px-2 py-0.5 bg-yellow-100 rounded-full text-yellow-700 inline-flex items-center gap-1 mt-1">
-                ⭐ {hotel.rating}
-              </span>
-            )}
+          <div className="text-right flex-shrink-0">
+            <div className="font-bold text-green-600 text-lg">${hotel.price}</div>
           </div>
         </div>
-        <div className="text-right flex-shrink-0">
-          <div className="font-bold text-green-600 text-lg">${hotel.price}</div>
+        
+        <div className="grid grid-cols-2 gap-3 text-xs">
+          <div className="bg-blue-50 rounded-lg p-2">
+            <span className="text-muted-foreground block text-xs mb-1">Check-In</span>
+            <div className="font-semibold text-foreground">{formatDate(hotel.checkIn)}</div>
+          </div>
+          <div className="bg-blue-50 rounded-lg p-2">
+            <span className="text-muted-foreground block text-xs mb-1">Check-Out</span>
+            <div className="font-semibold text-foreground">{formatDate(hotel.checkOut)}</div>
+          </div>
         </div>
       </div>
-      
-      <div className="grid grid-cols-2 gap-3 text-xs">
-        <div className="bg-blue-50 rounded-lg p-2">
-          <span className="text-muted-foreground block text-xs mb-1">Check-In</span>
-          <div className="font-semibold text-foreground">{formatDate(hotel.checkIn)}</div>
-        </div>
-        <div className="bg-blue-50 rounded-lg p-2">
-          <span className="text-muted-foreground block text-xs mb-1">Check-Out</span>
-          <div className="font-semibold text-foreground">{formatDate(hotel.checkOut)}</div>
-        </div>
-      </div>
+      {remainingText && <span className="text-sm text-foreground">{remainingText}</span>}
     </div>
   );
 }
