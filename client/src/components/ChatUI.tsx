@@ -1,4 +1,4 @@
-import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map, Clock, DollarSign, User, Mail, Calendar as CalendarIcon, Check } from "lucide-react";
+import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map, Clock, DollarSign, User, Mail, Calendar as CalendarIcon, Calendar, Check } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
@@ -18,6 +18,15 @@ interface FlightOption {
   price: string;
   departure: string;
   arrival: string;
+}
+
+interface HotelOption {
+  option: number;
+  hotel: string;
+  rating: string;
+  price: string;
+  checkIn: string;
+  checkOut: string;
 }
 
 interface ActionButton {
@@ -94,6 +103,36 @@ function parseFlightOptions(text: string): { flights: FlightOption[], hasFlights
   return { flights: [], hasFlights: false, remainingText: text };
 }
 
+function parseHotelOptions(text: string): { hotels: HotelOption[], hasHotels: boolean, remainingText: string } {
+  const hotelPattern = /\*\*Option (\d+)\*\*\s*Hotel:\s*([^]*?)\s*Rating:\s*([^\n]*?)\s*Price:\s*\$?([\d,.]+)\s*Check-In:\s*([\d-]+)\s*Check-Out:\s*([\d-]+)/g;
+  const hotels: HotelOption[] = [];
+  let match;
+  
+  while ((match = hotelPattern.exec(text)) !== null) {
+    hotels.push({
+      option: parseInt(match[1]),
+      hotel: match[2].trim(),
+      rating: match[3].trim(),
+      price: match[4],
+      checkIn: match[5],
+      checkOut: match[6],
+    });
+  }
+  
+  if (hotels.length > 0) {
+    let remainingText = text
+      .replace(/🏨\s*\*\*Best Hotel Options:\*\*/gi, '')
+      .replace(hotelPattern, '')
+      .replace(/⭐/g, '')
+      .replace(/Choose a hotel:.*$/i, '')
+      .trim();
+    
+    return { hotels, hasHotels: true, remainingText };
+  }
+  
+  return { hotels: [], hasHotels: false, remainingText: text };
+}
+
 function formatTime(dateString: string): string {
   try {
     const date = new Date(dateString);
@@ -148,6 +187,49 @@ function FlightCard({ flight, onSelect }: { flight: FlightOption; onSelect: (opt
         </div>
         <span className="text-gray-300">|</span>
         <span>{formatDate(flight.departure)}</span>
+      </div>
+    </motion.button>
+  );
+}
+
+function HotelCard({ hotel, onSelect }: { hotel: HotelOption; onSelect: (option: number) => void }) {
+  const ratingValue = hotel.rating === "None" ? "-" : hotel.rating;
+  
+  return (
+    <motion.button
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => onSelect(hotel.option)}
+      className="w-full bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 text-left hover:shadow-md transition-all"
+    >
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <div className="bg-orange-100 p-1.5 rounded-lg">
+            <Building2 className="w-4 h-4 text-orange-600" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <span className="font-bold text-foreground text-sm line-clamp-1">{hotel.hotel}</span>
+            {ratingValue !== "-" && (
+              <span className="ml-2 text-xs px-2 py-0.5 bg-yellow-100 rounded-full text-yellow-700">
+                ⭐ {ratingValue}
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="font-bold text-green-600 text-lg">${hotel.price}</div>
+        </div>
+      </div>
+      
+      <div className="flex items-center gap-3 text-xs text-muted-foreground">
+        <div className="flex items-center gap-1">
+          <Calendar className="w-3 h-3" />
+          <span>{formatDate(hotel.checkIn)}</span>
+          <span className="mx-1">→</span>
+          <span>{formatDate(hotel.checkOut)}</span>
+        </div>
       </div>
     </motion.button>
   );
@@ -268,7 +350,8 @@ function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () 
 }
 
 function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSelect: (option: number) => void }) {
-  const { flights, hasFlights, remainingText } = parseFlightOptions(text);
+  const { flights, hasFlights } = parseFlightOptions(text);
+  const { hotels, hasHotels } = parseHotelOptions(text);
   const isBooking = text.includes("Flight Booking Summary");
   
   const handleConfirmBooking = () => {
@@ -289,6 +372,20 @@ function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSele
         ))}
         <div className="text-xs text-muted-foreground mt-2 text-center">
           Tap a flight to select it
+        </div>
+      </div>
+    );
+  }
+  
+  if (hasHotels) {
+    return (
+      <div className="space-y-2 w-full">
+        <div className="text-sm font-medium text-foreground mb-3">Best Hotel Options</div>
+        {hotels.map((hotel) => (
+          <HotelCard key={hotel.option} hotel={hotel} onSelect={onFlightSelect} />
+        ))}
+        <div className="text-xs text-muted-foreground mt-2 text-center">
+          Tap a hotel to select it
         </div>
       </div>
     );
@@ -406,7 +503,7 @@ export function ChatUI() {
   };
 
   const hasFlightOptions = (text: string) => {
-    return text.includes('**Option') && text.includes('Airline:');
+    return text.includes('**Option') && (text.includes('Airline:') || text.includes('Hotel:'));
   };
 
   return (
