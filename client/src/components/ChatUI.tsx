@@ -671,7 +671,7 @@ function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () 
   );
 }
 
-function ItineraryCard({ text }: { text: string }) {
+function ItineraryCard({ text, onProceed }: { text: string; onProceed: () => void }) {
   const isItinerary = text.includes("Best Time to Visit:") && (text.includes("Top Activities:") || text.includes("Budget:"));
   
   if (!isItinerary) return null;
@@ -754,6 +754,18 @@ function ItineraryCard({ text }: { text: string }) {
           )}
         </div>
       </div>
+      
+      <motion.button
+        initial={{ opacity: 0, y: 5 }}
+        animate={{ opacity: 1, y: 0 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={onProceed}
+        className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+      >
+        <Check className="w-4 h-4" />
+        Proceed with this itinerary
+      </motion.button>
     </div>
   );
 }
@@ -770,6 +782,11 @@ function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSele
   
   const handleConfirmBooking = () => {
     const event = new CustomEvent('confirmBooking');
+    window.dispatchEvent(event);
+  };
+  
+  const handleProceedItinerary = () => {
+    const event = new CustomEvent('proceedItinerary');
     window.dispatchEvent(event);
   };
   
@@ -790,7 +807,7 @@ function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSele
   }
   
   if (isItinerary) {
-    return <ItineraryCard text={text} />;
+    return <ItineraryCard text={text} onProceed={handleProceedItinerary} />;
   }
   
   if (hasFlights) {
@@ -966,6 +983,15 @@ export function ChatUI() {
     
     window.addEventListener('confirmBooking', handleConfirmBooking);
     return () => window.removeEventListener('confirmBooking', handleConfirmBooking);
+  }, []);
+
+  useEffect(() => {
+    const handleProceedItinerary = () => {
+      handleSend("Yes, I would like to proceed with this trip");
+    };
+    
+    window.addEventListener('proceedItinerary', handleProceedItinerary);
+    return () => window.removeEventListener('proceedItinerary', handleProceedItinerary);
   }, []);
 
   useEffect(() => {
