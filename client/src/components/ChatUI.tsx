@@ -680,6 +680,11 @@ function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSele
   const isHotelSelected = text.includes("Selected Hotel") && text.includes("Name:");
   const isCarSelected = text.includes("Selected Car") && text.includes("Type:");
   
+  // Filter out unwanted prompts
+  let displayText = text
+    .replace(/Would you like to proceed with planning this trip\?/gi, "")
+    .trim();
+  
   const handleConfirmBooking = () => {
     const event = new CustomEvent('confirmBooking');
     window.dispatchEvent(event);
@@ -743,7 +748,7 @@ function FormattedMessage({ text, onFlightSelect }: { text: string; onFlightSele
     );
   }
   
-  return <span>{text}</span>;
+  return <span>{displayText}</span>;
 }
 
 async function sendMessage(message: string, sessionId: string): Promise<{
