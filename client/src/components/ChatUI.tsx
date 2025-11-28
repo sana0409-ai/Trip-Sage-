@@ -104,25 +104,38 @@ function parseFlightOptions(text: string): { flights: FlightOption[], hasFlights
 }
 
 function parseHotelOptions(text: string): { hotels: HotelOption[], hasHotels: boolean, remainingText: string } {
-  const hotelPattern = /⭐\s*\*\*Option (\d+)\*\*[\s\S]*?Hotel:\s*([^\n]+)\s*\nRating:\s*([^\n]+)\s*\nPrice:\s*\$?([\d,.]+)\s*\nCheck-In:\s*([\d-]+)\s*\nCheck-Out:\s*([\d-]+)/g;
   const hotels: HotelOption[] = [];
-  let match;
   
-  while ((match = hotelPattern.exec(text)) !== null) {
-    hotels.push({
-      option: parseInt(match[1]),
-      hotel: match[2].trim(),
-      rating: match[3].trim(),
-      price: match[4],
-      checkIn: match[5],
-      checkOut: match[6],
-    });
+  // Split by option markers
+  const optionSections = text.split(/⭐\s*\*\*Option (\d+)\*\*/);
+  
+  // Process pairs of (optionNumber, optionContent)
+  for (let i = 1; i < optionSections.length; i += 2) {
+    const optionNum = optionSections[i];
+    const optionContent = optionSections[i + 1] || '';
+    
+    const hotelMatch = optionContent.match(/Hotel:\s*([^\n]+)/);
+    const ratingMatch = optionContent.match(/Rating:\s*([^\n]+)/);
+    const priceMatch = optionContent.match(/Price:\s*\$?([\d,.]+)/);
+    const checkInMatch = optionContent.match(/Check-In:\s*([\d-]+)/);
+    const checkOutMatch = optionContent.match(/Check-Out:\s*([\d-]+)/);
+    
+    if (hotelMatch && ratingMatch && priceMatch && checkInMatch && checkOutMatch) {
+      hotels.push({
+        option: parseInt(optionNum),
+        hotel: hotelMatch[1].trim(),
+        rating: ratingMatch[1].trim(),
+        price: priceMatch[1],
+        checkIn: checkInMatch[1],
+        checkOut: checkOutMatch[1],
+      });
+    }
   }
   
   if (hotels.length > 0) {
     let remainingText = text
       .replace(/🏨\s*\*\*Best Hotel Options:\*\*/gi, '')
-      .replace(/⭐\s*\*\*Option \d+\*\*[\s\S]*?Check-Out:\s*[\d-]+/g, '')
+      .replace(/⭐\s*\*\*Option \d+[\s\S]*?Check-Out:\s*[\d-]+/g, '')
       .replace(/Choose a hotel:.*$/i, '')
       .trim();
     
