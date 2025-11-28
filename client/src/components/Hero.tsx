@@ -1,6 +1,6 @@
 import { Star, Calendar, Plane } from "lucide-react";
 import { motion } from "framer-motion";
-import illustration from "@assets/generated_images/3d_pastel_travel_icons_composition.png";
+import illustration from "@assets/generated_images/professional_world_map_with_flights.png";
 
 export function Hero() {
   return (
