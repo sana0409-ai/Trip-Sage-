@@ -936,6 +936,9 @@ export function ChatUI() {
   const [lastItinerary, setLastItinerary] = useState<string>("");
   const [showBookingButtons, setShowBookingButtons] = useState(false);
   const [inBookingFlow, setInBookingFlow] = useState(false);
+  const [activeBookingType, setActiveBookingType] = useState<string | null>(null);
+  const [bookingFormActive, setBookingFormActive] = useState(false);
+  const [bookingPrompt, setBookingPrompt] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -948,6 +951,9 @@ export function ChatUI() {
     setLastItinerary("");
     setShowBookingButtons(false);
     setInBookingFlow(false);
+    setActiveBookingType(null);
+    setBookingFormActive(false);
+    setBookingPrompt("");
   };
 
   const handleCloseChat = () => {
@@ -961,6 +967,14 @@ export function ChatUI() {
       const isWelcome = !hasInteracted;
       const isItinerary = data.response.includes("Best Time to Visit:") && (data.response.includes("Top Activities:") || data.response.includes("Budget:"));
       
+      // Check if Dialogflow is asking for booking info
+      const isBookingPrompt = inBookingFlow && (
+        data.response.includes("Please provide the departure city") ||
+        data.response.includes("Please provide the destination city") ||
+        data.response.includes("Please provide") ||
+        data.response.includes("provide the")
+      );
+      
       // Check if this is a duplicate itinerary (same one coming back) AND we haven't already shown booking buttons
       const isDuplicate = isItinerary && lastItinerary !== "" && lastItinerary === data.response && !showBookingButtons;
       
@@ -969,14 +983,22 @@ export function ChatUI() {
         setLastItinerary(data.response);
       }
       
-      // If duplicate itinerary, don't show it again - instead show booking options
-      if (isDuplicate) {
-        setShowBookingButtons(true);
-        setLastItinerary(""); // Clear it so we don't trigger duplicate detection again
-        // Add a new message showing booking options instead of the duplicate itinerary
+      // If booking form is active, handle the response appropriately
+      if (isBookingPrompt) {
+        setBookingPrompt(data.response);
+        setBookingFormActive(true);
         setMessages(prev => [...prev, {
           id: `bot-${Date.now()}`,
-          text: "duplicate-itinerary", // Special marker to show booking buttons
+          text: data.response,
+          sender: "bot",
+          timestamp: new Date(),
+        }]);
+      } else if (isDuplicate) {
+        setShowBookingButtons(true);
+        setLastItinerary("");
+        setMessages(prev => [...prev, {
+          id: `bot-${Date.now()}`,
+          text: "duplicate-itinerary",
           sender: "bot",
           timestamp: new Date(),
         }]);
@@ -1015,6 +1037,12 @@ export function ChatUI() {
     };
     
     setMessages(prev => [...prev, userMessage]);
+    
+    // If booking form is active, close it after sending
+    if (bookingFormActive) {
+      setBookingFormActive(false);
+      setBookingPrompt("");
+    }
     
     // If waiting for destination, extract just the city/destination name
     if (waitingForDestination) {
@@ -1068,7 +1096,14 @@ export function ChatUI() {
       2: "I want to book a hotel",
       3: "I want to rent a car",
     };
+    const bookingTypes: { [key: number]: string } = {
+      1: "flight",
+      2: "hotel",
+      3: "car",
+    };
+    setActiveBookingType(bookingTypes[option] || null);
     setInBookingFlow(true);
+    setBookingFormActive(false);
     handleSend(bookingMessages[option] || option.toString());
   };
 
