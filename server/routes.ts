@@ -1,14 +1,14 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import dialogflow from "@google-cloud/dialogflow";
+import { SessionsClient } from "@google-cloud/dialogflow-cx";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
   
-  // Dialogflow Chat Route
+  // Dialogflow CX Chat Route
   app.post("/api/chat", async (req, res) => {
     try {
       const { message, sessionId } = req.body;
@@ -18,17 +18,27 @@ export async function registerRoutes(
       }
 
       const projectId = process.env.DIALOGFLOW_PROJECT_ID;
+      const agentId = process.env.DIALOGFLOW_AGENT_ID;
+      const location = process.env.DIALOGFLOW_LOCATION || "us-central1";
       const credentialsJson = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
 
-      if (!projectId || !credentialsJson) {
-        return res.status(500).json({ error: "Dialogflow is not configured" });
+      if (!projectId || !agentId || !credentialsJson) {
+        return res.status(500).json({ 
+          error: "Dialogflow CX is not configured properly",
+          missing: {
+            projectId: !projectId,
+            agentId: !agentId,
+            credentials: !credentialsJson
+          }
+        });
       }
 
       // Parse the credentials JSON
       const credentials = JSON.parse(credentialsJson);
 
-      // Create a session client with explicit credentials
-      const sessionClient = new dialogflow.SessionsClient({
+      // Create a Dialogflow CX session client with explicit credentials
+      const sessionClient = new SessionsClient({
+        apiEndpoint: `${location}-dialogflow.googleapis.com`,
         credentials: {
           client_email: credentials.client_email,
           private_key: credentials.private_key,
@@ -37,39 +47,60 @@ export async function registerRoutes(
       });
 
       // Use provided sessionId or generate a new one
-      const session = sessionClient.projectAgentSessionPath(
+      const currentSessionId = sessionId || `session-${Date.now()}`;
+      
+      // Build the session path for Dialogflow CX
+      const sessionPath = sessionClient.projectLocationAgentSessionPath(
         projectId,
-        sessionId || `session-${Date.now()}`
+        location,
+        agentId,
+        currentSessionId
       );
 
-      // Build the request
+      // Build the request for Dialogflow CX
       const request = {
-        session,
+        session: sessionPath,
         queryInput: {
           text: {
             text: message,
-            languageCode: "en-US",
           },
+          languageCode: "en",
         },
       };
 
-      // Send message to Dialogflow
+      // Send message to Dialogflow CX
       const [response] = await sessionClient.detectIntent(request);
-      const result = response.queryResult;
+      const queryResult = response.queryResult;
 
-      if (!result) {
-        return res.status(500).json({ error: "No response from Dialogflow" });
+      if (!queryResult) {
+        return res.status(500).json({ error: "No response from Dialogflow CX" });
+      }
+
+      // Extract the response text from response messages
+      let responseText = "";
+      if (queryResult.responseMessages && queryResult.responseMessages.length > 0) {
+        for (const msg of queryResult.responseMessages) {
+          if (msg.text && msg.text.text && msg.text.text.length > 0) {
+            responseText += msg.text.text.join(" ");
+          }
+        }
+      }
+
+      // Fallback to transcript if no response messages
+      if (!responseText && queryResult.transcript) {
+        responseText = queryResult.transcript;
       }
 
       res.json({
-        response: result.fulfillmentText || "I didn't understand that. Could you try again?",
-        intent: result.intent?.displayName || null,
-        confidence: result.intentDetectionConfidence || 0,
-        parameters: result.parameters?.fields || {},
+        response: responseText || "I didn't understand that. Could you try again?",
+        intent: queryResult.intent?.displayName || null,
+        confidence: queryResult.intentDetectionConfidence || 0,
+        currentPage: queryResult.currentPage?.displayName || null,
+        sessionId: currentSessionId,
       });
 
     } catch (error: any) {
-      console.error("Dialogflow error:", error);
+      console.error("Dialogflow CX error:", error);
       res.status(500).json({ 
         error: "Failed to process message",
         details: error.message 

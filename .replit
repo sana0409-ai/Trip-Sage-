@@ -16,7 +16,7 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 40711
+localPort = 36809
 externalPort = 3000
 
 [env]
@@ -50,3 +50,5 @@ mockupState = "FULLSTACK"
 
 [userenv.shared]
 DIALOGFLOW_PROJECT_ID = "gentle-oxygen-471614-c2"
+DIALOGFLOW_AGENT_ID = "1cb57cddf33dc38e053bb88e9af457485ba91ae6"
+DIALOGFLOW_LOCATION = "us-central1"
