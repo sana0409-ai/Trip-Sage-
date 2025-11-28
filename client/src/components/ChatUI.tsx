@@ -104,7 +104,7 @@ function parseFlightOptions(text: string): { flights: FlightOption[], hasFlights
 }
 
 function parseHotelOptions(text: string): { hotels: HotelOption[], hasHotels: boolean, remainingText: string } {
-  const hotelPattern = /\*\*Option (\d+)\*\*\s*\n?\s*Hotel:\s*([^\n]+)\s*\n\s*Rating:\s*([^\n]+)\s*\n\s*Price:\s*\$?([\d,.]+)\s*\n\s*Check-In:\s*([\d-]+)\s*\n\s*Check-Out:\s*([\d-]+)/g;
+  const hotelPattern = /⭐\s*\*\*Option (\d+)\*\*\s*\nHotel:\s*([^\n]+)\s*\nRating:\s*([^\n]+)\s*\nPrice:\s*\$?([\d,.]+)\s*\nCheck-In:\s*([\d-]+)\s*\nCheck-Out:\s*([\d-]+)/g;
   const hotels: HotelOption[] = [];
   let match;
   
@@ -123,7 +123,6 @@ function parseHotelOptions(text: string): { hotels: HotelOption[], hasHotels: bo
     let remainingText = text
       .replace(/🏨\s*\*\*Best Hotel Options:\*\*/gi, '')
       .replace(/⭐\s*\*\*Option \d+\*\*[\s\S]*?Check-Out:\s*[\d-]+/g, '')
-      .replace(/⭐/g, '')
       .replace(/Choose a hotel:.*$/i, '')
       .trim();
     
