@@ -771,6 +771,7 @@ export function ChatUI() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [sessionId, setSessionId] = useState(() => `session-${Date.now()}-${Math.random().toString(36).slice(2)}`);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [waitingForDestination, setWaitingForDestination] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -821,13 +822,33 @@ export function ChatUI() {
     };
     
     setMessages(prev => [...prev, userMessage]);
-    chatMutation.mutate(msgToSend);
+    
+    // If waiting for destination, send it with plan_trip
+    if (waitingForDestination) {
+      setWaitingForDestination(false);
+      chatMutation.mutate(`I want to plan a trip to ${msgToSend}`);
+    } else {
+      chatMutation.mutate(msgToSend);
+    }
+    
     if (!text) setMessage("");
     setIsExpanded(true);
   };
 
   const handleActionClick = (action: ActionButton) => {
-    handleSend(action.trigger);
+    // For plan_trip, show destination question first
+    if (action.trigger === "plan_trip") {
+      const botQuestion: Message = {
+        id: `bot-${Date.now()}`,
+        text: "Where do you want to plan your trip to?",
+        sender: "bot",
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, botQuestion]);
+      setWaitingForDestination(true);
+    } else {
+      handleSend(action.trigger);
+    }
   };
 
   const handleFlightSelect = (option: number) => {
