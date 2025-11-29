@@ -986,10 +986,10 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow }: { text: strin
     );
   }
   
-  // Check if asking for flight preference
-  const isFlightPreference = text.toLowerCase().includes("preference") && 
-    text.toLowerCase().includes("class") &&
-    (text.toLowerCase().includes("economy") || text.toLowerCase().includes("business"));
+  // Check if asking for flight preference/class
+  const isFlightPreference = text.toLowerCase().includes("flight class") || 
+    (text.toLowerCase().includes("class") && text.toLowerCase().includes("please provide")) ||
+    (text.toLowerCase().includes("preference") && text.toLowerCase().includes("class"));
   
   if (isFlightPreference) {
     const handlePreferenceClick = (preference: string) => {
