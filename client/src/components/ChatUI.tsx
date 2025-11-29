@@ -619,17 +619,36 @@ function HotelBookingConfirmation({ text, onConfirm }: { text: string; onConfirm
         </div>
       </div>
 
-      <motion.button
-        initial={{ opacity: 0, y: 5 }}
-        animate={{ opacity: 1, y: 0 }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={onConfirm}
-        className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
-      >
-        <Check className="w-4 h-4" />
-        Confirm Booking
-      </motion.button>
+      <div className="flex gap-2">
+        <motion.button
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={onConfirm}
+          className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+          data-testid="button-confirm-hotel"
+        >
+          <Check className="w-4 h-4" />
+          Confirm Booking
+        </motion.button>
+        <motion.button
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => {
+            const event = new CustomEvent('sendFlightPreference', { detail: { preference: 'No' } });
+            window.dispatchEvent(event);
+          }}
+          className="flex-1 bg-gray-600 hover:bg-gray-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+          data-testid="button-not-interested-hotel"
+        >
+          <X className="w-4 h-4" />
+          Not Interested
+        </motion.button>
+      </div>
     </div>
   );
 }
@@ -733,17 +752,36 @@ function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () 
         ))}
       </div>
 
-      <motion.button
-        initial={{ opacity: 0, y: 5 }}
-        animate={{ opacity: 1, y: 0 }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={onConfirm}
-        className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
-      >
-        <Check className="w-4 h-4" />
-        Confirm Booking
-      </motion.button>
+      <div className="flex gap-2">
+        <motion.button
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={onConfirm}
+          className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+          data-testid="button-confirm-booking"
+        >
+          <Check className="w-4 h-4" />
+          Confirm Booking
+        </motion.button>
+        <motion.button
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => {
+            const event = new CustomEvent('sendFlightPreference', { detail: { preference: 'No' } });
+            window.dispatchEvent(event);
+          }}
+          className="flex-1 bg-gray-600 hover:bg-gray-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+          data-testid="button-not-interested"
+        >
+          <X className="w-4 h-4" />
+          Not Interested
+        </motion.button>
+      </div>
     </div>
   );
 }
