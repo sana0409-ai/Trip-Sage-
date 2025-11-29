@@ -619,18 +619,18 @@ function HotelBookingConfirmation({ text, onConfirm }: { text: string; onConfirm
         </div>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 pt-1">
         <motion.button
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={onConfirm}
-          className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+          className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl py-2.5 font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg"
           data-testid="button-confirm-hotel"
         >
           <Check className="w-4 h-4" />
-          Confirm Booking
+          Confirm
         </motion.button>
         <motion.button
           initial={{ opacity: 0, y: 5 }}
@@ -642,11 +642,11 @@ function HotelBookingConfirmation({ text, onConfirm }: { text: string; onConfirm
             const event = new CustomEvent('sendFlightPreference', { detail: { preference: 'No' } });
             window.dispatchEvent(event);
           }}
-          className="flex-1 bg-gray-600 hover:bg-gray-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+          className="flex-1 bg-white/40 hover:bg-white/60 border border-white/50 text-foreground rounded-xl py-2.5 font-semibold text-sm flex items-center justify-center gap-2 transition-all backdrop-blur-sm"
           data-testid="button-not-interested-hotel"
         >
           <X className="w-4 h-4" />
-          Not Interested
+          Skip
         </motion.button>
       </div>
     </div>
@@ -752,18 +752,18 @@ function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () 
         ))}
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 pt-1">
         <motion.button
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={onConfirm}
-          className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+          className="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white rounded-xl py-2.5 font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg"
           data-testid="button-confirm-booking"
         >
           <Check className="w-4 h-4" />
-          Confirm Booking
+          Confirm
         </motion.button>
         <motion.button
           initial={{ opacity: 0, y: 5 }}
@@ -775,11 +775,11 @@ function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () 
             const event = new CustomEvent('sendFlightPreference', { detail: { preference: 'No' } });
             window.dispatchEvent(event);
           }}
-          className="flex-1 bg-gray-600 hover:bg-gray-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+          className="flex-1 bg-white/40 hover:bg-white/60 border border-white/50 text-foreground rounded-xl py-2.5 font-semibold text-sm flex items-center justify-center gap-2 transition-all backdrop-blur-sm"
           data-testid="button-not-interested"
         >
           <X className="w-4 h-4" />
-          Not Interested
+          Skip
         </motion.button>
       </div>
     </div>
