@@ -986,6 +986,51 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow }: { text: strin
     );
   }
   
+  // Check if asking for flight preference
+  const isFlightPreference = text.toLowerCase().includes("preference") && 
+    text.toLowerCase().includes("class") &&
+    (text.toLowerCase().includes("economy") || text.toLowerCase().includes("business"));
+  
+  if (isFlightPreference) {
+    const handlePreferenceClick = (preference: string) => {
+      const event = new CustomEvent('sendFlightPreference', { detail: { preference } });
+      window.dispatchEvent(event);
+    };
+    
+    return (
+      <div className="space-y-3 w-full">
+        <span className="text-sm text-foreground block">{text}</span>
+        <div className="space-y-2">
+          <motion.button
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => handlePreferenceClick("Economy")}
+            className="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg py-2 font-medium text-sm flex items-center justify-center gap-2 transition-colors"
+            data-testid="button-economy"
+          >
+            <Plane className="w-4 h-4" />
+            Economy
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => handlePreferenceClick("Business")}
+            className="w-full bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-lg py-2 font-medium text-sm flex items-center justify-center gap-2 transition-colors"
+            data-testid="button-business"
+          >
+            <Plane className="w-4 h-4" />
+            Business
+          </motion.button>
+        </div>
+      </div>
+    );
+  }
+  
   return <span>{text}</span>;
 }
 
@@ -1243,8 +1288,20 @@ export function ChatUI() {
       }]);
     };
     
+    const handleFlightPreference = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      const preference = customEvent.detail?.preference;
+      if (preference) {
+        handleSend(preference);
+      }
+    };
+    
     window.addEventListener('proceedItinerary', handleProceedItinerary);
-    return () => window.removeEventListener('proceedItinerary', handleProceedItinerary);
+    window.addEventListener('sendFlightPreference', handleFlightPreference);
+    return () => {
+      window.removeEventListener('proceedItinerary', handleProceedItinerary);
+      window.removeEventListener('sendFlightPreference', handleFlightPreference);
+    };
   }, []);
 
   useEffect(() => {
