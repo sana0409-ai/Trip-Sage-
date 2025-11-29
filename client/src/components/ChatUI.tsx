@@ -583,7 +583,22 @@ function HotelBookingConfirmation({ text, onConfirm }: { text: string; onConfirm
     return { hotel, rating, price, checkIn, checkOut };
   };
 
+  const getGuestDetails = () => {
+    const numGuests = text.match(/• Number of Guests:\s*([^\n•]+)/)?.[1]?.trim() || "1";
+    const name = text.match(/👤[\s\S]*?• Name:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    const email = text.match(/• Email:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    const dobMatch = text.match(/• DOB:\s*\{?'?year'?:\s*([\d.]+)[\s\S]*?'?month'?:\s*([\d.]+)[\s\S]*?'?day'?:\s*([\d.]+)/);
+    
+    let dob = "N/A";
+    if (dobMatch) {
+      dob = `${String(Math.round(parseFloat(dobMatch[2]))).padStart(2, '0')}/${String(Math.round(parseFloat(dobMatch[3]))).padStart(2, '0')}/${Math.round(parseFloat(dobMatch[1]))}`;
+    }
+    
+    return { numGuests, name, email, dob };
+  };
+
   const hotelDetails = getHotelDetails();
+  const guestDetails = getGuestDetails();
 
   return (
     <div className="w-full space-y-3">
@@ -615,6 +630,25 @@ function HotelBookingConfirmation({ text, onConfirm }: { text: string; onConfirm
               <span className="text-muted-foreground">Check-Out</span>
               <div className="font-semibold text-foreground">{formatDate(hotelDetails.checkOut)}</div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <div className="text-sm font-medium text-foreground">Guest Information</div>
+        <div className="bg-white/70 border border-white/60 rounded-lg p-2 text-xs space-y-1">
+          <div className="flex items-center gap-2">
+            <User className="w-3.5 h-3.5 text-primary" />
+            <span className="font-semibold text-foreground">{guestDetails.name}</span>
+            <span className="text-muted-foreground ml-auto">({guestDetails.numGuests} guest{guestDetails.numGuests !== "1" ? "s" : ""})</span>
+          </div>
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <Mail className="w-3.5 h-3.5" />
+            <span>{guestDetails.email}</span>
+          </div>
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <CalendarIcon className="w-3.5 h-3.5" />
+            <span>DOB: {guestDetails.dob}</span>
           </div>
         </div>
       </div>
