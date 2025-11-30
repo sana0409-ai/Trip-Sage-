@@ -1,4 +1,4 @@
-import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map, Clock, DollarSign, User, Mail, Calendar as CalendarIcon, Calendar, Check, Clipboard } from "lucide-react";
+import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map, Clock, DollarSign, User, Mail, Calendar as CalendarIcon, Calendar, Check, Clipboard, Edit, LogOut } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
@@ -941,7 +941,7 @@ function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () 
   );
 }
 
-function ItineraryCard({ text, onProceed }: { text: string; onProceed: () => void }) {
+function ItineraryCard({ text, onProceed, onModify, onExit }: { text: string; onProceed: () => void; onModify: () => void; onExit: () => void }) {
   const isItinerary = text.includes("Best Time to Visit:") && (text.includes("Top Activities:") || text.includes("Budget:"));
   
   if (!isItinerary) return null;
@@ -1025,22 +1025,55 @@ function ItineraryCard({ text, onProceed }: { text: string; onProceed: () => voi
         </div>
       </div>
       
-      <motion.button
-        initial={{ opacity: 0, y: 5 }}
-        animate={{ opacity: 1, y: 0 }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={onProceed}
-        className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
-      >
-        <Check className="w-4 h-4" />
-        Proceed with this itinerary
-      </motion.button>
+      <div className="space-y-2">
+        <motion.button
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={onProceed}
+          className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+          data-testid="button-proceed-itinerary"
+        >
+          <Check className="w-4 h-4" />
+          Proceed with this itinerary
+        </motion.button>
+        
+        <div className="grid grid-cols-2 gap-2">
+          <motion.button
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={onModify}
+            className="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+            data-testid="button-modify-search"
+          >
+            <Edit className="w-4 h-4" />
+            Modify Search
+          </motion.button>
+          
+          <motion.button
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={onExit}
+            className="w-full bg-red-100 hover:bg-red-200 text-red-700 rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+            data-testid="button-exit"
+          >
+            <LogOut className="w-4 h-4" />
+            Exit
+          </motion.button>
+        </div>
+      </div>
     </div>
   );
 }
 
-function FormattedMessage({ text, onFlightSelect, inBookingFlow }: { text: string; onFlightSelect: (option: number) => void; inBookingFlow?: boolean }) {
+function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch, onExit }: { text: string; onFlightSelect: (option: number) => void; inBookingFlow?: boolean; onModifySearch: () => void; onExit: () => void }) {
   // Special case: duplicate itinerary marker
   if (text === "duplicate-itinerary") {
     return (
@@ -1134,7 +1167,7 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow }: { text: strin
   }
   
   if (isItinerary && !inBookingFlow) {
-    return <ItineraryCard text={text} onProceed={handleProceedItinerary} />;
+    return <ItineraryCard text={text} onProceed={handleProceedItinerary} onModify={onModifySearch} onExit={onExit} />;
   }
   
   // If we're in booking flow but got itinerary response, hide it (Dialogflow returning cached data)
@@ -1382,6 +1415,28 @@ export function ChatUI() {
 
   const handleCloseChat = () => {
     setIsExpanded(false);
+    resetChat();
+  };
+
+  const handleModifySearch = () => {
+    const userMsg: Message = {
+      id: `user-${Date.now()}`,
+      text: "Modify Search",
+      sender: "user",
+      timestamp: new Date(),
+    };
+    setMessages(prev => [...prev, userMsg]);
+    handleSend("modify the search");
+  };
+
+  const handleExit = () => {
+    const userMsg: Message = {
+      id: `user-${Date.now()}`,
+      text: "Exit",
+      sender: "user",
+      timestamp: new Date(),
+    };
+    setMessages(prev => [...prev, userMsg]);
     resetChat();
   };
 
@@ -1708,7 +1763,7 @@ export function ChatUI() {
                       data-testid={`message-${msg.sender}-${msg.id}`}
                     >
                       {msg.sender === "bot" ? (
-                        <FormattedMessage text={msg.text} onFlightSelect={handleFlightSelect} inBookingFlow={inBookingFlow} />
+                        <FormattedMessage text={msg.text} onFlightSelect={handleFlightSelect} inBookingFlow={inBookingFlow} onModifySearch={handleModifySearch} onExit={handleExit} />
                       ) : (
                         msg.text
                       )}
