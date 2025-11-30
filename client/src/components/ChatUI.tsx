@@ -1161,6 +1161,42 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow }: { text: strin
     );
   }
   
+  // Check if asking for car pickup or return time
+  const isCarTimeQuestion = (text.toLowerCase().includes("pick up") || text.toLowerCase().includes("pickup") || text.toLowerCase().includes("return")) && 
+    text.toLowerCase().includes("time");
+  
+  if (isCarTimeQuestion) {
+    const handleTimeClick = (time: string) => {
+      const event = new CustomEvent('sendFlightPreference', { detail: { preference: time } });
+      window.dispatchEvent(event);
+    };
+    
+    const timeOptions = ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM"];
+    
+    return (
+      <div className="space-y-3 w-full">
+        <span className="text-sm text-foreground block">{text}</span>
+        <div className="grid grid-cols-2 gap-2">
+          {timeOptions.map((time, idx) => (
+            <motion.button
+              key={time}
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.05 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => handleTimeClick(time)}
+              className="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-lg py-2 px-3 font-medium text-sm flex items-center justify-center transition-colors"
+              data-testid={`button-time-${time.replace(/:/g, '').replace(/ /g, '-')}`}
+            >
+              {time}
+            </motion.button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  
   return <span>{text}</span>;
 }
 
