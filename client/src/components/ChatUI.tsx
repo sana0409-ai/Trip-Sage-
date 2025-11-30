@@ -1597,8 +1597,12 @@ export function ChatUI() {
   }, []);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    // Don't auto-scroll if we're in booking flow with buttons visible
+    // This keeps the itinerary visible while booking
+    if (!showBookingButtons) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, showBookingButtons]);
 
   const handleOpenChat = () => {
     setIsExpanded(true);
