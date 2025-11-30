@@ -1535,10 +1535,15 @@ export function ChatUI() {
   const handleFlightSelect = (option: number) => {
     // If we're on booking options page (duplicate-itinerary showing flight/hotel/car buttons)
     // then 1=flight, 2=hotel, 3=car
+    const userSelections: { [key: number]: string } = {
+      1: "Book a Flight",
+      2: "Book a Hotel",
+      3: "Rent a Car",
+    };
     const bookingMessages: { [key: number]: string } = {
-      1: "book_flight",
-      2: "book_hotel",
-      3: "book_car",
+      1: "I want to book a flight",
+      2: "I want to book a hotel",
+      3: "I want to rent a car",
     };
     const bookingTypes: { [key: number]: string } = {
       1: "flight",
@@ -1554,8 +1559,17 @@ export function ChatUI() {
       // Otherwise we're selecting booking type from duplicate-itinerary
       setActiveBookingType(bookingTypes[option] || null);
       setInBookingFlow(true);
-      setBookingFormActive(false);
-      // Don't remove the booking buttons yet, keep them visible
+      setShowBookingButtons(false);
+      
+      // Add user selection message
+      const userMsg: Message = {
+        id: `user-${Date.now()}`,
+        text: userSelections[option] || option.toString(),
+        sender: "user",
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, userMsg]);
+      
       handleSend(bookingMessages[option] || option.toString());
     }
   };
