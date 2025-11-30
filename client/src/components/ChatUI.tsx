@@ -687,6 +687,119 @@ function HotelBookingConfirmation({ text, onConfirm }: { text: string; onConfirm
   );
 }
 
+function CarBookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () => void }) {
+  const isBookingSummary = text.includes("Car Rental Booking Summary");
+  
+  if (!isBookingSummary) return null;
+
+  const getCarDetails = () => {
+    const carType = text.match(/• Car Type:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    const price = text.match(/• Price:\s*\$?([\d,.]+)/)?.[1] || "N/A";
+    const pickUp = text.match(/• Pick-Up:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    const dropOff = text.match(/• Drop-Off:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    
+    return { carType, price, pickUp, dropOff };
+  };
+
+  const getDriverDetails = () => {
+    const name = text.match(/👤[\s\S]*?• Name:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    const email = text.match(/• Email:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    const dobMatch = text.match(/• DOB:\s*\{?'?year'?:\s*([\d.]+)[\s\S]*?'?month'?:\s*([\d.]+)[\s\S]*?'?day'?:\s*([\d.]+)/);
+    
+    let dob = "N/A";
+    if (dobMatch) {
+      dob = `${String(Math.round(parseFloat(dobMatch[2]))).padStart(2, '0')}/${String(Math.round(parseFloat(dobMatch[3]))).padStart(2, '0')}/${Math.round(parseFloat(dobMatch[1]))}`;
+    }
+    
+    return { name, email, dob };
+  };
+
+  const carDetails = getCarDetails();
+  const driverDetails = getDriverDetails();
+
+  return (
+    <div className="w-full space-y-3">
+      <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 space-y-2">
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="font-bold text-foreground flex items-center gap-2">
+            <Car className="w-4 h-4 text-green-600" />
+            Car Rental Booking
+          </h3>
+          <div className="text-right">
+            <div className="font-bold text-green-600 text-lg">${carDetails.price}</div>
+          </div>
+        </div>
+        
+        <div className="space-y-2">
+          <div>
+            <span className="text-xs text-muted-foreground">Car Type</span>
+            <div className="font-semibold text-foreground text-sm">{carDetails.carType}</div>
+          </div>
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <div>
+              <span className="text-muted-foreground">Pick-Up</span>
+              <div className="font-semibold text-foreground text-xs line-clamp-2">{carDetails.pickUp}</div>
+            </div>
+            <div>
+              <span className="text-muted-foreground">Drop-Off</span>
+              <div className="font-semibold text-foreground text-xs line-clamp-2">{carDetails.dropOff}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <div className="text-sm font-medium text-foreground">Driver Information</div>
+        <div className="bg-white/70 border border-white/60 rounded-lg p-2 text-xs space-y-1">
+          <div className="flex items-center gap-2">
+            <User className="w-3.5 h-3.5 text-primary" />
+            <span className="font-semibold text-foreground">{driverDetails.name}</span>
+          </div>
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <Mail className="w-3.5 h-3.5" />
+            <span>{driverDetails.email}</span>
+          </div>
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <CalendarIcon className="w-3.5 h-3.5" />
+            <span>DOB: {driverDetails.dob}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex gap-2 pt-1">
+        <motion.button
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={onConfirm}
+          className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl py-2.5 font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg"
+          data-testid="button-confirm-car"
+        >
+          <Check className="w-4 h-4" />
+          Confirm
+        </motion.button>
+        <motion.button
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => {
+            const event = new CustomEvent('sendFlightPreference', { detail: { preference: 'No' } });
+            window.dispatchEvent(event);
+          }}
+          className="flex-1 bg-white/40 hover:bg-white/60 border border-white/50 text-foreground rounded-xl py-2.5 font-semibold text-sm flex items-center justify-center gap-2 transition-all backdrop-blur-sm"
+          data-testid="button-not-interested-car"
+        >
+          <X className="w-4 h-4" />
+          Skip
+        </motion.button>
+      </div>
+    </div>
+  );
+}
+
 function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () => void }) {
   const isBookingSummary = text.includes("Flight Booking Summary") && text.includes("Passenger");
   
@@ -972,6 +1085,7 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow }: { text: strin
   const { cars, hasCars } = parseCarRentalOptions(text);
   const isFlightBooking = text.includes("Flight Booking Summary") && text.includes("Passenger");
   const isHotelBooking = text.includes("Hotel Booking Summary");
+  const isCarRentalBooking = text.includes("Car Rental Booking Summary");
   const isFlightSelected = text.includes("Selected Flight") && text.includes("Airline:");
   const isHotelSelected = text.includes("Selected Hotel") && text.includes("Name:");
   const isCarSelected = text.includes("Selected Car") && text.includes("Type:");
@@ -993,6 +1107,10 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow }: { text: strin
   
   if (isHotelBooking) {
     return <HotelBookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
+  }
+  
+  if (isCarRentalBooking) {
+    return <CarBookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
   }
   
   if (isFlightSelected) {
