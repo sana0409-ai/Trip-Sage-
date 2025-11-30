@@ -1,4 +1,4 @@
-import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map, Clock, DollarSign, User, Mail, Calendar as CalendarIcon, Calendar, Check } from "lucide-react";
+import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map, Clock, DollarSign, User, Mail, Calendar as CalendarIcon, Calendar, Check, Clipboard } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
@@ -78,6 +78,14 @@ const actionButtons: ActionButton[] = [
     trigger: "I want to rent a car",
     color: "text-green-600",
     bgColor: "bg-green-100 hover:bg-green-200",
+  },
+  {
+    id: "booking",
+    label: "View Booking",
+    icon: <Clipboard className="w-5 h-5" />,
+    trigger: "manage_booking",
+    color: "text-indigo-600",
+    bgColor: "bg-indigo-100 hover:bg-indigo-200",
   },
 ];
 
@@ -1519,6 +1527,17 @@ export function ChatUI() {
       };
       setMessages(prev => [...prev, botQuestion]);
       setWaitingForDestination(true);
+    } else if (action.trigger === "manage_booking") {
+      // Handle manage booking flow
+      const botMessage: Message = {
+        id: `bot-${Date.now()}`,
+        text: "To view your bookings, please provide your booking reference number or email address associated with your reservation.",
+        sender: "bot",
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, botMessage]);
+      setBookingFormActive(true);
+      setBookingPrompt("Please enter your booking reference or email:");
     } else {
       handleSend(action.trigger);
     }
