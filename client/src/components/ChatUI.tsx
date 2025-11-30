@@ -1437,7 +1437,7 @@ export function ChatUI() {
       timestamp: new Date(),
     };
     setMessages(prev => [...prev, userMsg]);
-    resetChat();
+    handleSend("exit");
   };
 
   const chatMutation = useMutation({
