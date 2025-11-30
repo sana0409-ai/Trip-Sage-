@@ -1536,9 +1536,9 @@ export function ChatUI() {
     // If we're on booking options page (duplicate-itinerary showing flight/hotel/car buttons)
     // then 1=flight, 2=hotel, 3=car
     const bookingMessages: { [key: number]: string } = {
-      1: "I want to book a flight",
-      2: "I want to book a hotel",
-      3: "I want to rent a car",
+      1: "book_flight",
+      2: "book_hotel",
+      3: "book_car",
     };
     const bookingTypes: { [key: number]: string } = {
       1: "flight",
@@ -1555,6 +1555,7 @@ export function ChatUI() {
       setActiveBookingType(bookingTypes[option] || null);
       setInBookingFlow(true);
       setBookingFormActive(false);
+      // Don't remove the booking buttons yet, keep them visible
       handleSend(bookingMessages[option] || option.toString());
     }
   };
@@ -1597,12 +1598,8 @@ export function ChatUI() {
   }, []);
 
   useEffect(() => {
-    // Don't auto-scroll if we're in booking flow with buttons visible
-    // This keeps the itinerary visible while booking
-    if (!showBookingButtons) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages, showBookingButtons]);
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleOpenChat = () => {
     setIsExpanded(true);
