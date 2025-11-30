@@ -947,11 +947,14 @@ function ItineraryCard({ text, onProceed, onModify, onExit }: { text: string; on
   if (!isItinerary) return null;
   
   const parseItinerary = () => {
-    const bestTimeMatch = text.match(/\*\*Best Time to Visit:\*\*\s*([^*]+?)(?=\*\*|$)/);
-    const activitiesMatch = text.match(/\*\*Top Activities:\*\*\s*([\s\S]*?)(?=\*\*Unique|Budget:|$)/);
-    const uniqueMatch = text.match(/\*\*Unique Experience:\*\*\s*([^*]+?)(?=\*\*|$)/);
-    const budgetMatch = text.match(/\*\*Budget:\*\*\s*([^*]+?)(?=\*\*|$)/);
-    const packingMatch = text.match(/\*\*Packing Tip:\*\*\s*([^*]+?)(?=\*\*|$)/);
+    // Remove question text at the end like "Do you want to proceed with this itinerary, modify the search or exit"
+    let cleanedText = text.replace(/Do you want to proceed with this itinerary.*$/is, "").trim();
+    
+    const bestTimeMatch = cleanedText.match(/\*\*Best Time to Visit:\*\*\s*([^*]+?)(?=\*\*|$)/);
+    const activitiesMatch = cleanedText.match(/\*\*Top Activities:\*\*\s*([\s\S]*?)(?=\*\*Unique|Budget:|$)/);
+    const uniqueMatch = cleanedText.match(/\*\*Unique Experience:\*\*\s*([^*]+?)(?=\*\*|$)/);
+    const budgetMatch = cleanedText.match(/\*\*Budget:\*\*\s*([^*]+?)(?=\*\*|$)/);
+    const packingMatch = cleanedText.match(/\*\*Packing Tip:\*\*\s*([^*]+?)(?=\*\*|$)/);
     
     const activities = activitiesMatch 
       ? activitiesMatch[1]
