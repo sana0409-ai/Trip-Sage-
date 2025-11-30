@@ -1527,17 +1527,6 @@ export function ChatUI() {
       };
       setMessages(prev => [...prev, botQuestion]);
       setWaitingForDestination(true);
-    } else if (action.trigger === "manage_booking") {
-      // Handle manage booking flow
-      const botMessage: Message = {
-        id: `bot-${Date.now()}`,
-        text: "To view your bookings, please provide your booking reference number or email address associated with your reservation.",
-        sender: "bot",
-        timestamp: new Date(),
-      };
-      setMessages(prev => [...prev, botMessage]);
-      setBookingFormActive(true);
-      setBookingPrompt("Please enter your booking reference or email:");
     } else {
       handleSend(action.trigger);
     }
