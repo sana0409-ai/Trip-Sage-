@@ -1540,11 +1540,6 @@ export function ChatUI() {
       2: "Book a Hotel",
       3: "Rent a Car",
     };
-    const bookingMessages: { [key: number]: string } = {
-      1: "I want to book a flight",
-      2: "I want to book a hotel",
-      3: "I want to rent a car",
-    };
     const bookingTypes: { [key: number]: string } = {
       1: "flight",
       2: "hotel",
@@ -1570,7 +1565,42 @@ export function ChatUI() {
       };
       setMessages(prev => [...prev, userMsg]);
       
-      handleSend(bookingMessages[option] || option.toString());
+      // Don't send to Dialogflow - instead trigger the booking flow directly
+      // Set booking prompts to trigger form display
+      if (option === 1) {
+        // Flight booking - ask for departure city
+        setBookingPrompt("Please provide the departure city");
+        setBookingFormActive(true);
+        const botMsg: Message = {
+          id: `bot-${Date.now()}`,
+          text: "Please provide the departure city",
+          sender: "bot",
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, botMsg]);
+      } else if (option === 2) {
+        // Hotel booking - ask for check-in date
+        setBookingPrompt("Please provide the check-in date (MM/DD/YYYY)");
+        setBookingFormActive(true);
+        const botMsg: Message = {
+          id: `bot-${Date.now()}`,
+          text: "Please provide the check-in date (MM/DD/YYYY)",
+          sender: "bot",
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, botMsg]);
+      } else if (option === 3) {
+        // Car rental - ask for pickup location
+        setBookingPrompt("Please provide the pickup location");
+        setBookingFormActive(true);
+        const botMsg: Message = {
+          id: `bot-${Date.now()}`,
+          text: "Please provide the pickup location",
+          sender: "bot",
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, botMsg]);
+      }
     }
   };
 
