@@ -84,50 +84,36 @@ export async function registerRoutes(
           if (msg.text && msg.text.text && msg.text.text.length > 0) {
             responseText += msg.text.text.join("\n");
           }
-          // Handle custom payloads that contain text responses
+          // Handle custom payloads - but skip chip/button payloads (those are UI elements, not text)
           if (msg.payload && msg.payload.fields) {
-            // Recursively extract text from nested payload structures
-            const extractTextFromValue = (value: any): string => {
-              let text = "";
-              if (!value) return text;
-              
-              if (value.stringValue) {
-                return value.stringValue;
-              }
-              if (value.structValue && value.structValue.fields) {
-                const fields = value.structValue.fields;
-                // Extract common text fields
-                for (const key of ["text", "title", "subtitle", "description"]) {
-                  if (fields[key] && fields[key].stringValue) {
-                    text += fields[key].stringValue + "\n";
+            // Check if this is a chips/buttons payload - skip it
+            const richContent = msg.payload.fields["richContent"];
+            if (richContent && richContent.listValue) {
+              let isChipsPayload = false;
+              for (const item of richContent.listValue.values || []) {
+                if (item.listValue) {
+                  for (const subItem of item.listValue.values || []) {
+                    if (subItem.structValue && subItem.structValue.fields) {
+                      const typeField = subItem.structValue.fields["type"];
+                      if (typeField && typeField.stringValue === "chips") {
+                        isChipsPayload = true;
+                        break;
+                      }
+                    }
                   }
                 }
-                // Recurse into nested structures
-                for (const key of Object.keys(fields)) {
-                  if (fields[key].listValue || fields[key].structValue) {
-                    text += extractTextFromValue(fields[key]);
-                  }
-                }
+                if (isChipsPayload) break;
               }
-              if (value.listValue && value.listValue.values) {
-                for (const item of value.listValue.values) {
-                  text += extractTextFromValue(item);
-                }
+              // Skip chips payloads - they're just button options
+              if (isChipsPayload) {
+                continue;
               }
-              return text;
-            };
+            }
             
+            // For non-chips payloads, extract text
             const textField = msg.payload.fields["text"];
             if (textField && textField.stringValue) {
               responseText += textField.stringValue;
-            }
-            // Check for richContent or other payload structures
-            const richContent = msg.payload.fields["richContent"];
-            if (richContent) {
-              const extractedText = extractTextFromValue(richContent);
-              if (extractedText) {
-                responseText += extractedText;
-              }
             }
           }
         }
