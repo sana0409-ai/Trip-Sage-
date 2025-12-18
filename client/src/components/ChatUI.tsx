@@ -1661,6 +1661,37 @@ export function ChatUI() {
       };
       setMessages(prev => [...prev, botQuestion]);
       setWaitingForDestination(true);
+    } else if (action.trigger === "I want to book a flight") {
+      // Show local prompt, let user provide all details at once
+      setInBookingFlow(true);
+      setActiveBookingType("flight");
+      const botMsg: Message = {
+        id: `bot-${Date.now()}`,
+        text: "Ok, let's book your flight! Please tell me your departure city, destination, and travel date.\n\nFor example: \"Dallas to Chicago on Jan 15, 2026\"",
+        sender: "bot",
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, botMsg]);
+    } else if (action.trigger === "I want to book a hotel") {
+      setInBookingFlow(true);
+      setActiveBookingType("hotel");
+      const botMsg: Message = {
+        id: `bot-${Date.now()}`,
+        text: "Ok, let's book a hotel! Please tell me your destination, check-in date, and check-out date.\n\nFor example: \"Hotel in Paris from Jan 10 to Jan 15, 2026\"",
+        sender: "bot",
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, botMsg]);
+    } else if (action.trigger === "I want to rent a car") {
+      setInBookingFlow(true);
+      setActiveBookingType("car");
+      const botMsg: Message = {
+        id: `bot-${Date.now()}`,
+        text: "Ok, let's rent a car! Please tell me your pickup location and dates.\n\nFor example: \"Rent a car in Miami from Jan 5 to Jan 10, 2026\"",
+        sender: "bot",
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, botMsg]);
     } else {
       handleSend(action.trigger);
     }
