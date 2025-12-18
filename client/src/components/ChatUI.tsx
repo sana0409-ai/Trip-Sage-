@@ -281,11 +281,12 @@ function HotelCard({ hotel, onSelect }: { hotel: HotelOption; onSelect: (option:
       className="w-full bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 text-left hover:shadow-md transition-all"
     >
       {hotel.image && (
-        <div className="mb-3 rounded-lg overflow-hidden bg-gray-100 aspect-video">
+        <div className="mb-3 rounded-lg overflow-hidden bg-gray-100">
           <img 
             src={hotel.image} 
             alt={hotel.hotel} 
-            className="w-full h-full object-contain"
+            className="w-full h-auto max-h-40"
+            style={{ imageRendering: 'auto' }}
             onError={(e) => {
               (e.target as HTMLImageElement).style.display = 'none';
             }}
@@ -416,11 +417,12 @@ function HotelSelection({ text, selectedHotelImage }: { text: string; selectedHo
     <div className="w-full space-y-3">
       <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 space-y-3">
         {selectedHotelImage && (
-          <div className="rounded-lg overflow-hidden bg-gray-100 aspect-video">
+          <div className="rounded-lg overflow-hidden bg-gray-100">
             <img 
               src={selectedHotelImage} 
               alt={hotel.name} 
-              className="w-full h-full object-contain"
+              className="w-full h-auto max-h-40"
+              style={{ imageRendering: 'auto' }}
               onError={(e) => {
                 (e.target as HTMLImageElement).style.display = 'none';
               }}
