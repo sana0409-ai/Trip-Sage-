@@ -1718,15 +1718,26 @@ export function ChatUI() {
       }
       
       chatMutation.mutate(`I want to plan a trip to ${destination}`);
-    } else if (inBookingFlow && activeBookingType && (!currentPage || currentPage === "Start Page")) {
+    } else if (inBookingFlow && activeBookingType) {
       // User is providing booking details after clicking a quick action button
       // Use natural phrasing that matches Dialogflow training phrases
-      if (activeBookingType === "flight" && !msgToSend.toLowerCase().includes("flight")) {
-        chatMutation.mutate(`I want to book a flight ${msgToSend}`);
-      } else if (activeBookingType === "hotel" && !msgToSend.toLowerCase().includes("hotel")) {
-        chatMutation.mutate(`I want to book a hotel ${msgToSend}`);
-      } else if (activeBookingType === "car" && !msgToSend.toLowerCase().includes("car")) {
-        chatMutation.mutate(`I want to rent a car ${msgToSend}`);
+      // Add prefix if not already on a booking collection page
+      const isOnBookingPage = currentPage && (
+        currentPage.includes("Collect_") || 
+        currentPage.includes("_Options") ||
+        currentPage.includes("_Details")
+      );
+      
+      if (!isOnBookingPage) {
+        if (activeBookingType === "flight" && !msgToSend.toLowerCase().includes("flight")) {
+          chatMutation.mutate(`I want to book a flight ${msgToSend}`);
+        } else if (activeBookingType === "hotel" && !msgToSend.toLowerCase().includes("hotel")) {
+          chatMutation.mutate(`I want to book a hotel ${msgToSend}`);
+        } else if (activeBookingType === "car" && !msgToSend.toLowerCase().includes("car")) {
+          chatMutation.mutate(`I want to rent a car ${msgToSend}`);
+        } else {
+          chatMutation.mutate(msgToSend);
+        }
       } else {
         chatMutation.mutate(msgToSend);
       }
