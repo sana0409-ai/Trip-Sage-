@@ -68,9 +68,18 @@ export async function registerRoutes(
         },
       };
 
+      // Log the exact message being sent to Dialogflow
+      console.log(`Sending to Dialogflow: "${message}" | Session: ${currentSessionId}`);
+      
       // Send message to Dialogflow CX
       const [response] = await sessionClient.detectIntent(request);
       const queryResult = response.queryResult;
+      
+      // Log extracted parameters for debugging
+      if (queryResult?.parameters?.fields) {
+        const params = queryResult.parameters.fields;
+        console.log("Dialogflow extracted parameters:", JSON.stringify(Object.keys(params).map(k => `${k}: ${JSON.stringify(params[k])}`)));
+      }
 
       if (!queryResult) {
         return res.status(500).json({ error: "No response from Dialogflow CX" });
