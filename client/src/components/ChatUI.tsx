@@ -1637,7 +1637,7 @@ export function ChatUI() {
       }
       
       chatMutation.mutate(`I want to plan a trip to ${destination}`);
-    } else if (inBookingFlow && activeBookingType && !currentPage) {
+    } else if (inBookingFlow && activeBookingType && (!currentPage || currentPage === "Start Page")) {
       // User is providing booking details after clicking a quick action button
       // Prepend the booking intent so Dialogflow understands the context
       if (activeBookingType === "flight" && !msgToSend.toLowerCase().includes("book flight")) {
