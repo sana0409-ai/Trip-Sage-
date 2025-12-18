@@ -10,3 +10,9 @@ env/
 
 # OS
 .DS_Store
+
+attached_assets/
+*.json
+*.key
+.env
+
