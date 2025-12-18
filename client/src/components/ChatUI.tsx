@@ -1639,13 +1639,13 @@ export function ChatUI() {
       chatMutation.mutate(`I want to plan a trip to ${destination}`);
     } else if (inBookingFlow && activeBookingType && (!currentPage || currentPage === "Start Page")) {
       // User is providing booking details after clicking a quick action button
-      // Prepend the booking intent so Dialogflow understands the context
-      if (activeBookingType === "flight" && !msgToSend.toLowerCase().includes("book flight")) {
-        chatMutation.mutate(`book flight ${msgToSend}`);
-      } else if (activeBookingType === "hotel" && !msgToSend.toLowerCase().includes("book hotel")) {
-        chatMutation.mutate(`book hotel ${msgToSend}`);
-      } else if (activeBookingType === "car" && !msgToSend.toLowerCase().includes("rent a car")) {
-        chatMutation.mutate(`rent a car ${msgToSend}`);
+      // Use natural phrasing that matches Dialogflow training phrases
+      if (activeBookingType === "flight" && !msgToSend.toLowerCase().includes("flight")) {
+        chatMutation.mutate(`I want to book a flight ${msgToSend}`);
+      } else if (activeBookingType === "hotel" && !msgToSend.toLowerCase().includes("hotel")) {
+        chatMutation.mutate(`I want to book a hotel ${msgToSend}`);
+      } else if (activeBookingType === "car" && !msgToSend.toLowerCase().includes("car")) {
+        chatMutation.mutate(`I want to rent a car ${msgToSend}`);
       } else {
         chatMutation.mutate(msgToSend);
       }
