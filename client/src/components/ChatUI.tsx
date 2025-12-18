@@ -1699,41 +1699,13 @@ export function ChatUI() {
       };
       setMessages(prev => [...prev, userMsg]);
       
-      // Don't send to Dialogflow - instead trigger the booking flow directly
-      // Set booking prompts to trigger form display
+      // Send to Dialogflow to handle the booking flow naturally
       if (option === 1) {
-        // Flight booking - ask for departure city
-        setBookingPrompt("Please provide the departure city");
-        setBookingFormActive(true);
-        const botMsg: Message = {
-          id: `bot-${Date.now()}`,
-          text: "Please provide the departure city",
-          sender: "bot",
-          timestamp: new Date(),
-        };
-        setMessages(prev => [...prev, botMsg]);
+        handleSend("I want to book a flight");
       } else if (option === 2) {
-        // Hotel booking - ask for check-in date
-        setBookingPrompt("Please provide the check-in date (MM/DD/YYYY)");
-        setBookingFormActive(true);
-        const botMsg: Message = {
-          id: `bot-${Date.now()}`,
-          text: "Please provide the check-in date (MM/DD/YYYY)",
-          sender: "bot",
-          timestamp: new Date(),
-        };
-        setMessages(prev => [...prev, botMsg]);
+        handleSend("I want to book a hotel");
       } else if (option === 3) {
-        // Car rental - ask for pickup location
-        setBookingPrompt("Please provide the pickup location");
-        setBookingFormActive(true);
-        const botMsg: Message = {
-          id: `bot-${Date.now()}`,
-          text: "Please provide the pickup location",
-          sender: "bot",
-          timestamp: new Date(),
-        };
-        setMessages(prev => [...prev, botMsg]);
+        handleSend("I want to rent a car");
       }
     }
   };
