@@ -11,6 +11,8 @@ interface Message {
   showActions?: boolean;
   carImages?: { [key: string]: string };
   selectedCarImage?: string;
+  hotelImages?: { [key: string]: string };
+  selectedHotelImage?: string;
 }
 
 interface FlightOption {
@@ -29,6 +31,7 @@ interface HotelOption {
   price: string;
   checkIn: string;
   checkOut: string;
+  image?: string;
 }
 
 interface CarRentalOption {
@@ -122,7 +125,7 @@ function parseFlightOptions(text: string): { flights: FlightOption[], hasFlights
   return { flights: [], hasFlights: false, remainingText: text };
 }
 
-function parseHotelOptions(text: string): { hotels: HotelOption[], hasHotels: boolean, remainingText: string } {
+function parseHotelOptions(text: string, hotelImages?: { [key: string]: string }): { hotels: HotelOption[], hasHotels: boolean, remainingText: string } {
   const hotels: HotelOption[] = [];
   
   // Split by empty lines to get individual option blocks
@@ -138,13 +141,15 @@ function parseHotelOptions(text: string): { hotels: HotelOption[], hasHotels: bo
       const checkOutMatch = block.match(/Check-Out:\s*([\d-]+)/);
       
       if (optionMatch && hotelMatch && ratingMatch && priceMatch && checkInMatch && checkOutMatch) {
+        const optionNum = parseInt(optionMatch[1]);
         hotels.push({
-          option: parseInt(optionMatch[1]),
+          option: optionNum,
           hotel: hotelMatch[1].trim(),
           rating: ratingMatch[1].trim(),
           price: priceMatch[1],
           checkIn: checkInMatch[1],
           checkOut: checkOutMatch[1],
+          image: hotelImages?.[`option${optionNum}`],
         });
       }
     }
@@ -275,6 +280,18 @@ function HotelCard({ hotel, onSelect }: { hotel: HotelOption; onSelect: (option:
       onClick={() => onSelect(hotel.option)}
       className="w-full bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 text-left hover:shadow-md transition-all"
     >
+      {hotel.image && (
+        <div className="mb-3 rounded-lg overflow-hidden bg-gray-100">
+          <img 
+            src={hotel.image} 
+            alt={hotel.hotel} 
+            className="w-full h-32 object-cover"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+        </div>
+      )}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <div className="bg-orange-100 p-1.5 rounded-lg">
@@ -356,7 +373,7 @@ function CarRentalCard({ car, onSelect }: { car: CarRentalOption; onSelect: (opt
   );
 }
 
-function HotelSelection({ text }: { text: string }) {
+function HotelSelection({ text, selectedHotelImage }: { text: string; selectedHotelImage?: string }) {
   const isHotelSelection = text.includes("Selected Hotel") && text.includes("Name:");
   
   if (!isHotelSelection) return null;
@@ -398,6 +415,18 @@ function HotelSelection({ text }: { text: string }) {
   return (
     <div className="w-full space-y-3">
       <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 space-y-3">
+        {selectedHotelImage && (
+          <div className="rounded-lg overflow-hidden bg-gray-100">
+            <img 
+              src={selectedHotelImage} 
+              alt={hotel.name} 
+              className="w-full h-32 object-cover"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = 'none';
+              }}
+            />
+          </div>
+        )}
         <div className="flex items-start justify-between mb-2">
           <div className="flex items-start gap-2 flex-1">
             <div className="bg-orange-100 p-2 rounded-lg mt-1 flex-shrink-0">
@@ -1105,7 +1134,7 @@ function ItineraryCard({ text, onProceed, onModify, onExit }: { text: string; on
   );
 }
 
-function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch, onExit, carImages, selectedCarImage }: { text: string; onFlightSelect: (option: number) => void; inBookingFlow?: boolean; onModifySearch: () => void; onExit: () => void; carImages?: { [key: string]: string }; selectedCarImage?: string }) {
+function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch, onExit, carImages, selectedCarImage, hotelImages, selectedHotelImage }: { text: string; onFlightSelect: (option: number) => void; inBookingFlow?: boolean; onModifySearch: () => void; onExit: () => void; carImages?: { [key: string]: string }; selectedCarImage?: string; hotelImages?: { [key: string]: string }; selectedHotelImage?: string }) {
   // Special case: duplicate itinerary marker
   if (text === "duplicate-itinerary") {
     return (
@@ -1154,7 +1183,7 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
   }
   
   const { flights, hasFlights } = parseFlightOptions(text);
-  const { hotels, hasHotels } = parseHotelOptions(text);
+  const { hotels, hasHotels } = parseHotelOptions(text, hotelImages);
   const { cars, hasCars } = parseCarRentalOptions(text, carImages);
   const isFlightBooking = text.includes("Flight Booking Summary") && text.includes("Passenger");
   const isHotelBooking = text.includes("Hotel Booking Summary");
@@ -1191,7 +1220,7 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
   }
   
   if (isHotelSelected) {
-    return <HotelSelection text={text} />;
+    return <HotelSelection text={text} selectedHotelImage={selectedHotelImage} />;
   }
   
   if (isCarSelected) {
@@ -1398,6 +1427,8 @@ async function sendMessage(message: string, sessionId: string): Promise<{
   currentPage: string | null;
   carImages?: { [key: string]: string };
   selectedCarImage?: string;
+  hotelImages?: { [key: string]: string };
+  selectedHotelImage?: string;
 }> {
   const res = await fetch("/api/chat", {
     method: "POST",
@@ -1517,6 +1548,8 @@ export function ChatUI() {
           timestamp: new Date(),
           carImages: data.carImages,
           selectedCarImage: data.selectedCarImage,
+          hotelImages: data.hotelImages,
+          selectedHotelImage: data.selectedHotelImage,
         }]);
       } else if (isBookingPrompt) {
         setBookingPrompt(data.response);
@@ -1528,6 +1561,8 @@ export function ChatUI() {
           timestamp: new Date(),
           carImages: data.carImages,
           selectedCarImage: data.selectedCarImage,
+          hotelImages: data.hotelImages,
+          selectedHotelImage: data.selectedHotelImage,
         }]);
       } else if (isDuplicate) {
         setShowBookingButtons(true);
@@ -1548,6 +1583,8 @@ export function ChatUI() {
           showActions: isWelcome,
           carImages: data.carImages,
           selectedCarImage: data.selectedCarImage,
+          hotelImages: data.hotelImages,
+          selectedHotelImage: data.selectedHotelImage,
         }]);
       }
       
@@ -1803,7 +1840,7 @@ export function ChatUI() {
                       data-testid={`message-${msg.sender}-${msg.id}`}
                     >
                       {msg.sender === "bot" ? (
-                        <FormattedMessage text={msg.text} onFlightSelect={handleFlightSelect} inBookingFlow={inBookingFlow} onModifySearch={handleModifySearch} onExit={handleExit} carImages={msg.carImages} selectedCarImage={msg.selectedCarImage} />
+                        <FormattedMessage text={msg.text} onFlightSelect={handleFlightSelect} inBookingFlow={inBookingFlow} onModifySearch={handleModifySearch} onExit={handleExit} carImages={msg.carImages} selectedCarImage={msg.selectedCarImage} hotelImages={msg.hotelImages} selectedHotelImage={msg.selectedHotelImage} />
                       ) : (
                         msg.text
                       )}

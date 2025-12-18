@@ -92,6 +92,8 @@ export async function registerRoutes(
       let destination = "";
       const carImages: { [key: string]: string } = {};
       let selectedCarImage = "";
+      const hotelImages: { [key: string]: string } = {};
+      let selectedHotelImage = "";
       
       if (queryResult.parameters && queryResult.parameters.fields) {
         const generatedItinerary = queryResult.parameters.fields["session.params.generated_itinerary"];
@@ -118,6 +120,21 @@ export async function registerRoutes(
         const selectedCarImageParam = queryResult.parameters.fields["selected_car_image"];
         if (selectedCarImageParam && selectedCarImageParam.stringValue) {
           selectedCarImage = selectedCarImageParam.stringValue;
+        }
+        
+        // Extract hotel option images
+        for (let i = 1; i <= 5; i++) {
+          const imageKey = `hotel_opt_${i}_image`;
+          const imageParam = queryResult.parameters.fields[imageKey];
+          if (imageParam && imageParam.stringValue) {
+            hotelImages[`option${i}`] = imageParam.stringValue;
+          }
+        }
+        
+        // Extract selected hotel image
+        const selectedHotelImageParam = queryResult.parameters.fields["selected_hotel_image"];
+        if (selectedHotelImageParam && selectedHotelImageParam.stringValue) {
+          selectedHotelImage = selectedHotelImageParam.stringValue;
         }
       }
       
@@ -146,6 +163,8 @@ export async function registerRoutes(
         sessionId: currentSessionId,
         carImages: Object.keys(carImages).length > 0 ? carImages : undefined,
         selectedCarImage: selectedCarImage || undefined,
+        hotelImages: Object.keys(hotelImages).length > 0 ? hotelImages : undefined,
+        selectedHotelImage: selectedHotelImage || undefined,
       });
 
     } catch (error: any) {
