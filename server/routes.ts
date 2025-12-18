@@ -86,21 +86,47 @@ export async function registerRoutes(
           }
           // Handle custom payloads that contain text responses
           if (msg.payload && msg.payload.fields) {
-            console.log("Custom payload received:", JSON.stringify(msg.payload.fields, null, 2));
+            // Recursively extract text from nested payload structures
+            const extractTextFromValue = (value: any): string => {
+              let text = "";
+              if (!value) return text;
+              
+              if (value.stringValue) {
+                return value.stringValue;
+              }
+              if (value.structValue && value.structValue.fields) {
+                const fields = value.structValue.fields;
+                // Extract common text fields
+                for (const key of ["text", "title", "subtitle", "description"]) {
+                  if (fields[key] && fields[key].stringValue) {
+                    text += fields[key].stringValue + "\n";
+                  }
+                }
+                // Recurse into nested structures
+                for (const key of Object.keys(fields)) {
+                  if (fields[key].listValue || fields[key].structValue) {
+                    text += extractTextFromValue(fields[key]);
+                  }
+                }
+              }
+              if (value.listValue && value.listValue.values) {
+                for (const item of value.listValue.values) {
+                  text += extractTextFromValue(item);
+                }
+              }
+              return text;
+            };
+            
             const textField = msg.payload.fields["text"];
             if (textField && textField.stringValue) {
               responseText += textField.stringValue;
             }
             // Check for richContent or other payload structures
             const richContent = msg.payload.fields["richContent"];
-            if (richContent && richContent.listValue) {
-              for (const item of richContent.listValue.values || []) {
-                if (item.structValue && item.structValue.fields) {
-                  const textVal = item.structValue.fields["text"];
-                  if (textVal && textVal.stringValue) {
-                    responseText += textVal.stringValue;
-                  }
-                }
+            if (richContent) {
+              const extractedText = extractTextFromValue(richContent);
+              if (extractedText) {
+                responseText += extractedText;
               }
             }
           }
