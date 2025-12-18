@@ -1,4 +1,4 @@
-import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map, Clock, DollarSign, User, Mail, Calendar as CalendarIcon, Calendar, Check, Clipboard, Edit, LogOut } from "lucide-react";
+import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map, Clock, DollarSign, User, Mail, Calendar as CalendarIcon, Calendar, Check, Clipboard, Edit, LogOut, RefreshCw } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
@@ -1136,6 +1136,81 @@ function ItineraryCard({ text, onProceed, onModify, onExit }: { text: string; on
   );
 }
 
+function UpdatedItineraryCard({ text, onProceed, onExit }: { text: string; onProceed: () => void; onExit: () => void }) {
+  const isUpdatedItinerary = text.toLowerCase().includes("updated your trip") || text.toLowerCase().includes("updated itinerary");
+  
+  if (!isUpdatedItinerary) return null;
+  
+  const parseUpdatedItinerary = () => {
+    let cleanedText = text.replace(/Do you want to proceed with this itinerary.*$/is, "").trim();
+    
+    const activities = cleanedText
+      .split('*')
+      .map(a => a.trim())
+      .filter(a => a && a.length > 5 && !a.toLowerCase().includes("updated your trip") && !a.toLowerCase().includes("updated itinerary"));
+    
+    return { activities };
+  };
+  
+  const itinerary = parseUpdatedItinerary();
+  
+  return (
+    <div className="w-full space-y-3">
+      <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-4 space-y-3">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="bg-green-100 p-2 rounded-lg flex-shrink-0">
+            <RefreshCw className="w-4 h-4 text-green-600" />
+          </div>
+          <h3 className="font-bold text-foreground">Updated Trip Itinerary</h3>
+        </div>
+        
+        {itinerary.activities.length > 0 && (
+          <div className="space-y-2">
+            <span className="text-xs font-semibold text-muted-foreground block">Updated Activities</span>
+            <ul className="space-y-1">
+              {itinerary.activities.map((activity, i) => (
+                <li key={i} className="text-sm text-foreground flex gap-2">
+                  <span className="text-green-500 flex-shrink-0">•</span>
+                  <span>{activity}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+      
+      <div className="grid grid-cols-2 gap-2">
+        <motion.button
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={onProceed}
+          className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+          data-testid="button-proceed-updated-itinerary"
+        >
+          <Check className="w-4 h-4" />
+          Proceed
+        </motion.button>
+        
+        <motion.button
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={onExit}
+          className="w-full bg-red-100 hover:bg-red-200 text-red-700 rounded-lg py-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+          data-testid="button-exit-updated"
+        >
+          <LogOut className="w-4 h-4" />
+          Exit
+        </motion.button>
+      </div>
+    </div>
+  );
+}
+
 function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch, onExit, carImages, selectedCarImage, hotelImages, selectedHotelImage }: { text: string; onFlightSelect: (option: number) => void; inBookingFlow?: boolean; onModifySearch: () => void; onExit: () => void; carImages?: { [key: string]: string }; selectedCarImage?: string; hotelImages?: { [key: string]: string }; selectedHotelImage?: string }) {
   // Special case: duplicate itinerary marker
   if (text === "duplicate-itinerary") {
@@ -1231,6 +1306,12 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
   
   if (isItinerary && !inBookingFlow) {
     return <ItineraryCard text={text} onProceed={handleProceedItinerary} onModify={onModifySearch} onExit={onExit} />;
+  }
+  
+  // Check for updated itinerary (when user asks to modify trip)
+  const isUpdatedItinerary = text.toLowerCase().includes("updated your trip") || text.toLowerCase().includes("updated itinerary");
+  if (isUpdatedItinerary) {
+    return <UpdatedItineraryCard text={text} onProceed={handleProceedItinerary} onExit={onExit} />;
   }
   
   // If we're in booking flow but got itinerary response, hide it (Dialogflow returning cached data)
