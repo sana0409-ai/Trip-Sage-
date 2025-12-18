@@ -1689,7 +1689,7 @@ export function ChatUI() {
       setActiveBookingType("hotel");
       const botMsg: Message = {
         id: `bot-${Date.now()}`,
-        text: "Ok, let's book a hotel! Please tell me your destination, check-in date, and check-out date.",
+        text: "Ok, let's book a hotel! Please tell me your destination city and budget (e.g., 'in Paris under $3000').",
         sender: "bot",
         timestamp: new Date(),
       };
