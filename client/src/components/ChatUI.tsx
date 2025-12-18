@@ -1904,14 +1904,8 @@ export function ChatUI() {
 
   useEffect(() => {
     const handleProceedItinerary = () => {
-      // Instead of sending to Dialogflow, directly show booking options
-      setShowBookingButtons(true);
-      setMessages(prev => [...prev, {
-        id: `bot-${Date.now()}`,
-        text: "duplicate-itinerary", // Special marker to show booking buttons
-        sender: "bot",
-        timestamp: new Date(),
-      }]);
+      // Send "proceed" to Dialogflow - it will ask which booking type
+      handleSend("proceed");
     };
     
     const handleFlightPreference = (event: Event) => {
