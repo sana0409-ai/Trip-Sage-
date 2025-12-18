@@ -122,19 +122,25 @@ export async function registerRoutes(
           selectedCarImage = selectedCarImageParam.stringValue;
         }
         
-        // Extract hotel option images
+        // Extract hotel option images and upgrade to higher resolution
+        const upgradeHotelImageUrl = (url: string): string => {
+          return url
+            .replace(/\/square\d+\//, '/max500/')
+            .replace(/\/max\d+\//, '/max500/');
+        };
+        
         for (let i = 1; i <= 5; i++) {
           const imageKey = `hotel_opt_${i}_image`;
           const imageParam = queryResult.parameters.fields[imageKey];
           if (imageParam && imageParam.stringValue) {
-            hotelImages[`option${i}`] = imageParam.stringValue;
+            hotelImages[`option${i}`] = upgradeHotelImageUrl(imageParam.stringValue);
           }
         }
         
         // Extract selected hotel image
         const selectedHotelImageParam = queryResult.parameters.fields["selected_hotel_image"];
         if (selectedHotelImageParam && selectedHotelImageParam.stringValue) {
-          selectedHotelImage = selectedHotelImageParam.stringValue;
+          selectedHotelImage = upgradeHotelImageUrl(selectedHotelImageParam.stringValue);
         }
       }
       
