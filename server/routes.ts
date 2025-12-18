@@ -80,6 +80,15 @@ export async function registerRoutes(
         const params = queryResult.parameters.fields;
         console.log("Dialogflow extracted parameters:", JSON.stringify(Object.keys(params).map(k => `${k}: ${JSON.stringify(params[k])}`)));
       }
+      
+      // Log all response messages for debugging
+      if (queryResult?.responseMessages) {
+        console.log(`Dialogflow response messages count: ${queryResult.responseMessages.length}`);
+        queryResult.responseMessages.forEach((msg, i) => {
+          if (msg.text) console.log(`  Message ${i} (text):`, JSON.stringify(msg.text.text));
+          if (msg.payload) console.log(`  Message ${i} (payload): [custom payload]`);
+        });
+      }
 
       if (!queryResult) {
         return res.status(500).json({ error: "No response from Dialogflow CX" });
