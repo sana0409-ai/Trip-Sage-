@@ -1718,6 +1718,18 @@ export function ChatUI() {
       }
       
       chatMutation.mutate(`I want to plan a trip to ${destination}`);
+    } else if (inBookingFlow && activeBookingType && (!currentPage || currentPage === "Start Page")) {
+      // User is providing all booking details at once from initial entry
+      // Prepend the booking intent so Dialogflow understands the context
+      if (activeBookingType === "flight" && !msgToSend.toLowerCase().includes("flight")) {
+        chatMutation.mutate(`I want to book a flight ${msgToSend}`);
+      } else if (activeBookingType === "hotel" && !msgToSend.toLowerCase().includes("hotel")) {
+        chatMutation.mutate(`I want to book a hotel ${msgToSend}`);
+      } else if (activeBookingType === "car" && !msgToSend.toLowerCase().includes("car")) {
+        chatMutation.mutate(`I want to rent a car ${msgToSend}`);
+      } else {
+        chatMutation.mutate(msgToSend);
+      }
     } else {
       chatMutation.mutate(msgToSend);
     }
@@ -1743,18 +1755,77 @@ export function ChatUI() {
       setMessages(prev => [...prev, botQuestion]);
       setWaitingForDestination(true);
     } else if (action.trigger === "I want to book a flight") {
-      // Send directly to Dialogflow - it will ask for parameters one by one
       setInBookingFlow(true);
       setActiveBookingType("flight");
-      handleSend("I want to book a flight");
+      
+      // Check if coming from trip planning or another booking flow
+      const isFromTripOrBooking = currentPage && (
+        currentPage.includes("Itinerary") ||
+        currentPage.includes("duplicate") ||
+        currentPage.includes("Hotel") ||
+        currentPage.includes("Car") ||
+        currentPage.includes("Booking")
+      );
+      
+      if (isFromTripOrBooking) {
+        // From trip planning or other booking - Dialogflow asks one by one
+        handleSend("I want to book a flight");
+      } else {
+        // Initial entry - show local prompt for all parameters
+        const botMsg: Message = {
+          id: `bot-${Date.now()}`,
+          text: "Ok, let's book your flight! Please tell me your departure city, destination, and travel date.",
+          sender: "bot",
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, botMsg]);
+      }
     } else if (action.trigger === "I want to book a hotel") {
       setInBookingFlow(true);
       setActiveBookingType("hotel");
-      handleSend("I want to book a hotel");
+      
+      const isFromTripOrBooking = currentPage && (
+        currentPage.includes("Itinerary") ||
+        currentPage.includes("duplicate") ||
+        currentPage.includes("Flight") ||
+        currentPage.includes("Car") ||
+        currentPage.includes("Booking")
+      );
+      
+      if (isFromTripOrBooking) {
+        handleSend("I want to book a hotel");
+      } else {
+        const botMsg: Message = {
+          id: `bot-${Date.now()}`,
+          text: "Ok, let's book a hotel! Please tell me your destination city and budget.",
+          sender: "bot",
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, botMsg]);
+      }
     } else if (action.trigger === "I want to rent a car") {
       setInBookingFlow(true);
       setActiveBookingType("car");
-      handleSend("I want to rent a car");
+      
+      const isFromTripOrBooking = currentPage && (
+        currentPage.includes("Itinerary") ||
+        currentPage.includes("duplicate") ||
+        currentPage.includes("Flight") ||
+        currentPage.includes("Hotel") ||
+        currentPage.includes("Booking")
+      );
+      
+      if (isFromTripOrBooking) {
+        handleSend("I want to rent a car");
+      } else {
+        const botMsg: Message = {
+          id: `bot-${Date.now()}`,
+          text: "Ok, let's rent a car! Please tell me your pickup city and dates.",
+          sender: "bot",
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, botMsg]);
+      }
     } else {
       handleSend(action.trigger);
     }
