@@ -84,6 +84,26 @@ export async function registerRoutes(
           if (msg.text && msg.text.text && msg.text.text.length > 0) {
             responseText += msg.text.text.join("\n");
           }
+          // Handle custom payloads that contain text responses
+          if (msg.payload && msg.payload.fields) {
+            console.log("Custom payload received:", JSON.stringify(msg.payload.fields, null, 2));
+            const textField = msg.payload.fields["text"];
+            if (textField && textField.stringValue) {
+              responseText += textField.stringValue;
+            }
+            // Check for richContent or other payload structures
+            const richContent = msg.payload.fields["richContent"];
+            if (richContent && richContent.listValue) {
+              for (const item of richContent.listValue.values || []) {
+                if (item.structValue && item.structValue.fields) {
+                  const textVal = item.structValue.fields["text"];
+                  if (textVal && textVal.stringValue) {
+                    responseText += textVal.stringValue;
+                  }
+                }
+              }
+            }
+          }
         }
       }
 
