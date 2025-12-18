@@ -1637,6 +1637,18 @@ export function ChatUI() {
       }
       
       chatMutation.mutate(`I want to plan a trip to ${destination}`);
+    } else if (inBookingFlow && activeBookingType && !currentPage) {
+      // User is providing booking details after clicking a quick action button
+      // Prepend the booking intent so Dialogflow understands the context
+      if (activeBookingType === "flight" && !msgToSend.toLowerCase().includes("book flight")) {
+        chatMutation.mutate(`book flight ${msgToSend}`);
+      } else if (activeBookingType === "hotel" && !msgToSend.toLowerCase().includes("book hotel")) {
+        chatMutation.mutate(`book hotel ${msgToSend}`);
+      } else if (activeBookingType === "car" && !msgToSend.toLowerCase().includes("rent a car")) {
+        chatMutation.mutate(`rent a car ${msgToSend}`);
+      } else {
+        chatMutation.mutate(msgToSend);
+      }
     } else {
       chatMutation.mutate(msgToSend);
     }
@@ -1667,7 +1679,7 @@ export function ChatUI() {
       setActiveBookingType("flight");
       const botMsg: Message = {
         id: `bot-${Date.now()}`,
-        text: "Ok, let's book your flight! Please tell me your departure city, destination, and travel date.\n\nFor example: \"Dallas to Chicago on Jan 15, 2026\"",
+        text: "Ok, let's book your flight! Please tell me your departure city, destination, and travel date.",
         sender: "bot",
         timestamp: new Date(),
       };
@@ -1677,7 +1689,7 @@ export function ChatUI() {
       setActiveBookingType("hotel");
       const botMsg: Message = {
         id: `bot-${Date.now()}`,
-        text: "Ok, let's book a hotel! Please tell me your destination, check-in date, and check-out date.\n\nFor example: \"Hotel in Paris from Jan 10 to Jan 15, 2026\"",
+        text: "Ok, let's book a hotel! Please tell me your destination, check-in date, and check-out date.",
         sender: "bot",
         timestamp: new Date(),
       };
@@ -1687,7 +1699,7 @@ export function ChatUI() {
       setActiveBookingType("car");
       const botMsg: Message = {
         id: `bot-${Date.now()}`,
-        text: "Ok, let's rent a car! Please tell me your pickup location and dates.\n\nFor example: \"Rent a car in Miami from Jan 5 to Jan 10, 2026\"",
+        text: "Ok, let's rent a car! Please tell me your pickup location and dates.",
         sender: "bot",
         timestamp: new Date(),
       };
