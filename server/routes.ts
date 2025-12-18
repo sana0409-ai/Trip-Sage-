@@ -90,6 +90,9 @@ export async function registerRoutes(
       // Check if there's a generated itinerary in session parameters
       let itinerary = "";
       let destination = "";
+      const carImages: { [key: string]: string } = {};
+      let selectedCarImage = "";
+      
       if (queryResult.parameters && queryResult.parameters.fields) {
         const generatedItinerary = queryResult.parameters.fields["session.params.generated_itinerary"];
         if (generatedItinerary && generatedItinerary.stringValue) {
@@ -100,6 +103,21 @@ export async function registerRoutes(
         const destParam = queryResult.parameters.fields["destination"];
         if (destParam && destParam.stringValue) {
           destination = destParam.stringValue;
+        }
+        
+        // Extract car option images
+        for (let i = 1; i <= 5; i++) {
+          const imageKey = `car_opt_${i}_image`;
+          const imageParam = queryResult.parameters.fields[imageKey];
+          if (imageParam && imageParam.stringValue) {
+            carImages[`option${i}`] = imageParam.stringValue;
+          }
+        }
+        
+        // Extract selected car image
+        const selectedCarImageParam = queryResult.parameters.fields["selected_car_image"];
+        if (selectedCarImageParam && selectedCarImageParam.stringValue) {
+          selectedCarImage = selectedCarImageParam.stringValue;
         }
       }
       
@@ -126,6 +144,8 @@ export async function registerRoutes(
         confidence: queryResult.intentDetectionConfidence || 0,
         currentPage: queryResult.currentPage?.displayName || null,
         sessionId: currentSessionId,
+        carImages: Object.keys(carImages).length > 0 ? carImages : undefined,
+        selectedCarImage: selectedCarImage || undefined,
       });
 
     } catch (error: any) {

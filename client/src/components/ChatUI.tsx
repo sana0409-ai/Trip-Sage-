@@ -9,6 +9,8 @@ interface Message {
   sender: "user" | "bot";
   timestamp: Date;
   showActions?: boolean;
+  carImages?: { [key: string]: string };
+  selectedCarImage?: string;
 }
 
 interface FlightOption {
@@ -35,6 +37,7 @@ interface CarRentalOption {
   price: string;
   pickUp: string;
   dropOff: string;
+  image?: string;
 }
 
 interface ActionButton {
@@ -160,7 +163,7 @@ function parseHotelOptions(text: string): { hotels: HotelOption[], hasHotels: bo
   return { hotels: [], hasHotels: false, remainingText: text };
 }
 
-function parseCarRentalOptions(text: string): { cars: CarRentalOption[], hasCars: boolean, remainingText: string } {
+function parseCarRentalOptions(text: string, carImages?: { [key: string]: string }): { cars: CarRentalOption[], hasCars: boolean, remainingText: string } {
   const cars: CarRentalOption[] = [];
   
   // Split by empty lines to get individual option blocks
@@ -175,12 +178,14 @@ function parseCarRentalOptions(text: string): { cars: CarRentalOption[], hasCars
       const dropOffMatch = block.match(/Drop-Off:\s*([^\n]+)/);
       
       if (optionMatch && carMatch && priceMatch && pickUpMatch && dropOffMatch) {
+        const optionNum = parseInt(optionMatch[1]);
         cars.push({
-          option: parseInt(optionMatch[1]),
+          option: optionNum,
           car: carMatch[1].trim(),
           price: priceMatch[1],
           pickUp: pickUpMatch[1].trim(),
           dropOff: dropOffMatch[1].trim(),
+          image: carImages?.[`option${optionNum}`],
         });
       }
     }
@@ -311,6 +316,18 @@ function CarRentalCard({ car, onSelect }: { car: CarRentalOption; onSelect: (opt
       onClick={() => onSelect(car.option)}
       className="w-full bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 text-left hover:shadow-md transition-all"
     >
+      {car.image && (
+        <div className="mb-3 rounded-lg overflow-hidden bg-gray-100">
+          <img 
+            src={car.image} 
+            alt={car.car} 
+            className="w-full h-32 object-contain"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+        </div>
+      )}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <div className="bg-green-100 p-1.5 rounded-lg">
@@ -493,7 +510,7 @@ function SelectedFlightDisplay({ text }: { text: string }) {
   );
 }
 
-function SelectedCarDisplay({ text }: { text: string }) {
+function SelectedCarDisplay({ text, selectedCarImage }: { text: string; selectedCarImage?: string }) {
   const isCarSelection = text.includes("Selected Car") && text.includes("Type:");
   
   if (!isCarSelection) return null;
@@ -546,6 +563,18 @@ function SelectedCarDisplay({ text }: { text: string }) {
   return (
     <div className="w-full space-y-3">
       <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 space-y-3">
+        {selectedCarImage && (
+          <div className="rounded-lg overflow-hidden bg-gray-100">
+            <img 
+              src={selectedCarImage} 
+              alt={car.type} 
+              className="w-full h-32 object-contain"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = 'none';
+              }}
+            />
+          </div>
+        )}
         <div className="flex items-start justify-between mb-2">
           <div className="flex items-start gap-2 flex-1">
             <div className="bg-green-100 p-2 rounded-lg mt-1 flex-shrink-0">
@@ -1076,7 +1105,7 @@ function ItineraryCard({ text, onProceed, onModify, onExit }: { text: string; on
   );
 }
 
-function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch, onExit }: { text: string; onFlightSelect: (option: number) => void; inBookingFlow?: boolean; onModifySearch: () => void; onExit: () => void }) {
+function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch, onExit, carImages, selectedCarImage }: { text: string; onFlightSelect: (option: number) => void; inBookingFlow?: boolean; onModifySearch: () => void; onExit: () => void; carImages?: { [key: string]: string }; selectedCarImage?: string }) {
   // Special case: duplicate itinerary marker
   if (text === "duplicate-itinerary") {
     return (
@@ -1126,7 +1155,7 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
   
   const { flights, hasFlights } = parseFlightOptions(text);
   const { hotels, hasHotels } = parseHotelOptions(text);
-  const { cars, hasCars } = parseCarRentalOptions(text);
+  const { cars, hasCars } = parseCarRentalOptions(text, carImages);
   const isFlightBooking = text.includes("Flight Booking Summary") && text.includes("Passenger");
   const isHotelBooking = text.includes("Hotel Booking Summary");
   const isCarRentalBooking = text.includes("Car Rental Booking Summary");
@@ -1166,7 +1195,7 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
   }
   
   if (isCarSelected) {
-    return <SelectedCarDisplay text={text} />;
+    return <SelectedCarDisplay text={text} selectedCarImage={selectedCarImage} />;
   }
   
   if (isItinerary && !inBookingFlow) {
@@ -1367,6 +1396,8 @@ async function sendMessage(message: string, sessionId: string): Promise<{
   intent: string | null;
   confidence: number;
   currentPage: string | null;
+  carImages?: { [key: string]: string };
+  selectedCarImage?: string;
 }> {
   const res = await fetch("/api/chat", {
     method: "POST",
@@ -1484,6 +1515,8 @@ export function ChatUI() {
           text: data.response,
           sender: "bot",
           timestamp: new Date(),
+          carImages: data.carImages,
+          selectedCarImage: data.selectedCarImage,
         }]);
       } else if (isBookingPrompt) {
         setBookingPrompt(data.response);
@@ -1493,6 +1526,8 @@ export function ChatUI() {
           text: data.response,
           sender: "bot",
           timestamp: new Date(),
+          carImages: data.carImages,
+          selectedCarImage: data.selectedCarImage,
         }]);
       } else if (isDuplicate) {
         setShowBookingButtons(true);
@@ -1511,6 +1546,8 @@ export function ChatUI() {
           sender: "bot",
           timestamp: new Date(),
           showActions: isWelcome,
+          carImages: data.carImages,
+          selectedCarImage: data.selectedCarImage,
         }]);
       }
       
@@ -1766,7 +1803,7 @@ export function ChatUI() {
                       data-testid={`message-${msg.sender}-${msg.id}`}
                     >
                       {msg.sender === "bot" ? (
-                        <FormattedMessage text={msg.text} onFlightSelect={handleFlightSelect} inBookingFlow={inBookingFlow} onModifySearch={handleModifySearch} onExit={handleExit} />
+                        <FormattedMessage text={msg.text} onFlightSelect={handleFlightSelect} inBookingFlow={inBookingFlow} onModifySearch={handleModifySearch} onExit={handleExit} carImages={msg.carImages} selectedCarImage={msg.selectedCarImage} />
                       ) : (
                         msg.text
                       )}
