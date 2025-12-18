@@ -1699,13 +1699,31 @@ export function ChatUI() {
       };
       setMessages(prev => [...prev, userMsg]);
       
-      // Send to Dialogflow to handle the booking flow naturally
+      // Show a local prompt first, let user provide full details in one message
       if (option === 1) {
-        handleSend("I want to book a flight");
+        const botMsg: Message = {
+          id: `bot-${Date.now()}`,
+          text: "Ok, let's book your flight! Please tell me your departure city, destination, and travel date.",
+          sender: "bot",
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, botMsg]);
       } else if (option === 2) {
-        handleSend("I want to book a hotel");
+        const botMsg: Message = {
+          id: `bot-${Date.now()}`,
+          text: "Ok, let's book a hotel! Please tell me your destination, check-in date, and check-out date.",
+          sender: "bot",
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, botMsg]);
       } else if (option === 3) {
-        handleSend("I want to rent a car");
+        const botMsg: Message = {
+          id: `bot-${Date.now()}`,
+          text: "Ok, let's rent a car! Please tell me your pickup location and dates.",
+          sender: "bot",
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, botMsg]);
       }
     }
   };
