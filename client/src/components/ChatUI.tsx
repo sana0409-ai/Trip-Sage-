@@ -1316,8 +1316,7 @@ const lower = typeof text === "string" ? text.toLowerCase() : "";
   }
   
   // Check for updated itinerary (when user asks to modify trip)
-  const lower = typeof text === "string" ? text.toLowerCase() : "";
-  const isUpdatedItinerary = safeIncludes(lower, "updated your trip") || safeIncludes(lower, "updated itinerary");
+    const isUpdatedItinerary = safeIncludes(lower, "updated your trip") || safeIncludes(lower, "updated itinerary");
   if (isUpdatedItinerary) {
     return <UpdatedItineraryCard text={text} onProceed={handleProceedItinerary} onExit={onExit} />;
   }
