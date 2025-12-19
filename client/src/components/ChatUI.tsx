@@ -1141,7 +1141,8 @@ function ItineraryCard({ text, onProceed, onModify, onExit }: { text: string; on
 }
 
 function UpdatedItineraryCard({ text, onProceed, onExit }: { text: string; onProceed: () => void; onExit: () => void }) {
-  const isUpdatedItinerary = safeIncludes(text.toLowerCase(), "updated your trip") || safeIncludes(text.toLowerCase(), "updated itinerary");
+  const lower = typeof text === "string" ? text.toLowerCase() : "";
+  const isUpdatedItinerary = safeIncludes(lower, "updated your trip") || safeIncludes(lower, "updated itinerary");
   
   if (!isUpdatedItinerary) return null;
   
@@ -1313,7 +1314,8 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
   }
   
   // Check for updated itinerary (when user asks to modify trip)
-  const isUpdatedItinerary = safeIncludes(text.toLowerCase(), "updated your trip") || safeIncludes(text.toLowerCase(), "updated itinerary");
+  const lower = typeof text === "string" ? text.toLowerCase() : "";
+  const isUpdatedItinerary = safeIncludes(lower, "updated your trip") || safeIncludes(lower, "updated itinerary");
   if (isUpdatedItinerary) {
     return <UpdatedItineraryCard text={text} onProceed={handleProceedItinerary} onExit={onExit} />;
   }
@@ -1366,9 +1368,10 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
   }
   
   // Check if asking for flight preference/class
-  const isFlightPreference = safeIncludes(text.toLowerCase(), "flight class") || 
-    (safeIncludes(text.toLowerCase(), "class") && safeIncludes(text.toLowerCase(), "please provide")) ||
-    (safeIncludes(text.toLowerCase(), "preference") && safeIncludes(text.toLowerCase(), "class"));
+  const lower = typeof text === "string" ? text.toLowerCase() : "";
+  const isFlightPreference = safeIncludes(lower, "flight class") || 
+    (safeIncludes(lower, "class") && safeIncludes(lower, "please provide")) ||
+    (safeIncludes(lower, "preference") && safeIncludes(lower, "class"));
   
   if (isFlightPreference) {
     const handlePreferenceClick = (preference: string) => {
@@ -1411,9 +1414,10 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
   }
   
   // Check if asking for car type
-  const isCarTypeQuestion = safeIncludes(text.toLowerCase(), "type of car") || 
-    (safeIncludes(text.toLowerCase(), "car") && safeIncludes(text.toLowerCase(), "please provide") && safeIncludes(text.toLowerCase(), "type")) ||
-    safeIncludes(text.toLowerCase(), "vehicle type");
+  const lower = typeof text === "string" ? text.toLowerCase() : "";
+  const isCarTypeQuestion = safeIncludes(lower, "type of car") || 
+    (safeIncludes(lower, "car") && safeIncludes(lower, "please provide") && safeIncludes(lower, "type")) ||
+    safeIncludes(lower, "vehicle type");
   
   if (isCarTypeQuestion) {
     const handleCarTypeClick = (carType: string) => {
@@ -1469,8 +1473,9 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
   }
   
   // Check if asking for car pickup or return time
-  const isCarTimeQuestion = (safeIncludes(text.toLowerCase(), "pick up") || safeIncludes(text.toLowerCase(), "pickup") || safeIncludes(text.toLowerCase(), "return")) && 
-    safeIncludes(text.toLowerCase(), "time");
+  const lower = typeof text === "string" ? text.toLowerCase() : "";
+  const isCarTimeQuestion = (safeIncludes(lower, "pick up") || safeIncludes(lower, "pickup") || safeIncludes(lower, "return")) && 
+    safeIncludes(lower, "time");
   
   if (isCarTimeQuestion) {
     const handleTimeClick = (time: string) => {
@@ -1595,34 +1600,36 @@ export function ChatUI() {
   const chatMutation = useMutation({
     mutationFn: (msg: string) => sendMessage(msg, sessionId),
     onSuccess: (data) => {
+      const responseText =
+        typeof data?.response === "string" ? data.response : "";
       const isWelcome = !hasInteracted;
-      const isItinerary = safeIncludes(data.response, "Best Time to Visit:") && (safeIncludes(data.response, "Top Activities:") || safeIncludes(data.response, "Budget:"));
+      const isItinerary = safeIncludes(responseText, "Best Time to Visit:") && (safeIncludes(responseText, "Top Activities:") || safeIncludes(responseText, "Budget:"));
       
       // Capture current page from Dialogflow
       setCurrentPage(data.currentPage);
       
       // Check if Dialogflow is asking for booking info
       const isBookingPrompt = inBookingFlow && (
-        safeIncludes(data.response, "Please provide the departure city") ||
-        safeIncludes(data.response, "Please provide the destination city") ||
-        safeIncludes(data.response, "Please provide") ||
-        safeIncludes(data.response, "provide the")
+        safeIncludes(responseText, "Please provide the departure city") ||
+        safeIncludes(responseText, "Please provide the destination city") ||
+        safeIncludes(responseText, "Please provide") ||
+        safeIncludes(responseText, "provide the")
       );
       
       // Check if showing booking options (Flight_Options, Hotel_Options, Car_Options)
       // BUT only if there are actual options in the response
-      const hasAnyOptions = safeIncludes(data.response, "**Option");
+      const hasAnyOptions = safeIncludes(responseText, "**Option");
       const isShowingOptions = !!(hasAnyOptions && data.currentPage && data.currentPage.endsWith("_Options"));
       
       // Always reset hasDisplayableOptions - only set true if we're actually showing options
       setHasDisplayableOptions(isShowingOptions);
       
       // Check if this is a duplicate itinerary (same one coming back) AND we haven't already shown booking buttons
-      const isDuplicate = isItinerary && lastItinerary !== "" && lastItinerary === data.response && !showBookingButtons;
+      const isDuplicate = isItinerary && lastItinerary !== "" && lastItinerary === responseText && !showBookingButtons;
       
       // Set or update last itinerary only if this is the first time seeing it
       if (isItinerary && lastItinerary === "") {
-        setLastItinerary(data.response);
+        setLastItinerary(responseText);
       }
       
       // If showing booking options, disable input
@@ -1630,7 +1637,7 @@ export function ChatUI() {
         setBookingFormActive(false);
         setMessages(prev => [...prev, {
           id: `bot-${Date.now()}`,
-          text: data.response,
+          text: responseText,
           sender: "bot",
           timestamp: new Date(),
           carImages: data.carImages,
@@ -1639,11 +1646,11 @@ export function ChatUI() {
           selectedHotelImage: data.selectedHotelImage,
         }]);
       } else if (isBookingPrompt) {
-        setBookingPrompt(data.response);
+        setBookingPrompt(responseText);
         setBookingFormActive(true);
         setMessages(prev => [...prev, {
           id: `bot-${Date.now()}`,
-          text: data.response,
+          text: responseText,
           sender: "bot",
           timestamp: new Date(),
           carImages: data.carImages,
@@ -1664,7 +1671,7 @@ export function ChatUI() {
         // Normal message display
         setMessages(prev => [...prev, {
           id: `bot-${Date.now()}`,
-          text: data.response,
+          text: responseText,
           sender: "bot",
           timestamp: new Date(),
           showActions: isWelcome,
