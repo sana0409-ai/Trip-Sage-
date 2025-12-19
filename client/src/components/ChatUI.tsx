@@ -1289,8 +1289,8 @@ function FormattedMessage({
     );
   }
 
-  // ✅ declare ONCE per function (fixes "already been declared")
-  const lower = typeof text === "string" ? text.toLowerCase() : "";
+  // ✅ declare ONCE (and rename so you never collide again)
+  const lowerText = typeof text === "string" ? text.toLowerCase() : "";
 
   const { flights, hasFlights } = parseFlightOptions(text);
   const { hotels, hasHotels } = parseHotelOptions(text, hotelImages);
@@ -1313,38 +1313,20 @@ function FormattedMessage({
     (safeIncludes(text, "Top Activities:") || safeIncludes(text, "Budget:"));
 
   const handleConfirmBooking = () => {
-    const event = new CustomEvent("confirmBooking");
-    window.dispatchEvent(event);
+    window.dispatchEvent(new CustomEvent("confirmBooking"));
   };
 
   const handleProceedItinerary = () => {
-    const event = new CustomEvent("proceedItinerary");
-    window.dispatchEvent(event);
+    window.dispatchEvent(new CustomEvent("proceedItinerary"));
   };
 
-  if (isFlightBooking) {
-    return <BookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
-  }
+  if (isFlightBooking) return <BookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
+  if (isHotelBooking) return <HotelBookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
+  if (isCarRentalBooking) return <CarBookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
 
-  if (isHotelBooking) {
-    return <HotelBookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
-  }
-
-  if (isCarRentalBooking) {
-    return <CarBookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
-  }
-
-  if (isFlightSelected) {
-    return <SelectedFlightDisplay text={text} />;
-  }
-
-  if (isHotelSelected) {
-    return <HotelSelection text={text} selectedHotelImage={selectedHotelImage} />;
-  }
-
-  if (isCarSelected) {
-    return <SelectedCarDisplay text={text} selectedCarImage={selectedCarImage} />;
-  }
+  if (isFlightSelected) return <SelectedFlightDisplay text={text} />;
+  if (isHotelSelected) return <HotelSelection text={text} selectedHotelImage={selectedHotelImage} />;
+  if (isCarSelected) return <SelectedCarDisplay text={text} selectedCarImage={selectedCarImage} />;
 
   if (isItinerary && !inBookingFlow) {
     return (
@@ -1357,24 +1339,14 @@ function FormattedMessage({
     );
   }
 
-  // Check for updated itinerary (when user asks to modify trip)
   const isUpdatedItinerary =
-    safeIncludes(lower, "updated your trip") || safeIncludes(lower, "updated itinerary");
+    safeIncludes(lowerText, "updated your trip") || safeIncludes(lowerText, "updated itinerary");
 
   if (isUpdatedItinerary) {
-    return (
-      <UpdatedItineraryCard
-        text={text}
-        onProceed={handleProceedItinerary}
-        onExit={onExit}
-      />
-    );
+    return <UpdatedItineraryCard text={text} onProceed={handleProceedItinerary} onExit={onExit} />;
   }
 
-  // If we're in booking flow but got itinerary response, hide it (Dialogflow returning cached data)
-  if (isItinerary && inBookingFlow) {
-    return null;
-  }
+  if (isItinerary && inBookingFlow) return null;
 
   if (hasFlights) {
     return (
@@ -1383,9 +1355,7 @@ function FormattedMessage({
         {flights.map((flight) => (
           <FlightCard key={flight.option} flight={flight} onSelect={onFlightSelect} />
         ))}
-        <div className="text-xs text-muted-foreground mt-2 text-center">
-          Tap a flight to select it
-        </div>
+        <div className="text-xs text-muted-foreground mt-2 text-center">Tap a flight to select it</div>
       </div>
     );
   }
@@ -1397,9 +1367,7 @@ function FormattedMessage({
         {hotels.map((hotel) => (
           <HotelCard key={hotel.option} hotel={hotel} onSelect={onFlightSelect} />
         ))}
-        <div className="text-xs text-muted-foreground mt-2 text-center">
-          Tap a hotel to select it
-        </div>
+        <div className="text-xs text-muted-foreground mt-2 text-center">Tap a hotel to select it</div>
       </div>
     );
   }
@@ -1411,23 +1379,19 @@ function FormattedMessage({
         {cars.map((car) => (
           <CarRentalCard key={car.option} car={car} onSelect={onFlightSelect} />
         ))}
-        <div className="text-xs text-muted-foreground mt-2 text-center">
-          Tap a car to select it
-        </div>
+        <div className="text-xs text-muted-foreground mt-2 text-center">Tap a car to select it</div>
       </div>
     );
   }
 
-  // Check if asking for flight preference/class
   const isFlightPreference =
-    safeIncludes(lower, "flight class") ||
-    (safeIncludes(lower, "class") && safeIncludes(lower, "please provide")) ||
-    (safeIncludes(lower, "preference") && safeIncludes(lower, "class"));
+    safeIncludes(lowerText, "flight class") ||
+    (safeIncludes(lowerText, "class") && safeIncludes(lowerText, "please provide")) ||
+    (safeIncludes(lowerText, "preference") && safeIncludes(lowerText, "class"));
 
   if (isFlightPreference) {
     const handlePreferenceClick = (preference: string) => {
-      const event = new CustomEvent("sendFlightPreference", { detail: { preference } });
-      window.dispatchEvent(event);
+      window.dispatchEvent(new CustomEvent("sendFlightPreference", { detail: { preference } }));
     };
 
     return (
@@ -1465,18 +1429,14 @@ function FormattedMessage({
     );
   }
 
-  // Check if asking for car type
   const isCarTypeQuestion =
-    safeIncludes(lower, "type of car") ||
-    (safeIncludes(lower, "car") &&
-      safeIncludes(lower, "please provide") &&
-      safeIncludes(lower, "type")) ||
-    safeIncludes(lower, "vehicle type");
+    safeIncludes(lowerText, "type of car") ||
+    (safeIncludes(lowerText, "car") && safeIncludes(lowerText, "please provide") && safeIncludes(lowerText, "type")) ||
+    safeIncludes(lowerText, "vehicle type");
 
   if (isCarTypeQuestion) {
     const handleCarTypeClick = (carType: string) => {
-      const event = new CustomEvent("sendFlightPreference", { detail: { preference: carType } });
-      window.dispatchEvent(event);
+      window.dispatchEvent(new CustomEvent("sendFlightPreference", { detail: { preference: carType } }));
     };
 
     return (
@@ -1528,29 +1488,16 @@ function FormattedMessage({
     );
   }
 
-  // Check if asking for car pickup or return time
   const isCarTimeQuestion =
-    (safeIncludes(lower, "pick up") ||
-      safeIncludes(lower, "pickup") ||
-      safeIncludes(lower, "return")) &&
-    safeIncludes(lower, "time");
+    (safeIncludes(lowerText, "pick up") || safeIncludes(lowerText, "pickup") || safeIncludes(lowerText, "return")) &&
+    safeIncludes(lowerText, "time");
 
   if (isCarTimeQuestion) {
     const handleTimeClick = (time: string) => {
-      const event = new CustomEvent("sendFlightPreference", { detail: { preference: time } });
-      window.dispatchEvent(event);
+      window.dispatchEvent(new CustomEvent("sendFlightPreference", { detail: { preference: time } }));
     };
 
-    const timeOptions = [
-      "8:00 AM",
-      "9:00 AM",
-      "10:00 AM",
-      "11:00 AM",
-      "12:00 PM",
-      "1:00 PM",
-      "2:00 PM",
-      "3:00 PM",
-    ];
+    const timeOptions = ["8:00 AM","9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM"];
 
     return (
       <div className="space-y-3 w-full">
