@@ -1,5 +1,5 @@
 import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map, Clock, DollarSign, User, Mail, Calendar as CalendarIcon, Calendar, Check, Clipboard, Edit, LogOut, RefreshCw } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
 
@@ -50,7 +50,7 @@ interface CarRentalOption {
 interface ActionButton {
   id: string;
   label: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   trigger: string;
   color: string;
   bgColor: string;
@@ -1216,12 +1216,35 @@ function UpdatedItineraryCard({ text, onProceed, onExit }: { text: string; onPro
   );
 }
 
-function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch, onExit, carImages, selectedCarImage, hotelImages, selectedHotelImage }: { text: string; onFlightSelect: (option: number) => void; inBookingFlow?: boolean; onModifySearch: () => void; onExit: () => void; carImages?: { [key: string]: string }; selectedCarImage?: string; hotelImages?: { [key: string]: string }; selectedHotelImage?: string }) {
+function FormattedMessage({
+  text,
+  onFlightSelect,
+  inBookingFlow,
+  onModifySearch,
+  onExit,
+  carImages,
+  selectedCarImage,
+  hotelImages,
+  selectedHotelImage,
+}: {
+  text: string;
+  onFlightSelect: (option: number) => void;
+  inBookingFlow?: boolean;
+  onModifySearch: () => void;
+  onExit: () => void;
+  carImages?: { [key: string]: string };
+  selectedCarImage?: string;
+  hotelImages?: { [key: string]: string };
+  selectedHotelImage?: string;
+}) {
   // Special case: duplicate itinerary marker
   if (text === "duplicate-itinerary") {
     return (
       <div className="space-y-2 w-full">
-        <span className="text-sm text-foreground block mb-2">Great! What would you like to book?</span>
+        <span className="text-sm text-foreground block mb-2">
+          Great! What would you like to book?
+        </span>
+
         <motion.button
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1234,6 +1257,7 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
           <Plane className="w-4 h-4" />
           Book a Flight
         </motion.button>
+
         <motion.button
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1247,6 +1271,7 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
           <Building2 className="w-4 h-4" />
           Book a Hotel
         </motion.button>
+
         <motion.button
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1263,69 +1288,94 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
       </div>
     );
   }
-const lower = typeof text === "string" ? text.toLowerCase() : "";
 
-  
+  // ✅ declare ONCE per function (fixes "already been declared")
+  const lower = typeof text === "string" ? text.toLowerCase() : "";
+
   const { flights, hasFlights } = parseFlightOptions(text);
   const { hotels, hasHotels } = parseHotelOptions(text, hotelImages);
   const { cars, hasCars } = parseCarRentalOptions(text, carImages);
-  const isFlightBooking = safeIncludes(text, "Flight Booking Summary") && safeIncludes(text, "Passenger");
+
+  const isFlightBooking =
+    safeIncludes(text, "Flight Booking Summary") && safeIncludes(text, "Passenger");
   const isHotelBooking = safeIncludes(text, "Hotel Booking Summary");
   const isCarRentalBooking = safeIncludes(text, "Car Rental Booking Summary");
-  const isFlightSelected = safeIncludes(text, "Selected Flight") && safeIncludes(text, "Airline:");
-  const isHotelSelected = safeIncludes(text, "Selected Hotel") && safeIncludes(text, "Name:");
-  const isCarSelected = safeIncludes(text, "Selected Car") && safeIncludes(text, "Type:");
-  const isItinerary = safeIncludes(text, "Best Time to Visit:") && (safeIncludes(text, "Top Activities:") || safeIncludes(text, "Budget:"));
-  
+
+  const isFlightSelected =
+    safeIncludes(text, "Selected Flight") && safeIncludes(text, "Airline:");
+  const isHotelSelected =
+    safeIncludes(text, "Selected Hotel") && safeIncludes(text, "Name:");
+  const isCarSelected =
+    safeIncludes(text, "Selected Car") && safeIncludes(text, "Type:");
+
+  const isItinerary =
+    safeIncludes(text, "Best Time to Visit:") &&
+    (safeIncludes(text, "Top Activities:") || safeIncludes(text, "Budget:"));
+
   const handleConfirmBooking = () => {
-    const event = new CustomEvent('confirmBooking');
+    const event = new CustomEvent("confirmBooking");
     window.dispatchEvent(event);
   };
-  
+
   const handleProceedItinerary = () => {
-    const event = new CustomEvent('proceedItinerary');
+    const event = new CustomEvent("proceedItinerary");
     window.dispatchEvent(event);
   };
-  
+
   if (isFlightBooking) {
     return <BookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
   }
-  
+
   if (isHotelBooking) {
     return <HotelBookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
   }
-  
+
   if (isCarRentalBooking) {
     return <CarBookingConfirmation text={text} onConfirm={handleConfirmBooking} />;
   }
-  
+
   if (isFlightSelected) {
     return <SelectedFlightDisplay text={text} />;
   }
-  
+
   if (isHotelSelected) {
     return <HotelSelection text={text} selectedHotelImage={selectedHotelImage} />;
   }
-  
+
   if (isCarSelected) {
     return <SelectedCarDisplay text={text} selectedCarImage={selectedCarImage} />;
   }
-  
+
   if (isItinerary && !inBookingFlow) {
-    return <ItineraryCard text={text} onProceed={handleProceedItinerary} onModify={onModifySearch} onExit={onExit} />;
+    return (
+      <ItineraryCard
+        text={text}
+        onProceed={handleProceedItinerary}
+        onModify={onModifySearch}
+        onExit={onExit}
+      />
+    );
   }
-  
+
   // Check for updated itinerary (when user asks to modify trip)
-    const isUpdatedItinerary = safeIncludes(lower, "updated your trip") || safeIncludes(lower, "updated itinerary");
+  const isUpdatedItinerary =
+    safeIncludes(lower, "updated your trip") || safeIncludes(lower, "updated itinerary");
+
   if (isUpdatedItinerary) {
-    return <UpdatedItineraryCard text={text} onProceed={handleProceedItinerary} onExit={onExit} />;
+    return (
+      <UpdatedItineraryCard
+        text={text}
+        onProceed={handleProceedItinerary}
+        onExit={onExit}
+      />
+    );
   }
-  
+
   // If we're in booking flow but got itinerary response, hide it (Dialogflow returning cached data)
   if (isItinerary && inBookingFlow) {
     return null;
   }
-  
+
   if (hasFlights) {
     return (
       <div className="space-y-2 w-full">
@@ -1339,7 +1389,7 @@ const lower = typeof text === "string" ? text.toLowerCase() : "";
       </div>
     );
   }
-  
+
   if (hasHotels) {
     return (
       <div className="space-y-2 w-full">
@@ -1353,7 +1403,7 @@ const lower = typeof text === "string" ? text.toLowerCase() : "";
       </div>
     );
   }
-  
+
   if (hasCars) {
     return (
       <div className="space-y-2 w-full">
@@ -1367,19 +1417,19 @@ const lower = typeof text === "string" ? text.toLowerCase() : "";
       </div>
     );
   }
-  
+
   // Check if asking for flight preference/class
-  
-  const isFlightPreference = safeIncludes(lower, "flight class") || 
+  const isFlightPreference =
+    safeIncludes(lower, "flight class") ||
     (safeIncludes(lower, "class") && safeIncludes(lower, "please provide")) ||
     (safeIncludes(lower, "preference") && safeIncludes(lower, "class"));
-  
+
   if (isFlightPreference) {
     const handlePreferenceClick = (preference: string) => {
-      const event = new CustomEvent('sendFlightPreference', { detail: { preference } });
+      const event = new CustomEvent("sendFlightPreference", { detail: { preference } });
       window.dispatchEvent(event);
     };
-    
+
     return (
       <div className="space-y-3 w-full">
         <span className="text-sm text-foreground block">{text}</span>
@@ -1396,6 +1446,7 @@ const lower = typeof text === "string" ? text.toLowerCase() : "";
             <Plane className="w-4 h-4" />
             Economy
           </motion.button>
+
           <motion.button
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1413,18 +1464,21 @@ const lower = typeof text === "string" ? text.toLowerCase() : "";
       </div>
     );
   }
-  
+
   // Check if asking for car type
-    const isCarTypeQuestion = safeIncludes(lower, "type of car") || 
-    (safeIncludes(lower, "car") && safeIncludes(lower, "please provide") && safeIncludes(lower, "type")) ||
+  const isCarTypeQuestion =
+    safeIncludes(lower, "type of car") ||
+    (safeIncludes(lower, "car") &&
+      safeIncludes(lower, "please provide") &&
+      safeIncludes(lower, "type")) ||
     safeIncludes(lower, "vehicle type");
-  
+
   if (isCarTypeQuestion) {
     const handleCarTypeClick = (carType: string) => {
-      const event = new CustomEvent('sendFlightPreference', { detail: { preference: carType } });
+      const event = new CustomEvent("sendFlightPreference", { detail: { preference: carType } });
       window.dispatchEvent(event);
     };
-    
+
     return (
       <div className="space-y-3 w-full">
         <span className="text-sm text-foreground block">{text}</span>
@@ -1441,6 +1495,7 @@ const lower = typeof text === "string" ? text.toLowerCase() : "";
             <Car className="w-4 h-4" />
             SUV
           </motion.button>
+
           <motion.button
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1454,6 +1509,7 @@ const lower = typeof text === "string" ? text.toLowerCase() : "";
             <Car className="w-4 h-4" />
             Sedan
           </motion.button>
+
           <motion.button
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1471,19 +1527,31 @@ const lower = typeof text === "string" ? text.toLowerCase() : "";
       </div>
     );
   }
-  
+
   // Check if asking for car pickup or return time
-    const isCarTimeQuestion = (safeIncludes(lower, "pick up") || safeIncludes(lower, "pickup") || safeIncludes(lower, "return")) && 
+  const isCarTimeQuestion =
+    (safeIncludes(lower, "pick up") ||
+      safeIncludes(lower, "pickup") ||
+      safeIncludes(lower, "return")) &&
     safeIncludes(lower, "time");
-  
+
   if (isCarTimeQuestion) {
     const handleTimeClick = (time: string) => {
-      const event = new CustomEvent('sendFlightPreference', { detail: { preference: time } });
+      const event = new CustomEvent("sendFlightPreference", { detail: { preference: time } });
       window.dispatchEvent(event);
     };
-    
-    const timeOptions = ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM"];
-    
+
+    const timeOptions = [
+      "8:00 AM",
+      "9:00 AM",
+      "10:00 AM",
+      "11:00 AM",
+      "12:00 PM",
+      "1:00 PM",
+      "2:00 PM",
+      "3:00 PM",
+    ];
+
     return (
       <div className="space-y-3 w-full">
         <span className="text-sm text-foreground block">{text}</span>
@@ -1498,7 +1566,7 @@ const lower = typeof text === "string" ? text.toLowerCase() : "";
               whileTap={{ scale: 0.98 }}
               onClick={() => handleTimeClick(time)}
               className="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-lg py-2 px-3 font-medium text-sm flex items-center justify-center transition-colors"
-              data-testid={`button-time-${time.replace(/:/g, '').replace(/ /g, '-')}`}
+              data-testid={`button-time-${time.replace(/:/g, "").replace(/ /g, "-")}`}
             >
               {time}
             </motion.button>
@@ -1507,9 +1575,10 @@ const lower = typeof text === "string" ? text.toLowerCase() : "";
       </div>
     );
   }
-  
+
   return <span>{text}</span>;
 }
+
 
 async function sendMessage(message: string, sessionId: string): Promise<{
   response: string;
