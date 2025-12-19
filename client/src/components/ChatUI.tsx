@@ -1263,6 +1263,8 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
       </div>
     );
   }
+const lower = typeof text === "string" ? text.toLowerCase() : "";
+
   
   const { flights, hasFlights } = parseFlightOptions(text);
   const { hotels, hasHotels } = parseHotelOptions(text, hotelImages);
@@ -1368,7 +1370,7 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
   }
   
   // Check if asking for flight preference/class
-  const lower = typeof text === "string" ? text.toLowerCase() : "";
+  
   const isFlightPreference = safeIncludes(lower, "flight class") || 
     (safeIncludes(lower, "class") && safeIncludes(lower, "please provide")) ||
     (safeIncludes(lower, "preference") && safeIncludes(lower, "class"));
@@ -1414,8 +1416,7 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
   }
   
   // Check if asking for car type
-  const lower = typeof text === "string" ? text.toLowerCase() : "";
-  const isCarTypeQuestion = safeIncludes(lower, "type of car") || 
+    const isCarTypeQuestion = safeIncludes(lower, "type of car") || 
     (safeIncludes(lower, "car") && safeIncludes(lower, "please provide") && safeIncludes(lower, "type")) ||
     safeIncludes(lower, "vehicle type");
   
@@ -1473,8 +1474,7 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
   }
   
   // Check if asking for car pickup or return time
-  const lower = typeof text === "string" ? text.toLowerCase() : "";
-  const isCarTimeQuestion = (safeIncludes(lower, "pick up") || safeIncludes(lower, "pickup") || safeIncludes(lower, "return")) && 
+    const isCarTimeQuestion = (safeIncludes(lower, "pick up") || safeIncludes(lower, "pickup") || safeIncludes(lower, "return")) && 
     safeIncludes(lower, "time");
   
   if (isCarTimeQuestion) {
