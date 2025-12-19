@@ -1361,6 +1361,64 @@ function FormattedMessage({ text, onFlightSelect, inBookingFlow, onModifySearch,
     );
   }
   
+  // Check if asking which booking type (hotel, flight, or car)
+  const isBookingTypeQuestion = text.toLowerCase().includes("book hotel") && 
+    text.toLowerCase().includes("book flight") && 
+    text.toLowerCase().includes("book car");
+  
+  if (isBookingTypeQuestion) {
+    const handleBookingTypeClick = (bookingType: string) => {
+      const event = new CustomEvent('sendFlightPreference', { detail: { preference: bookingType } });
+      window.dispatchEvent(event);
+    };
+    
+    return (
+      <div className="space-y-3 w-full">
+        <span className="text-sm text-foreground block">What would you like to book?</span>
+        <div className="space-y-2">
+          <motion.button
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => handleBookingTypeClick("I want to book a flight")}
+            className="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg py-2.5 font-medium text-sm flex items-center justify-center gap-2 transition-colors"
+            data-testid="button-book-flight-option"
+          >
+            <Plane className="w-4 h-4" />
+            Book a Flight
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => handleBookingTypeClick("I want to book a hotel")}
+            className="w-full bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg py-2.5 font-medium text-sm flex items-center justify-center gap-2 transition-colors"
+            data-testid="button-book-hotel-option"
+          >
+            <Building2 className="w-4 h-4" />
+            Book a Hotel
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => handleBookingTypeClick("I want to rent a car")}
+            className="w-full bg-green-100 hover:bg-green-200 text-green-700 rounded-lg py-2.5 font-medium text-sm flex items-center justify-center gap-2 transition-colors"
+            data-testid="button-book-car-option"
+          >
+            <Car className="w-4 h-4" />
+            Rent a Car
+          </motion.button>
+        </div>
+      </div>
+    );
+  }
+
   // Check if asking for flight preference/class
   const isFlightPreference = text.toLowerCase().includes("flight class") || 
     (text.toLowerCase().includes("class") && text.toLowerCase().includes("please provide")) ||
