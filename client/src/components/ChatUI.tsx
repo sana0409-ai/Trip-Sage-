@@ -1616,7 +1616,16 @@ export function ChatUI() {
     mutationFn: (msg: string) => sendMessage(msg, sessionId),
     onSuccess: (data) => {
       const responseText =
-        typeof data?.response === "string" ? data.response : "";
+  (typeof (data as any)?.response === "string" && (data as any).response) ||
+  (typeof (data as any)?.fulfillmentText === "string" && (data as any).fulfillmentText) ||
+  (typeof (data as any)?.queryResult?.fulfillmentText === "string" &&
+    (data as any).queryResult.fulfillmentText) ||
+  "";
+
+      console.log("Dialogflow raw payload:", data);
+      console.log("Resolved responseText:", responseText);
+
+
       const isWelcome = !hasInteracted;
       const isItinerary = safeIncludes(responseText, "Best Time to Visit:") && (safeIncludes(responseText, "Top Activities:") || safeIncludes(responseText, "Budget:"));
       
