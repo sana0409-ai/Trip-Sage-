@@ -1,11 +1,31 @@
-import { Send, Sparkles, Mic, X, Loader2, Plane, Building2, Car, Map, Clock, DollarSign, User, Mail, Calendar as CalendarIcon, Calendar, Check, Clipboard, Edit, LogOut, RefreshCw } from "lucide-react";
+import {
+  Send,
+  Sparkles,
+  Mic,
+  X,
+  Loader2,
+  Plane,
+  Building2,
+  Car,
+  Map,
+  Clock,
+  DollarSign,
+  User,
+  Mail,
+  Calendar as CalendarIcon,
+  Calendar,
+  Check,
+  Clipboard,
+  Edit,
+  LogOut,
+  RefreshCw,
+} from "lucide-react";
 import { useState, useRef, useEffect, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
 
 const safeIncludes = (value: unknown, search: string) =>
   typeof value === "string" && value.includes(search);
-
 
 interface Message {
   id: string;
@@ -99,11 +119,14 @@ const actionButtons: ActionButton[] = [
   },
 ];
 
-function parseFlightOptions(text: string): { flights: FlightOption[], hasFlights: boolean, remainingText: string } {
-  const flightPattern = /\*\*Option (\d+)\*\*\s*Airline:\s*(\w+)\s*Class:\s*(\w+)\s*Price:\s*\$?([\d,.]+)\s*Departure:\s*([\dT:-]+)\s*Arrival:\s*([\dT:-]+)/g;
+function parseFlightOptions(
+  text: string
+): { flights: FlightOption[]; hasFlights: boolean; remainingText: string } {
+  const flightPattern =
+    /\*\*Option (\d+)\*\*\s*Airline:\s*(\w+)\s*Class:\s*(\w+)\s*Price:\s*\$?([\d,.]+)\s*Departure:\s*([\dT:-]+)\s*Arrival:\s*([\dT:-]+)/g;
   const flights: FlightOption[] = [];
   let match;
-  
+
   while ((match = flightPattern.exec(text)) !== null) {
     flights.push({
       option: parseInt(match[1]),
@@ -114,37 +137,47 @@ function parseFlightOptions(text: string): { flights: FlightOption[], hasFlights
       arrival: match[6],
     });
   }
-  
+
   if (flights.length > 0) {
     let remainingText = text
-      .replace(/✈️\s*\*\*Best Flight Options:\*\*/gi, '')
-      .replace(flightPattern, '')
-      .replace(/✈️/g, '')
-      .replace(/Choose an option:.*$/i, '')
+      .replace(/✈️\s*\*\*Best Flight Options:\*\*/gi, "")
+      .replace(flightPattern, "")
+      .replace(/✈️/g, "")
+      .replace(/Choose an option:.*$/i, "")
       .trim();
-    
+
     return { flights, hasFlights: true, remainingText };
   }
-  
+
   return { flights: [], hasFlights: false, remainingText: text };
 }
 
-function parseHotelOptions(text: string, hotelImages?: { [key: string]: string }): { hotels: HotelOption[], hasHotels: boolean, remainingText: string } {
+function parseHotelOptions(
+  text: string,
+  hotelImages?: { [key: string]: string }
+): { hotels: HotelOption[]; hasHotels: boolean; remainingText: string } {
   const hotels: HotelOption[] = [];
-  
+
   // Split by empty lines to get individual option blocks
   const blocks = text.split(/\n\s*\n/);
-  
+
   for (const block of blocks) {
-    if (safeIncludes(block,"Option") && safeIncludes(block,"Hotel:")) {
+    if (safeIncludes(block, "Option") && safeIncludes(block, "Hotel:")) {
       const optionMatch = block.match(/\*\*Option (\d+)\*\*/);
       const hotelMatch = block.match(/Hotel:\s*([^\n]+)/);
       const ratingMatch = block.match(/Rating:\s*([^\n]+)/);
       const priceMatch = block.match(/Price:\s*\$?([\d,.]+)/);
       const checkInMatch = block.match(/Check-In:\s*([\d-]+)/);
       const checkOutMatch = block.match(/Check-Out:\s*([\d-]+)/);
-      
-      if (optionMatch && hotelMatch && ratingMatch && priceMatch && checkInMatch && checkOutMatch) {
+
+      if (
+        optionMatch &&
+        hotelMatch &&
+        ratingMatch &&
+        priceMatch &&
+        checkInMatch &&
+        checkOutMatch
+      ) {
         const optionNum = parseInt(optionMatch[1]);
         hotels.push({
           option: optionNum,
@@ -158,26 +191,29 @@ function parseHotelOptions(text: string, hotelImages?: { [key: string]: string }
       }
     }
   }
-  
+
   if (hotels.length > 0) {
     let remainingText = text
-      .replace(/🏨\s*\*\*Best Hotel Options:\*\*/gi, '')
+      .replace(/🏨\s*\*\*Best Hotel Options:\*\*/gi, "")
       .split(/Choose a hotel:/)[0]
-      .replace(/⭐[\s\S]*?Check-Out:\s*[\d-]+/g, '')
+      .replace(/⭐[\s\S]*?Check-Out:\s*[\d-]+/g, "")
       .trim();
-    
+
     return { hotels, hasHotels: true, remainingText };
   }
-  
+
   return { hotels: [], hasHotels: false, remainingText: text };
 }
 
-function parseCarRentalOptions(text: string, carImages?: { [key: string]: string }): { cars: CarRentalOption[], hasCars: boolean, remainingText: string } {
+function parseCarRentalOptions(
+  text: string,
+  carImages?: { [key: string]: string }
+): { cars: CarRentalOption[]; hasCars: boolean; remainingText: string } {
   const cars: CarRentalOption[] = [];
-  
+
   // Split by empty lines to get individual option blocks
   const blocks = text.split(/\n\s*\n/);
-  
+
   for (const block of blocks) {
     if (safeIncludes(block, "Option") && safeIncludes(block, "Car:")) {
       const optionMatch = block.match(/\*\*Option (\d+)\*\*/);
@@ -185,7 +221,7 @@ function parseCarRentalOptions(text: string, carImages?: { [key: string]: string
       const priceMatch = block.match(/Price:\s*\$?([\d,.]+)/);
       const pickUpMatch = block.match(/Pick-Up:\s*([^\n]+)/);
       const dropOffMatch = block.match(/Drop-Off:\s*([^\n]+)/);
-      
+
       if (optionMatch && carMatch && priceMatch && pickUpMatch && dropOffMatch) {
         const optionNum = parseInt(optionMatch[1]);
         cars.push({
@@ -199,24 +235,28 @@ function parseCarRentalOptions(text: string, carImages?: { [key: string]: string
       }
     }
   }
-  
+
   if (cars.length > 0) {
     let remainingText = text
-      .replace(/🚗\s*\*\*Best Car Rental Options:\*\*/gi, '')
+      .replace(/🚗\s*\*\*Best Car Rental Options:\*\*/gi, "")
       .split(/Choose a car:/)[0]
-      .replace(/🚗[\s\S]*?Drop-Off:\s*[^\n]+/g, '')
+      .replace(/🚗[\s\S]*?Drop-Off:\s*[^\n]+/g, "")
       .trim();
-    
+
     return { cars, hasCars: true, remainingText };
   }
-  
+
   return { cars: [], hasCars: false, remainingText: text };
 }
 
 function formatTime(dateString: string): string {
   try {
     const date = new Date(dateString);
-    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
   } catch {
     return dateString;
   }
@@ -225,13 +265,23 @@ function formatTime(dateString: string): string {
 function formatDate(dateString: string): string {
   try {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
   } catch {
-    return '';
+    return "";
   }
 }
 
-function FlightCard({ flight, onSelect }: { flight: FlightOption; onSelect: (option: number) => void }) {
+function FlightCard({
+  flight,
+  onSelect,
+}: {
+  flight: FlightOption;
+  onSelect: (option: number) => void;
+}) {
   return (
     <motion.button
       initial={{ opacity: 0, y: 10 }}
@@ -247,17 +297,21 @@ function FlightCard({ flight, onSelect }: { flight: FlightOption; onSelect: (opt
             <Plane className="w-4 h-4 text-blue-600" />
           </div>
           <div>
-            <span className="font-bold text-foreground text-sm">{flight.airline}</span>
+            <span className="font-bold text-foreground text-sm">
+              {flight.airline}
+            </span>
             <span className="ml-2 text-xs px-2 py-0.5 bg-gray-100 rounded-full text-muted-foreground">
               {flight.class}
             </span>
           </div>
         </div>
         <div className="text-right">
-          <div className="font-bold text-green-600 text-lg">${flight.price}</div>
+          <div className="font-bold text-green-600 text-lg">
+            ${flight.price}
+          </div>
         </div>
       </div>
-      
+
       <div className="flex items-center gap-3 text-xs text-muted-foreground">
         <div className="flex items-center gap-1">
           <Clock className="w-3 h-3" />
@@ -272,9 +326,15 @@ function FlightCard({ flight, onSelect }: { flight: FlightOption; onSelect: (opt
   );
 }
 
-function HotelCard({ hotel, onSelect }: { hotel: HotelOption; onSelect: (option: number) => void }) {
+function HotelCard({
+  hotel,
+  onSelect,
+}: {
+  hotel: HotelOption;
+  onSelect: (option: number) => void;
+}) {
   const ratingValue = hotel.rating === "None" ? "-" : hotel.rating;
-  
+
   return (
     <motion.button
       initial={{ opacity: 0, y: 10 }}
@@ -286,13 +346,13 @@ function HotelCard({ hotel, onSelect }: { hotel: HotelOption; onSelect: (option:
     >
       {hotel.image && (
         <div className="mb-3 rounded-lg overflow-hidden bg-gray-100">
-          <img 
-            src={hotel.image} 
-            alt={hotel.hotel} 
+          <img
+            src={hotel.image}
+            alt={hotel.hotel}
             className="w-full h-auto max-h-40"
-            style={{ imageRendering: 'auto' }}
+            style={{ imageRendering: "auto" }}
             onError={(e) => {
-              (e.target as HTMLImageElement).style.display = 'none';
+              (e.target as HTMLImageElement).style.display = "none";
             }}
           />
         </div>
@@ -303,7 +363,9 @@ function HotelCard({ hotel, onSelect }: { hotel: HotelOption; onSelect: (option:
             <Building2 className="w-4 h-4 text-orange-600" />
           </div>
           <div className="flex-1 min-w-0">
-            <span className="font-bold text-foreground text-sm line-clamp-1">{hotel.hotel}</span>
+            <span className="font-bold text-foreground text-sm line-clamp-1">
+              {hotel.hotel}
+            </span>
             {ratingValue !== "-" && (
               <span className="ml-2 text-xs px-2 py-0.5 bg-yellow-100 rounded-full text-yellow-700">
                 ⭐ {ratingValue}
@@ -315,7 +377,7 @@ function HotelCard({ hotel, onSelect }: { hotel: HotelOption; onSelect: (option:
           <div className="font-bold text-green-600 text-lg">${hotel.price}</div>
         </div>
       </div>
-      
+
       <div className="flex items-center gap-3 text-xs text-muted-foreground">
         <div className="flex items-center gap-1">
           <Calendar className="w-3 h-3" />
@@ -328,7 +390,13 @@ function HotelCard({ hotel, onSelect }: { hotel: HotelOption; onSelect: (option:
   );
 }
 
-function CarRentalCard({ car, onSelect }: { car: CarRentalOption; onSelect: (option: number) => void }) {
+function CarRentalCard({
+  car,
+  onSelect,
+}: {
+  car: CarRentalOption;
+  onSelect: (option: number) => void;
+}) {
   return (
     <motion.button
       initial={{ opacity: 0, y: 10 }}
@@ -340,12 +408,12 @@ function CarRentalCard({ car, onSelect }: { car: CarRentalOption; onSelect: (opt
     >
       {car.image && (
         <div className="mb-3 rounded-lg overflow-hidden bg-gray-100">
-          <img 
-            src={car.image} 
-            alt={car.car} 
+          <img
+            src={car.image}
+            alt={car.car}
             className="w-full h-32 object-contain"
             onError={(e) => {
-              (e.target as HTMLImageElement).style.display = 'none';
+              (e.target as HTMLImageElement).style.display = "none";
             }}
           />
         </div>
@@ -356,14 +424,16 @@ function CarRentalCard({ car, onSelect }: { car: CarRentalOption; onSelect: (opt
             <Car className="w-4 h-4 text-green-600" />
           </div>
           <div className="flex-1 min-w-0">
-            <span className="font-bold text-foreground text-sm line-clamp-1">{car.car}</span>
+            <span className="font-bold text-foreground text-sm line-clamp-1">
+              {car.car}
+            </span>
           </div>
         </div>
         <div className="text-right">
           <div className="font-bold text-green-600 text-lg">${car.price}</div>
         </div>
       </div>
-      
+
       <div className="space-y-1 text-xs text-muted-foreground">
         <div className="flex items-start gap-1">
           <span className="text-foreground font-medium">Pick-Up:</span>
@@ -378,27 +448,42 @@ function CarRentalCard({ car, onSelect }: { car: CarRentalOption; onSelect: (opt
   );
 }
 
-function HotelSelection({ text, selectedHotelImage }: { text: string; selectedHotelImage?: string }) {
-  const isHotelSelection = safeIncludes(text, "Selected Hotel") && safeIncludes( text, "Name:");
-  
+function HotelSelection({
+  text,
+  selectedHotelImage,
+}: {
+  text: string;
+  selectedHotelImage?: string;
+}) {
+  const isHotelSelection =
+    safeIncludes(text, "Selected Hotel") && safeIncludes(text, "Name:");
+
   if (!isHotelSelection) return null;
 
   const getHotelDetails = () => {
     // Extract ONLY the "Selected Hotel" section - the part between **Selected Hotel** and "Please provide"
-    const selectedHotelRegex = /\*\*Selected Hotel\*\*\n([\s\S]*?)(?:Please provide|$)/;
+    const selectedHotelRegex =
+      /\*\*Selected Hotel\*\*\n([\s\S]*?)(?:Please provide|$)/;
     const selectedHotelMatch = text.match(selectedHotelRegex);
-    
-    if (!selectedHotelMatch) return { name: "N/A", rating: "N/A", price: "N/A", checkIn: "N/A", checkOut: "N/A" };
-    
+
+    if (!selectedHotelMatch)
+      return {
+        name: "N/A",
+        rating: "N/A",
+        price: "N/A",
+        checkIn: "N/A",
+        checkOut: "N/A",
+      };
+
     const hotelSection = selectedHotelMatch[1];
-    
+
     // Extract values - only from the Selected Hotel section
     const nameMatch = hotelSection.match(/• Name:\s*([^\n]+)/);
     const ratingMatch = hotelSection.match(/• Rating:\s*([^\n]+)/);
     const priceMatch = hotelSection.match(/• Price:\s*\$?([\d,.]+)/);
     const checkInMatch = hotelSection.match(/• Check-In:\s*([\d-]+)/);
     const checkOutMatch = hotelSection.match(/• Check-Out:\s*([\d-]+)/);
-    
+
     return {
       name: nameMatch ? nameMatch[1].trim() : "N/A",
       rating: ratingMatch ? ratingMatch[1].trim() : "N/A",
@@ -422,13 +507,13 @@ function HotelSelection({ text, selectedHotelImage }: { text: string; selectedHo
       <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 space-y-3">
         {selectedHotelImage && (
           <div className="rounded-lg overflow-hidden bg-gray-100">
-            <img 
-              src={selectedHotelImage} 
-              alt={hotel.name} 
+            <img
+              src={selectedHotelImage}
+              alt={hotel.name}
               className="w-full h-auto max-h-40"
-              style={{ imageRendering: 'auto' }}
+              style={{ imageRendering: "auto" }}
               onError={(e) => {
-                (e.target as HTMLImageElement).style.display = 'none';
+                (e.target as HTMLImageElement).style.display = "none";
               }}
             />
           </div>
@@ -439,7 +524,9 @@ function HotelSelection({ text, selectedHotelImage }: { text: string; selectedHo
               <Building2 className="w-4 h-4 text-orange-600" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="font-bold text-foreground line-clamp-2">{hotel.name}</h3>
+              <h3 className="font-bold text-foreground line-clamp-2">
+                {hotel.name}
+              </h3>
               {hotel.rating !== "N/A" && (
                 <span className="text-xs px-2 py-0.5 bg-yellow-100 rounded-full text-yellow-700 inline-flex items-center gap-1 mt-1">
                   ⭐ {hotel.rating}
@@ -451,44 +538,63 @@ function HotelSelection({ text, selectedHotelImage }: { text: string; selectedHo
             <div className="font-bold text-green-600 text-lg">${hotel.price}</div>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-2 gap-3 text-xs">
           <div className="bg-blue-50 rounded-lg p-2">
-            <span className="text-muted-foreground block text-xs mb-1">Check-In</span>
-            <div className="font-semibold text-foreground">{formatDate(hotel.checkIn)}</div>
+            <span className="text-muted-foreground block text-xs mb-1">
+              Check-In
+            </span>
+            <div className="font-semibold text-foreground">
+              {formatDate(hotel.checkIn)}
+            </div>
           </div>
           <div className="bg-blue-50 rounded-lg p-2">
-            <span className="text-muted-foreground block text-xs mb-1">Check-Out</span>
-            <div className="font-semibold text-foreground">{formatDate(hotel.checkOut)}</div>
+            <span className="text-muted-foreground block text-xs mb-1">
+              Check-Out
+            </span>
+            <div className="font-semibold text-foreground">
+              {formatDate(hotel.checkOut)}
+            </div>
           </div>
         </div>
       </div>
-      {remainingText && <span className="text-sm text-foreground">{remainingText}</span>}
+      {remainingText && (
+        <span className="text-sm text-foreground">{remainingText}</span>
+      )}
     </div>
   );
 }
 
 function SelectedFlightDisplay({ text }: { text: string }) {
-  const isFlightSelection = safeIncludes(text, "Selected Flight") && safeIncludes(text, "Airline:");
-  
+  const isFlightSelection =
+    safeIncludes(text, "Selected Flight") && safeIncludes(text, "Airline:");
+
   if (!isFlightSelection) return null;
 
   const getFlightDetails = () => {
     // Extract ONLY the "Selected Flight Details" section
-    const selectedFlightRegex = /\*\*Selected Flight.*?\*\*\s*([\s\S]*?)(?:Please|Let me|$)/i;
+    const selectedFlightRegex =
+      /\*\*Selected Flight.*?\*\*\s*([\s\S]*?)(?:Please|Let me|$)/i;
     const selectedFlightMatch = text.match(selectedFlightRegex);
-    
-    if (!selectedFlightMatch) return { airline: "N/A", class: "N/A", price: "N/A", departure: "N/A", arrival: "N/A" };
-    
+
+    if (!selectedFlightMatch)
+      return {
+        airline: "N/A",
+        class: "N/A",
+        price: "N/A",
+        departure: "N/A",
+        arrival: "N/A",
+      };
+
     const flightSection = selectedFlightMatch[1];
-    
+
     // Match bullet point format: • Airline: TW
     const airlineMatch = flightSection.match(/•\s*Airline:\s*([^\n]+)/);
     const classMatch = flightSection.match(/•\s*Class:\s*([^\n]+)/);
     const priceMatch = flightSection.match(/•\s*Price:\s*\$?([\d,.]+)/);
     const departureMatch = flightSection.match(/•\s*Departure:\s*([^\n]+)/);
     const arrivalMatch = flightSection.match(/•\s*Arrival:\s*([^\n]+)/);
-    
+
     return {
       airline: airlineMatch ? airlineMatch[1].trim() : "N/A",
       class: classMatch ? classMatch[1].trim() : "N/A",
@@ -526,45 +632,68 @@ function SelectedFlightDisplay({ text }: { text: string }) {
             <div className="font-bold text-green-600 text-lg">${flight.price}</div>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-2 gap-3 text-xs">
           <div className="bg-blue-50 rounded-lg p-2">
-            <span className="text-muted-foreground block text-xs mb-1">Departure</span>
-            <div className="font-semibold text-foreground">{formatTime(flight.departure)}</div>
-            <div className="text-muted-foreground text-xs">{formatDate(flight.departure)}</div>
+            <span className="text-muted-foreground block text-xs mb-1">
+              Departure
+            </span>
+            <div className="font-semibold text-foreground">
+              {formatTime(flight.departure)}
+            </div>
+            <div className="text-muted-foreground text-xs">
+              {formatDate(flight.departure)}
+            </div>
           </div>
           <div className="bg-blue-50 rounded-lg p-2">
-            <span className="text-muted-foreground block text-xs mb-1">Arrival</span>
-            <div className="font-semibold text-foreground">{formatTime(flight.arrival)}</div>
-            <div className="text-muted-foreground text-xs">{formatDate(flight.arrival)}</div>
+            <span className="text-muted-foreground block text-xs mb-1">
+              Arrival
+            </span>
+            <div className="font-semibold text-foreground">
+              {formatTime(flight.arrival)}
+            </div>
+            <div className="text-muted-foreground text-xs">
+              {formatDate(flight.arrival)}
+            </div>
           </div>
         </div>
       </div>
-      {remainingText && <span className="text-sm text-foreground">{remainingText}</span>}
+      {remainingText && (
+        <span className="text-sm text-foreground">{remainingText}</span>
+      )}
     </div>
   );
 }
 
-function SelectedCarDisplay({ text, selectedCarImage }: { text: string; selectedCarImage?: string }) {
-  const isCarSelection = safeIncludes(text, "Selected Car") && safeIncludes( text, "Type:");
-  
+function SelectedCarDisplay({
+  text,
+  selectedCarImage,
+}: {
+  text: string;
+  selectedCarImage?: string;
+}) {
+  const isCarSelection =
+    safeIncludes(text, "Selected Car") && safeIncludes(text, "Type:");
+
   if (!isCarSelection) return null;
 
   const getCarDetails = () => {
     // Extract ONLY the "Selected Car" section - the part between **Selected Car** and text that follows
-    const selectedCarRegex = /\*\*Selected Car\*\*\s*([\s\S]*?)(?=Let me|Please enter|$)/;
+    const selectedCarRegex =
+      /\*\*Selected Car\*\*\s*([\s\S]*?)(?=Let me|Please enter|$)/;
     const selectedCarMatch = text.match(selectedCarRegex);
-    
-    if (!selectedCarMatch) return { type: "N/A", price: "N/A", pickUp: "N/A", dropOff: "N/A" };
-    
+
+    if (!selectedCarMatch)
+      return { type: "N/A", price: "N/A", pickUp: "N/A", dropOff: "N/A" };
+
     const carSection = selectedCarMatch[1];
-    
+
     // Extract values - only from the Selected Car section
     const typeMatch = carSection.match(/• Type:\s*([^\n]+)/);
     const priceMatch = carSection.match(/• Price:\s*\$?([\d,.]+)/);
     const pickUpMatch = carSection.match(/• Pick-Up:\s*([^\n]+)/);
     const dropOffMatch = carSection.match(/• Drop-Off:\s*([^\n]+)/);
-    
+
     return {
       type: typeMatch ? typeMatch[1].trim() : "N/A",
       price: priceMatch ? priceMatch[1] : "N/A",
@@ -577,18 +706,18 @@ function SelectedCarDisplay({ text, selectedCarImage }: { text: string; selected
     // Extract everything after the Selected Car section
     const match = text.match(/• Drop-Off:\s*[^\n]+(?:\n|)([^]*?)$/);
     if (!match) return "";
-    
+
     let remaining = text;
     // Find where the car details end by looking for key prompts
     const carEndIdx = Math.max(
       remaining.indexOf("Let me collect"),
       remaining.indexOf("Please enter")
     );
-    
+
     if (carEndIdx > 0) {
       return remaining.substring(carEndIdx).trim();
     }
-    
+
     return "";
   };
 
@@ -600,12 +729,12 @@ function SelectedCarDisplay({ text, selectedCarImage }: { text: string; selected
       <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-3 space-y-3">
         {selectedCarImage && (
           <div className="rounded-lg overflow-hidden bg-gray-100">
-            <img 
-              src={selectedCarImage} 
-              alt={car.type} 
+            <img
+              src={selectedCarImage}
+              alt={car.type}
               className="w-full h-32 object-contain"
               onError={(e) => {
-                (e.target as HTMLImageElement).style.display = 'none';
+                (e.target as HTMLImageElement).style.display = "none";
               }}
             />
           </div>
@@ -616,33 +745,51 @@ function SelectedCarDisplay({ text, selectedCarImage }: { text: string; selected
               <Car className="w-4 h-4 text-green-600" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="font-bold text-foreground line-clamp-2">{car.type}</h3>
+              <h3 className="font-bold text-foreground line-clamp-2">
+                {car.type}
+              </h3>
             </div>
           </div>
           <div className="text-right flex-shrink-0">
             <div className="font-bold text-green-600 text-lg">${car.price}</div>
           </div>
         </div>
-        
+
         <div className="space-y-2 text-xs">
           <div className="bg-green-50 rounded-lg p-2">
-            <span className="text-muted-foreground block text-xs mb-1">Pick-Up</span>
-            <div className="font-semibold text-foreground line-clamp-2">{car.pickUp}</div>
+            <span className="text-muted-foreground block text-xs mb-1">
+              Pick-Up
+            </span>
+            <div className="font-semibold text-foreground line-clamp-2">
+              {car.pickUp}
+            </div>
           </div>
           <div className="bg-green-50 rounded-lg p-2">
-            <span className="text-muted-foreground block text-xs mb-1">Drop-Off</span>
-            <div className="font-semibold text-foreground line-clamp-2">{car.dropOff}</div>
+            <span className="text-muted-foreground block text-xs mb-1">
+              Drop-Off
+            </span>
+            <div className="font-semibold text-foreground line-clamp-2">
+              {car.dropOff}
+            </div>
           </div>
         </div>
       </div>
-      {remainingText && <span className="text-sm text-foreground">{remainingText}</span>}
+      {remainingText && (
+        <span className="text-sm text-foreground">{remainingText}</span>
+      )}
     </div>
   );
 }
 
-function HotelBookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () => void }) {
+function HotelBookingConfirmation({
+  text,
+  onConfirm,
+}: {
+  text: string;
+  onConfirm: () => void;
+}) {
   const isBookingSummary = safeIncludes(text, "Hotel Booking Summary");
-  
+
   if (!isBookingSummary) return null;
 
   const getHotelDetails = () => {
@@ -651,21 +798,32 @@ function HotelBookingConfirmation({ text, onConfirm }: { text: string; onConfirm
     const price = text.match(/• Price:\s*\$?([\d,.]+)/)?.[1] || "N/A";
     const checkIn = text.match(/• Check-In:\s*([\d-]+)/)?.[1] || "N/A";
     const checkOut = text.match(/• Check-Out:\s*([\d-]+)/)?.[1] || "N/A";
-    
+
     return { hotel, rating, price, checkIn, checkOut };
   };
 
   const getGuestDetails = () => {
-    const numGuests = text.match(/• Number of Guests:\s*([^\n•]+)/)?.[1]?.trim() || "1";
-    const name = text.match(/👤[\s\S]*?• Name:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
-    const email = text.match(/• Email:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
-    const dobMatch = text.match(/• DOB:\s*\{?'?year'?:\s*([\d.]+)[\s\S]*?'?month'?:\s*([\d.]+)[\s\S]*?'?day'?:\s*([\d.]+)/);
-    
+    const numGuests =
+      text.match(/• Number of Guests:\s*([^\n•]+)/)?.[1]?.trim() || "1";
+    const name =
+      text.match(/👤[\s\S]*?• Name:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    const email =
+      text.match(/• Email:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    const dobMatch = text.match(
+      /• DOB:\s*\{?'?year'?:\s*([\d.]+)[\s\S]*?'?month'?:\s*([\d.]+)[\s\S]*?'?day'?:\s*([\d.]+)/
+    );
+
     let dob = "N/A";
     if (dobMatch) {
-      dob = `${String(Math.round(parseFloat(dobMatch[2]))).padStart(2, '0')}/${String(Math.round(parseFloat(dobMatch[3]))).padStart(2, '0')}/${Math.round(parseFloat(dobMatch[1]))}`;
+      dob = `${String(Math.round(parseFloat(dobMatch[2]))).padStart(
+        2,
+        "0"
+      )}/${String(Math.round(parseFloat(dobMatch[3]))).padStart(
+        2,
+        "0"
+      )}/${Math.round(parseFloat(dobMatch[1]))}`;
     }
-    
+
     return { numGuests, name, email, dob };
   };
 
@@ -681,38 +839,55 @@ function HotelBookingConfirmation({ text, onConfirm }: { text: string; onConfirm
             Hotel Booking
           </h3>
           <div className="text-right">
-            <div className="font-bold text-green-600 text-lg">${hotelDetails.price}</div>
+            <div className="font-bold text-green-600 text-lg">
+              ${hotelDetails.price}
+            </div>
             {hotelDetails.rating !== "N/A" && (
-              <div className="text-xs text-yellow-700">⭐ {hotelDetails.rating}</div>
+              <div className="text-xs text-yellow-700">
+                ⭐ {hotelDetails.rating}
+              </div>
             )}
           </div>
         </div>
-        
+
         <div className="space-y-2">
           <div>
             <span className="text-xs text-muted-foreground">Hotel Name</span>
-            <div className="font-semibold text-foreground text-sm">{hotelDetails.hotel}</div>
+            <div className="font-semibold text-foreground text-sm">
+              {hotelDetails.hotel}
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div>
               <span className="text-muted-foreground">Check-In</span>
-              <div className="font-semibold text-foreground">{formatDate(hotelDetails.checkIn)}</div>
+              <div className="font-semibold text-foreground">
+                {formatDate(hotelDetails.checkIn)}
+              </div>
             </div>
             <div>
               <span className="text-muted-foreground">Check-Out</span>
-              <div className="font-semibold text-foreground">{formatDate(hotelDetails.checkOut)}</div>
+              <div className="font-semibold text-foreground">
+                {formatDate(hotelDetails.checkOut)}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div className="space-y-2">
-        <div className="text-sm font-medium text-foreground">Guest Information</div>
+        <div className="text-sm font-medium text-foreground">
+          Guest Information
+        </div>
         <div className="bg-white/70 border border-white/60 rounded-lg p-2 text-xs space-y-1">
           <div className="flex items-center gap-2">
             <User className="w-3.5 h-3.5 text-primary" />
-            <span className="font-semibold text-foreground">{guestDetails.name}</span>
-            <span className="text-muted-foreground ml-auto">({guestDetails.numGuests} guest{guestDetails.numGuests !== "1" ? "s" : ""})</span>
+            <span className="font-semibold text-foreground">
+              {guestDetails.name}
+            </span>
+            <span className="text-muted-foreground ml-auto">
+              ({guestDetails.numGuests} guest
+              {guestDetails.numGuests !== "1" ? "s" : ""})
+            </span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <Mail className="w-3.5 h-3.5" />
@@ -745,7 +920,9 @@ function HotelBookingConfirmation({ text, onConfirm }: { text: string; onConfirm
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => {
-            const event = new CustomEvent('sendFlightPreference', { detail: { preference: 'No' } });
+            const event = new CustomEvent("sendFlightPreference", {
+              detail: { preference: "No" },
+            });
             window.dispatchEvent(event);
           }}
           className="flex-1 bg-white/40 hover:bg-white/60 border border-white/50 text-foreground rounded-xl py-2.5 font-semibold text-sm flex items-center justify-center gap-2 transition-all backdrop-blur-sm"
@@ -759,30 +936,49 @@ function HotelBookingConfirmation({ text, onConfirm }: { text: string; onConfirm
   );
 }
 
-function CarBookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () => void }) {
+function CarBookingConfirmation({
+  text,
+  onConfirm,
+}: {
+  text: string;
+  onConfirm: () => void;
+}) {
   const isBookingSummary = safeIncludes(text, "Car Rental Booking Summary");
-  
+
   if (!isBookingSummary) return null;
 
   const getCarDetails = () => {
-    const carType = text.match(/• Car Type:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    const carType =
+      text.match(/• Car Type:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
     const price = text.match(/• Price:\s*\$?([\d,.]+)/)?.[1] || "N/A";
-    const pickUp = text.match(/• Pick-Up:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
-    const dropOff = text.match(/• Drop-Off:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
-    
+    const pickUp =
+      text.match(/• Pick-Up:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    const dropOff =
+      text.match(/• Drop-Off:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+
     return { carType, price, pickUp, dropOff };
   };
 
   const getDriverDetails = () => {
-    const name = text.match(/👤[\s\S]*?• Name:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
-    const email = text.match(/• Email:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
-    const dobMatch = text.match(/• DOB:\s*\{?'?year'?:\s*([\d.]+)[\s\S]*?'?month'?:\s*([\d.]+)[\s\S]*?'?day'?:\s*([\d.]+)/);
-    
+    const name =
+      text.match(/👤[\s\S]*?• Name:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    const email =
+      text.match(/• Email:\s*([^\n•]+)/)?.[1]?.trim() || "N/A";
+    const dobMatch = text.match(
+      /• DOB:\s*\{?'?year'?:\s*([\d.]+)[\s\S]*?'?month'?:\s*([\d.]+)[\s\S]*?'?day'?:\s*([\d.]+)/
+    );
+
     let dob = "N/A";
     if (dobMatch) {
-      dob = `${String(Math.round(parseFloat(dobMatch[2]))).padStart(2, '0')}/${String(Math.round(parseFloat(dobMatch[3]))).padStart(2, '0')}/${Math.round(parseFloat(dobMatch[1]))}`;
+      dob = `${String(Math.round(parseFloat(dobMatch[2]))).padStart(
+        2,
+        "0"
+      )}/${String(Math.round(parseFloat(dobMatch[3]))).padStart(
+        2,
+        "0"
+      )}/${Math.round(parseFloat(dobMatch[1]))}`;
     }
-    
+
     return { name, email, dob };
   };
 
@@ -801,27 +997,35 @@ function CarBookingConfirmation({ text, onConfirm }: { text: string; onConfirm: 
             <div className="font-bold text-green-600 text-lg">${carDetails.price}</div>
           </div>
         </div>
-        
+
         <div className="space-y-2">
           <div>
             <span className="text-xs text-muted-foreground">Car Type</span>
-            <div className="font-semibold text-foreground text-sm">{carDetails.carType}</div>
+            <div className="font-semibold text-foreground text-sm">
+              {carDetails.carType}
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div>
               <span className="text-muted-foreground">Pick-Up</span>
-              <div className="font-semibold text-foreground text-xs line-clamp-2">{carDetails.pickUp}</div>
+              <div className="font-semibold text-foreground text-xs line-clamp-2">
+                {carDetails.pickUp}
+              </div>
             </div>
             <div>
               <span className="text-muted-foreground">Drop-Off</span>
-              <div className="font-semibold text-foreground text-xs line-clamp-2">{carDetails.dropOff}</div>
+              <div className="font-semibold text-foreground text-xs line-clamp-2">
+                {carDetails.dropOff}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div className="space-y-2">
-        <div className="text-sm font-medium text-foreground">Driver Information</div>
+        <div className="text-sm font-medium text-foreground">
+          Driver Information
+        </div>
         <div className="bg-white/70 border border-white/60 rounded-lg p-2 text-xs space-y-1">
           <div className="flex items-center gap-2">
             <User className="w-3.5 h-3.5 text-primary" />
@@ -858,7 +1062,9 @@ function CarBookingConfirmation({ text, onConfirm }: { text: string; onConfirm: 
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => {
-            const event = new CustomEvent('sendFlightPreference', { detail: { preference: 'No' } });
+            const event = new CustomEvent("sendFlightPreference", {
+              detail: { preference: "No" },
+            });
             window.dispatchEvent(event);
           }}
           className="flex-1 bg-white/40 hover:bg-white/60 border border-white/50 text-foreground rounded-xl py-2.5 font-semibold text-sm flex items-center justify-center gap-2 transition-all backdrop-blur-sm"
@@ -872,34 +1078,53 @@ function CarBookingConfirmation({ text, onConfirm }: { text: string; onConfirm: 
   );
 }
 
-function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () => void }) {
-  const isBookingSummary = safeIncludes(text, "Flight Booking Summary") && safeIncludes(text, "Passenger");
-  
+function BookingConfirmation({
+  text,
+  onConfirm,
+}: {
+  text: string;
+  onConfirm: () => void;
+}) {
+  const isBookingSummary =
+    safeIncludes(text, "Flight Booking Summary") && safeIncludes(text, "Passenger");
+
   if (!isBookingSummary) return null;
 
   const parsePassengerData = (): Array<{ name: string; email: string; dob: string }> => {
     const passengers: Array<{ name: string; email: string; dob: string }> = [];
-    const passengerMatches = text.match(/🧍 \*\*Passenger \d+\*\*([\s\S]*?)(?=🧍|Would you|$)/g);
-    
+    const passengerMatches = text.match(
+      /🧍 \*\*Passenger \d+\*\*([\s\S]*?)(?=🧍|Would you|$)/g
+    );
+
     if (passengerMatches) {
       passengerMatches.forEach((p) => {
         const nameMatch = p.match(/• Name:\s*(?:\{[^}]*'name':\s*['"])?([^'"\n•}]+)/);
         const emailMatch = p.match(/• Email:\s*([^\n•]+)/);
-        const dobMatch = p.match(/• DOB:\s*\{?'?year'?:\s*([\d.]+)[\s\S]*?'?month'?:\s*([\d.]+)[\s\S]*?'?day'?:\s*([\d.]+)/);
-        
+        const dobMatch = p.match(
+          /• DOB:\s*\{?'?year'?:\s*([\d.]+)[\s\S]*?'?month'?:\s*([\d.]+)[\s\S]*?'?day'?:\s*([\d.]+)/
+        );
+
         let name = "Unknown";
         if (nameMatch) {
-          name = nameMatch[1].trim().replace(/['"{}]/g, '');
+          name = nameMatch[1].trim().replace(/['"{}]/g, "");
         }
-        
+
         passengers.push({
           name,
           email: emailMatch ? emailMatch[1].trim() : "N/A",
-          dob: dobMatch ? `${String(Math.round(parseFloat(dobMatch[1]))).padStart(2, '0')}/${String(Math.round(parseFloat(dobMatch[2]))).padStart(2, '0')}/${Math.round(parseFloat(dobMatch[3]))}` : "N/A",
+          dob: dobMatch
+            ? `${String(Math.round(parseFloat(dobMatch[1]))).padStart(
+                2,
+                "0"
+              )}/${String(Math.round(parseFloat(dobMatch[2]))).padStart(
+                2,
+                "0"
+              )}/${Math.round(parseFloat(dobMatch[3]))}`
+            : "N/A",
         });
       });
     }
-    
+
     return passengers;
   };
 
@@ -910,7 +1135,7 @@ function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () 
     const route = text.match(/• Route:\s*([^\n•]+)/)?.[1] || "N/A";
     const departure = text.match(/• Departure:\s*([\dT:-]+)/)?.[1] || "N/A";
     const arrival = text.match(/• Arrival:\s*([\dT:-]+)/)?.[1] || "N/A";
-    
+
     return { airline, flightClass, price, route, departure, arrival };
   };
 
@@ -930,7 +1155,7 @@ function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () 
             <div className="text-xs text-muted-foreground">{flight.flightClass}</div>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-2 gap-2 text-xs">
           <div>
             <span className="text-muted-foreground">Airline</span>
@@ -954,7 +1179,10 @@ function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () 
       <div className="space-y-2">
         <div className="text-sm font-medium text-foreground">Passengers</div>
         {passengers.map((p, i) => (
-          <div key={i} className="bg-white/70 border border-white/60 rounded-lg p-2 text-xs space-y-1">
+          <div
+            key={i}
+            className="bg-white/70 border border-white/60 rounded-lg p-2 text-xs space-y-1"
+          >
             <div className="flex items-center gap-2">
               <User className="w-3.5 h-3.5 text-primary" />
               <span className="font-semibold text-foreground">{p.name}</span>
@@ -991,7 +1219,9 @@ function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () 
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => {
-            const event = new CustomEvent('sendFlightPreference', { detail: { preference: 'No' } });
+            const event = new CustomEvent("sendFlightPreference", {
+              detail: { preference: "No" },
+            });
             window.dispatchEvent(event);
           }}
           className="flex-1 bg-white/40 hover:bg-white/60 border border-white/50 text-foreground rounded-xl py-2.5 font-semibold text-sm flex items-center justify-center gap-2 transition-all backdrop-blur-sm"
@@ -1005,28 +1235,52 @@ function BookingConfirmation({ text, onConfirm }: { text: string; onConfirm: () 
   );
 }
 
-function ItineraryCard({ text, onProceed, onModify, onExit }: { text: string; onProceed: () => void; onModify: () => void; onExit: () => void }) {
-  const isItinerary = safeIncludes(text, "Best Time to Visit:") && (safeIncludes(text, "Top Activities:") || safeIncludes(text, "Budget:"));
-  
+function ItineraryCard({
+  text,
+  onProceed,
+  onModify,
+  onExit,
+}: {
+  text: string;
+  onProceed: () => void;
+  onModify: () => void;
+  onExit: () => void;
+}) {
+  const isItinerary =
+    safeIncludes(text, "Best Time to Visit:") &&
+    (safeIncludes(text, "Top Activities:") || safeIncludes(text, "Budget:"));
+
   if (!isItinerary) return null;
-  
+
   const parseItinerary = () => {
     // Remove question text at the end like "Do you want to proceed with this itinerary, modify the search or exit"
-    let cleanedText = text.replace(/Do you want to proceed with this itinerary.*$/is, "").trim();
-    
-    const bestTimeMatch = cleanedText.match(/\*\*Best Time to Visit:\*\*\s*([^*]+?)(?=\*\*|$)/);
-    const activitiesMatch = cleanedText.match(/\*\*Top Activities:\*\*\s*([\s\S]*?)(?=\*\*Unique|Budget:|$)/);
-    const uniqueMatch = cleanedText.match(/\*\*Unique Experience:\*\*\s*([^*]+?)(?=\*\*|$)/);
-    const budgetMatch = cleanedText.match(/\*\*Budget:\*\*\s*([^*]+?)(?=\*\*|$)/);
-    const packingMatch = cleanedText.match(/\*\*Packing Tip:\*\*\s*([^*]+?)(?=\*\*|$)/);
-    
-    const activities = activitiesMatch 
+    let cleanedText = text
+      .replace(/Do you want to proceed with this itinerary.*$/is, "")
+      .trim();
+
+    const bestTimeMatch = cleanedText.match(
+      /\*\*Best Time to Visit:\*\*\s*([^*]+?)(?=\*\*|$)/
+    );
+    const activitiesMatch = cleanedText.match(
+      /\*\*Top Activities:\*\*\s*([\s\S]*?)(?=\*\*Unique|Budget:|$)/
+    );
+    const uniqueMatch = cleanedText.match(
+      /\*\*Unique Experience:\*\*\s*([^*]+?)(?=\*\*|$)/
+    );
+    const budgetMatch = cleanedText.match(
+      /\*\*Budget:\*\*\s*([^*]+?)(?=\*\*|$)/
+    );
+    const packingMatch = cleanedText.match(
+      /\*\*Packing Tip:\*\*\s*([^*]+?)(?=\*\*|$)/
+    );
+
+    const activities = activitiesMatch
       ? activitiesMatch[1]
-          .split('*')
-          .map(a => a.trim())
-          .filter(a => a && !safeIncludes(a, '•'))
+          .split("*")
+          .map((a) => a.trim())
+          .filter((a) => a && !safeIncludes(a, "•"))
       : [];
-    
+
     return {
       bestTime: bestTimeMatch ? bestTimeMatch[1].trim() : "",
       activities,
@@ -1035,9 +1289,9 @@ function ItineraryCard({ text, onProceed, onModify, onExit }: { text: string; on
       packing: packingMatch ? packingMatch[1].trim() : "",
     };
   };
-  
+
   const itinerary = parseItinerary();
-  
+
   return (
     <div className="w-full space-y-3">
       <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-4 space-y-3">
@@ -1047,17 +1301,21 @@ function ItineraryCard({ text, onProceed, onModify, onExit }: { text: string; on
           </div>
           <h3 className="font-bold text-foreground">Trip Itinerary</h3>
         </div>
-        
+
         {itinerary.bestTime && (
           <div className="space-y-1">
-            <span className="text-xs font-semibold text-muted-foreground block">Best Time to Visit</span>
+            <span className="text-xs font-semibold text-muted-foreground block">
+              Best Time to Visit
+            </span>
             <p className="text-sm text-foreground">{itinerary.bestTime}</p>
           </div>
         )}
-        
+
         {itinerary.activities.length > 0 && (
           <div className="space-y-2">
-            <span className="text-xs font-semibold text-muted-foreground block">Top Activities</span>
+            <span className="text-xs font-semibold text-muted-foreground block">
+              Top Activities
+            </span>
             <ul className="space-y-1">
               {itinerary.activities.map((activity, i) => (
                 <li key={i} className="text-sm text-foreground flex gap-2">
@@ -1068,30 +1326,40 @@ function ItineraryCard({ text, onProceed, onModify, onExit }: { text: string; on
             </ul>
           </div>
         )}
-        
+
         {itinerary.unique && (
           <div className="bg-purple-50 rounded-lg p-2 space-y-1">
-            <span className="text-xs font-semibold text-purple-900 block">Unique Experience</span>
+            <span className="text-xs font-semibold text-purple-900 block">
+              Unique Experience
+            </span>
             <p className="text-sm text-purple-900">{itinerary.unique}</p>
           </div>
         )}
-        
+
         <div className="grid grid-cols-2 gap-2">
           {itinerary.budget && (
             <div className="bg-green-50 rounded-lg p-2">
-              <span className="text-xs text-muted-foreground block mb-1">Budget</span>
-              <p className="text-xs font-semibold text-foreground">{itinerary.budget}</p>
+              <span className="text-xs text-muted-foreground block mb-1">
+                Budget
+              </span>
+              <p className="text-xs font-semibold text-foreground">
+                {itinerary.budget}
+              </p>
             </div>
           )}
           {itinerary.packing && (
             <div className="bg-blue-50 rounded-lg p-2">
-              <span className="text-xs text-muted-foreground block mb-1">Packing Tip</span>
-              <p className="text-xs font-semibold text-foreground">{itinerary.packing}</p>
+              <span className="text-xs text-muted-foreground block mb-1">
+                Packing Tip
+              </span>
+              <p className="text-xs font-semibold text-foreground">
+                {itinerary.packing}
+              </p>
             </div>
           )}
         </div>
       </div>
-      
+
       <div className="space-y-2">
         <motion.button
           initial={{ opacity: 0, y: 5 }}
@@ -1105,7 +1373,7 @@ function ItineraryCard({ text, onProceed, onModify, onExit }: { text: string; on
           <Check className="w-4 h-4" />
           Proceed with this itinerary
         </motion.button>
-        
+
         <div className="grid grid-cols-2 gap-2">
           <motion.button
             initial={{ opacity: 0, y: 5 }}
@@ -1120,7 +1388,7 @@ function ItineraryCard({ text, onProceed, onModify, onExit }: { text: string; on
             <Edit className="w-4 h-4" />
             Modify Search
           </motion.button>
-          
+
           <motion.button
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1140,25 +1408,42 @@ function ItineraryCard({ text, onProceed, onModify, onExit }: { text: string; on
   );
 }
 
-function UpdatedItineraryCard({ text, onProceed, onExit }: { text: string; onProceed: () => void; onExit: () => void }) {
+function UpdatedItineraryCard({
+  text,
+  onProceed,
+  onExit,
+}: {
+  text: string;
+  onProceed: () => void;
+  onExit: () => void;
+}) {
   const lower = typeof text === "string" ? text.toLowerCase() : "";
-  const isUpdatedItinerary = safeIncludes(lower, "updated your trip") || safeIncludes(lower, "updated itinerary");
-  
+  const isUpdatedItinerary =
+    safeIncludes(lower, "updated your trip") || safeIncludes(lower, "updated itinerary");
+
   if (!isUpdatedItinerary) return null;
-  
+
   const parseUpdatedItinerary = () => {
-    let cleanedText = text.replace(/Do you want to proceed with this itinerary.*$/is, "").trim();
-    
+    let cleanedText = text
+      .replace(/Do you want to proceed with this itinerary.*$/is, "")
+      .trim();
+
     const activities = cleanedText
-      .split('*')
-      .map(a => a.trim())
-      .filter(a => a && a.length > 5 && !safeIncludes(a.toLowerCase(), "updated your trip") && !safeIncludes(a.toLowerCase(), "updated itinerary"));
-    
+      .split("*")
+      .map((a) => a.trim())
+      .filter(
+        (a) =>
+          a &&
+          a.length > 5 &&
+          !safeIncludes(a.toLowerCase(), "updated your trip") &&
+          !safeIncludes(a.toLowerCase(), "updated itinerary")
+      );
+
     return { activities };
   };
-  
+
   const itinerary = parseUpdatedItinerary();
-  
+
   return (
     <div className="w-full space-y-3">
       <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-xl p-4 space-y-3">
@@ -1168,10 +1453,12 @@ function UpdatedItineraryCard({ text, onProceed, onExit }: { text: string; onPro
           </div>
           <h3 className="font-bold text-foreground">Updated Trip Itinerary</h3>
         </div>
-        
+
         {itinerary.activities.length > 0 && (
           <div className="space-y-2">
-            <span className="text-xs font-semibold text-muted-foreground block">Updated Activities</span>
+            <span className="text-xs font-semibold text-muted-foreground block">
+              Updated Activities
+            </span>
             <ul className="space-y-1">
               {itinerary.activities.map((activity, i) => (
                 <li key={i} className="text-sm text-foreground flex gap-2">
@@ -1183,7 +1470,7 @@ function UpdatedItineraryCard({ text, onProceed, onExit }: { text: string; onPro
           </div>
         )}
       </div>
-      
+
       <div className="grid grid-cols-2 gap-2">
         <motion.button
           initial={{ opacity: 0, y: 5 }}
@@ -1197,7 +1484,7 @@ function UpdatedItineraryCard({ text, onProceed, onExit }: { text: string; onPro
           <Check className="w-4 h-4" />
           Proceed
         </motion.button>
-        
+
         <motion.button
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1301,12 +1588,9 @@ function FormattedMessage({
   const isHotelBooking = safeIncludes(text, "Hotel Booking Summary");
   const isCarRentalBooking = safeIncludes(text, "Car Rental Booking Summary");
 
-  const isFlightSelected =
-    safeIncludes(text, "Selected Flight") && safeIncludes(text, "Airline:");
-  const isHotelSelected =
-    safeIncludes(text, "Selected Hotel") && safeIncludes(text, "Name:");
-  const isCarSelected =
-    safeIncludes(text, "Selected Car") && safeIncludes(text, "Type:");
+  const isFlightSelected = safeIncludes(text, "Selected Flight") && safeIncludes(text, "Airline:");
+  const isHotelSelected = safeIncludes(text, "Selected Hotel") && safeIncludes(text, "Name:");
+  const isCarSelected = safeIncludes(text, "Selected Car") && safeIncludes(text, "Type:");
 
   const isItinerary =
     safeIncludes(text, "Best Time to Visit:") &&
@@ -1431,7 +1715,9 @@ function FormattedMessage({
 
   const isCarTypeQuestion =
     safeIncludes(lowerText, "type of car") ||
-    (safeIncludes(lowerText, "car") && safeIncludes(lowerText, "please provide") && safeIncludes(lowerText, "type")) ||
+    (safeIncludes(lowerText, "car") &&
+      safeIncludes(lowerText, "please provide") &&
+      safeIncludes(lowerText, "type")) ||
     safeIncludes(lowerText, "vehicle type");
 
   if (isCarTypeQuestion) {
@@ -1489,7 +1775,9 @@ function FormattedMessage({
   }
 
   const isCarTimeQuestion =
-    (safeIncludes(lowerText, "pick up") || safeIncludes(lowerText, "pickup") || safeIncludes(lowerText, "return")) &&
+    (safeIncludes(lowerText, "pick up") ||
+      safeIncludes(lowerText, "pickup") ||
+      safeIncludes(lowerText, "return")) &&
     safeIncludes(lowerText, "time");
 
   if (isCarTimeQuestion) {
@@ -1497,7 +1785,7 @@ function FormattedMessage({
       window.dispatchEvent(new CustomEvent("sendFlightPreference", { detail: { preference: time } }));
     };
 
-    const timeOptions = ["8:00 AM","9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM"];
+    const timeOptions = ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM"];
 
     return (
       <div className="space-y-3 w-full">
@@ -1526,8 +1814,10 @@ function FormattedMessage({
   return <span>{text}</span>;
 }
 
-
-async function sendMessage(message: string, sessionId: string): Promise<{
+async function sendMessage(
+  message: string,
+  sessionId: string
+): Promise<{
   response: string;
   intent: string | null;
   confidence: number;
@@ -1542,12 +1832,12 @@ async function sendMessage(message: string, sessionId: string): Promise<{
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message, sessionId }),
   });
-  
+
   if (!res.ok) {
     const error = await res.json();
     throw new Error(error.details || error.error || "Failed to send message");
   }
-  
+
   return res.json();
 }
 
@@ -1555,7 +1845,9 @@ export function ChatUI() {
   const [message, setMessage] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [sessionId, setSessionId] = useState(() => `session-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+  const [sessionId, setSessionId] = useState(
+    () => `session-${Date.now()}-${Math.random().toString(36).slice(2)}`
+  );
   const [hasInteracted, setHasInteracted] = useState(false);
   const [waitingForDestination, setWaitingForDestination] = useState(false);
   const [lastItinerary, setLastItinerary] = useState<string>("");
@@ -1597,7 +1889,7 @@ export function ChatUI() {
       sender: "user",
       timestamp: new Date(),
     };
-    setMessages(prev => [...prev, userMsg]);
+    setMessages((prev) => [...prev, userMsg]);
     handleSend("modify the search");
   };
 
@@ -1608,152 +1900,181 @@ export function ChatUI() {
       sender: "user",
       timestamp: new Date(),
     };
-    setMessages(prev => [...prev, userMsg]);
+    setMessages((prev) => [...prev, userMsg]);
     handleSend("exit");
   };
 
   const chatMutation = useMutation({
     mutationFn: (msg: string) => sendMessage(msg, sessionId),
     onSuccess: (data) => {
+      // ✅ ONLY CHANGE: robustly resolve text for Dialogflow CX (plus your existing fallbacks)
       const responseText =
-  (typeof (data as any)?.response === "string" && (data as any).response) ||
-  (typeof (data as any)?.fulfillmentText === "string" && (data as any).fulfillmentText) ||
-  (typeof (data as any)?.queryResult?.fulfillmentText === "string" &&
-    (data as any).queryResult.fulfillmentText) ||
-  "";
+        ((data as any)?.fulfillment_response?.messages
+          ?.map((m: any) => m?.text?.text?.join("\n"))
+          ?.filter(Boolean)
+          ?.join("\n")) ||
+        (typeof (data as any)?.response === "string" && (data as any).response) ||
+        (typeof (data as any)?.fulfillmentText === "string" &&
+          (data as any).fulfillmentText) ||
+        (typeof (data as any)?.queryResult?.fulfillmentText === "string" &&
+          (data as any).queryResult.fulfillmentText) ||
+        "";
 
       console.log("Dialogflow raw payload:", data);
       console.log("CX responseMessages:", (data as any)?.queryResult?.responseMessages);
-
       console.log("Resolved responseText:", responseText);
 
-
       const isWelcome = !hasInteracted;
-      const isItinerary = safeIncludes(responseText, "Best Time to Visit:") && (safeIncludes(responseText, "Top Activities:") || safeIncludes(responseText, "Budget:"));
-      
+      const isItinerary =
+        safeIncludes(responseText, "Best Time to Visit:") &&
+        (safeIncludes(responseText, "Top Activities:") || safeIncludes(responseText, "Budget:"));
+
       // Capture current page from Dialogflow
       setCurrentPage(data.currentPage);
-      
+
       // Check if Dialogflow is asking for booking info
-      const isBookingPrompt = inBookingFlow && (
-        safeIncludes(responseText, "Please provide the departure city") ||
-        safeIncludes(responseText, "Please provide the destination city") ||
-        safeIncludes(responseText, "Please provide") ||
-        safeIncludes(responseText, "provide the")
-      );
-      
+      const isBookingPrompt =
+        inBookingFlow &&
+        (safeIncludes(responseText, "Please provide the departure city") ||
+          safeIncludes(responseText, "Please provide the destination city") ||
+          safeIncludes(responseText, "Please provide") ||
+          safeIncludes(responseText, "provide the"));
+
       // Check if showing booking options (Flight_Options, Hotel_Options, Car_Options)
       // BUT only if there are actual options in the response
       const hasAnyOptions = safeIncludes(responseText, "**Option");
-      const isShowingOptions = !!(hasAnyOptions && data.currentPage && data.currentPage.endsWith("_Options"));
-      
+      const isShowingOptions = !!(
+        hasAnyOptions &&
+        data.currentPage &&
+        data.currentPage.endsWith("_Options")
+      );
+
       // Always reset hasDisplayableOptions - only set true if we're actually showing options
       setHasDisplayableOptions(isShowingOptions);
-      
+
       // Check if this is a duplicate itinerary (same one coming back) AND we haven't already shown booking buttons
-      const isDuplicate = isItinerary && lastItinerary !== "" && lastItinerary === responseText && !showBookingButtons;
-      
+      const isDuplicate =
+        isItinerary &&
+        lastItinerary !== "" &&
+        lastItinerary === responseText &&
+        !showBookingButtons;
+
       // Set or update last itinerary only if this is the first time seeing it
       if (isItinerary && lastItinerary === "") {
         setLastItinerary(responseText);
       }
-      
+
       // If showing booking options, disable input
       if (isShowingOptions) {
         setBookingFormActive(false);
-        setMessages(prev => [...prev, {
-          id: `bot-${Date.now()}`,
-          text: responseText,
-          sender: "bot",
-          timestamp: new Date(),
-          carImages: data.carImages,
-          selectedCarImage: data.selectedCarImage,
-          hotelImages: data.hotelImages,
-          selectedHotelImage: data.selectedHotelImage,
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `bot-${Date.now()}`,
+            text: responseText,
+            sender: "bot",
+            timestamp: new Date(),
+            carImages: data.carImages,
+            selectedCarImage: data.selectedCarImage,
+            hotelImages: data.hotelImages,
+            selectedHotelImage: data.selectedHotelImage,
+          },
+        ]);
       } else if (isBookingPrompt) {
         setBookingPrompt(responseText);
         setBookingFormActive(true);
-        setMessages(prev => [...prev, {
-          id: `bot-${Date.now()}`,
-          text: responseText,
-          sender: "bot",
-          timestamp: new Date(),
-          carImages: data.carImages,
-          selectedCarImage: data.selectedCarImage,
-          hotelImages: data.hotelImages,
-          selectedHotelImage: data.selectedHotelImage,
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `bot-${Date.now()}`,
+            text: responseText,
+            sender: "bot",
+            timestamp: new Date(),
+            carImages: data.carImages,
+            selectedCarImage: data.selectedCarImage,
+            hotelImages: data.hotelImages,
+            selectedHotelImage: data.selectedHotelImage,
+          },
+        ]);
       } else if (isDuplicate) {
         setShowBookingButtons(true);
         setLastItinerary("");
-        setMessages(prev => [...prev, {
-          id: `bot-${Date.now()}`,
-          text: "duplicate-itinerary",
-          sender: "bot",
-          timestamp: new Date(),
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `bot-${Date.now()}`,
+            text: "duplicate-itinerary",
+            sender: "bot",
+            timestamp: new Date(),
+          },
+        ]);
       } else {
         // Normal message display
-        setMessages(prev => [...prev, {
-          id: `bot-${Date.now()}`,
-          text: responseText,
-          sender: "bot",
-          timestamp: new Date(),
-          showActions: isWelcome,
-          carImages: data.carImages,
-          selectedCarImage: data.selectedCarImage,
-          hotelImages: data.hotelImages,
-          selectedHotelImage: data.selectedHotelImage,
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `bot-${Date.now()}`,
+            text: responseText,
+            sender: "bot",
+            timestamp: new Date(),
+            showActions: isWelcome,
+            carImages: data.carImages,
+            selectedCarImage: data.selectedCarImage,
+            hotelImages: data.hotelImages,
+            selectedHotelImage: data.selectedHotelImage,
+          },
+        ]);
       }
-      
+
       if (!hasInteracted) setHasInteracted(true);
     },
     onError: (error: Error) => {
-      setMessages(prev => [...prev, {
-        id: `bot-${Date.now()}`,
-        text: `Sorry, I encountered an error: ${error.message}`,
-        sender: "bot",
-        timestamp: new Date(),
-      }]);
-    }
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: `bot-${Date.now()}`,
+          text: `Sorry, I encountered an error: ${error.message}`,
+          sender: "bot",
+          timestamp: new Date(),
+        },
+      ]);
+    },
   });
 
   const handleSend = (text?: string) => {
     const msgToSend = text || message.trim();
     if (!msgToSend || chatMutation.isPending) return;
-    
+
     const userMessage: Message = {
       id: `user-${Date.now()}`,
       text: msgToSend,
       sender: "user",
       timestamp: new Date(),
     };
-    
-    setMessages(prev => [...prev, userMessage]);
-    
+
+    setMessages((prev) => [...prev, userMessage]);
+
     // If booking form is active, close it after sending
     if (bookingFormActive) {
       setBookingFormActive(false);
       setBookingPrompt("");
     }
-    
+
     // If waiting for destination, extract just the city/destination name
     if (waitingForDestination) {
       setWaitingForDestination(false);
       // Extract destination - remove common phrases like "trip to", "adventure", "vacation", etc
       let destination = msgToSend
         .toLowerCase()
-        .replace(/^(.*?)(trip|vacation|journey|adventure|holiday)?\s*to\s+/i, '')
-        .replace(/^(an?|the)\s+/i, '')
+        .replace(/^(.*?)(trip|vacation|journey|adventure|holiday)?\s*to\s+/i, "")
+        .replace(/^(an?|the)\s+/i, "")
         .trim();
-      
+
       // If nothing extracted, use the whole message
       if (!destination || destination.length < 2) {
         destination = msgToSend;
       }
-      
+
       chatMutation.mutate(`I want to plan a trip to ${destination}`);
     } else if (inBookingFlow && activeBookingType && (!currentPage || currentPage === "Start Page")) {
       // User is providing all booking details at once from initial entry
@@ -1770,7 +2091,7 @@ export function ChatUI() {
     } else {
       chatMutation.mutate(msgToSend);
     }
-    
+
     if (!text) setMessage("");
     setIsExpanded(true);
   };
@@ -1782,28 +2103,28 @@ export function ChatUI() {
       setShowBookingButtons(false);
       setInBookingFlow(false);
       setLastItinerary("");
-      
+
       const botQuestion: Message = {
         id: `bot-${Date.now()}`,
         text: "Where do you want to plan your trip to?",
         sender: "bot",
         timestamp: new Date(),
       };
-      setMessages(prev => [...prev, botQuestion]);
+      setMessages((prev) => [...prev, botQuestion]);
       setWaitingForDestination(true);
     } else if (action.trigger === "I want to book a flight") {
       setInBookingFlow(true);
       setActiveBookingType("flight");
-      
+
       // Check if coming from trip planning or another booking flow
-      const isFromTripOrBooking = currentPage && (
-        safeIncludes(currentPage, "Itinerary") ||
-        safeIncludes(currentPage, "duplicate") ||
-        safeIncludes(currentPage, "Hotel") ||
-        safeIncludes(currentPage, "Car") ||
-        safeIncludes(currentPage, "Booking")
-      );
-      
+      const isFromTripOrBooking =
+        currentPage &&
+        (safeIncludes(currentPage, "Itinerary") ||
+          safeIncludes(currentPage, "duplicate") ||
+          safeIncludes(currentPage, "Hotel") ||
+          safeIncludes(currentPage, "Car") ||
+          safeIncludes(currentPage, "Booking"));
+
       if (isFromTripOrBooking) {
         // From trip planning or other booking - Dialogflow asks one by one
         handleSend("I want to book a flight");
@@ -1815,20 +2136,20 @@ export function ChatUI() {
           sender: "bot",
           timestamp: new Date(),
         };
-        setMessages(prev => [...prev, botMsg]);
+        setMessages((prev) => [...prev, botMsg]);
       }
     } else if (action.trigger === "I want to book a hotel") {
       setInBookingFlow(true);
       setActiveBookingType("hotel");
-      
-      const isFromTripOrBooking = currentPage && (
-        safeIncludes(currentPage, "Itinerary") ||
-        safeIncludes(currentPage, "duplicate") ||
-        safeIncludes(currentPage, "Flight") ||
-        safeIncludes(currentPage, "Car") ||
-        safeIncludes(currentPage, "Booking")
-      );
-      
+
+      const isFromTripOrBooking =
+        currentPage &&
+        (safeIncludes(currentPage, "Itinerary") ||
+          safeIncludes(currentPage, "duplicate") ||
+          safeIncludes(currentPage, "Flight") ||
+          safeIncludes(currentPage, "Car") ||
+          safeIncludes(currentPage, "Booking"));
+
       if (isFromTripOrBooking) {
         handleSend("I want to book a hotel");
       } else {
@@ -1838,20 +2159,20 @@ export function ChatUI() {
           sender: "bot",
           timestamp: new Date(),
         };
-        setMessages(prev => [...prev, botMsg]);
+        setMessages((prev) => [...prev, botMsg]);
       }
     } else if (action.trigger === "I want to rent a car") {
       setInBookingFlow(true);
       setActiveBookingType("car");
-      
-      const isFromTripOrBooking = currentPage && (
-        safeIncludes(currentPage, "Itinerary") ||
-        safeIncludes(currentPage, "duplicate") ||
-        safeIncludes(currentPage, "Flight") ||
-        safeIncludes(currentPage, "Hotel") ||
-        safeIncludes(currentPage, "Booking")
-      );
-      
+
+      const isFromTripOrBooking =
+        currentPage &&
+        (safeIncludes(currentPage, "Itinerary") ||
+          safeIncludes(currentPage, "duplicate") ||
+          safeIncludes(currentPage, "Flight") ||
+          safeIncludes(currentPage, "Hotel") ||
+          safeIncludes(currentPage, "Booking"));
+
       if (isFromTripOrBooking) {
         handleSend("I want to rent a car");
       } else {
@@ -1861,7 +2182,7 @@ export function ChatUI() {
           sender: "bot",
           timestamp: new Date(),
         };
-        setMessages(prev => [...prev, botMsg]);
+        setMessages((prev) => [...prev, botMsg]);
       }
     } else {
       handleSend(action.trigger);
@@ -1881,7 +2202,7 @@ export function ChatUI() {
       2: "hotel",
       3: "car",
     };
-    
+
     // If we're showing actual booking options (Flight_Options, Hotel_Options, Car_Options),
     // send just the option number
     if (currentPage && currentPage.endsWith("_Options")) {
@@ -1891,7 +2212,7 @@ export function ChatUI() {
       setActiveBookingType(bookingTypes[option] || null);
       setInBookingFlow(true);
       setShowBookingButtons(false);
-      
+
       // Add user selection message
       const userMsg: Message = {
         id: `user-${Date.now()}`,
@@ -1899,8 +2220,8 @@ export function ChatUI() {
         sender: "user",
         timestamp: new Date(),
       };
-      setMessages(prev => [...prev, userMsg]);
-      
+      setMessages((prev) => [...prev, userMsg]);
+
       // Show a local prompt first, let user provide full details in one message
       if (option === 1) {
         const botMsg: Message = {
@@ -1909,7 +2230,7 @@ export function ChatUI() {
           sender: "bot",
           timestamp: new Date(),
         };
-        setMessages(prev => [...prev, botMsg]);
+        setMessages((prev) => [...prev, botMsg]);
       } else if (option === 2) {
         const botMsg: Message = {
           id: `bot-${Date.now()}`,
@@ -1917,7 +2238,7 @@ export function ChatUI() {
           sender: "bot",
           timestamp: new Date(),
         };
-        setMessages(prev => [...prev, botMsg]);
+        setMessages((prev) => [...prev, botMsg]);
       } else if (option === 3) {
         const botMsg: Message = {
           id: `bot-${Date.now()}`,
@@ -1925,7 +2246,7 @@ export function ChatUI() {
           sender: "bot",
           timestamp: new Date(),
         };
-        setMessages(prev => [...prev, botMsg]);
+        setMessages((prev) => [...prev, botMsg]);
       }
     }
   };
@@ -1934,9 +2255,9 @@ export function ChatUI() {
     const handleConfirmBooking = () => {
       handleSend("Yes");
     };
-    
-    window.addEventListener('confirmBooking', handleConfirmBooking);
-    return () => window.removeEventListener('confirmBooking', handleConfirmBooking);
+
+    window.addEventListener("confirmBooking", handleConfirmBooking);
+    return () => window.removeEventListener("confirmBooking", handleConfirmBooking);
   }, []);
 
   useEffect(() => {
@@ -1944,7 +2265,7 @@ export function ChatUI() {
       // Send "proceed" to Dialogflow - it will ask which booking type
       handleSend("proceed");
     };
-    
+
     const handleFlightPreference = (event: Event) => {
       const customEvent = event as CustomEvent;
       const preference = customEvent.detail?.preference;
@@ -1952,12 +2273,12 @@ export function ChatUI() {
         handleSend(preference);
       }
     };
-    
-    window.addEventListener('proceedItinerary', handleProceedItinerary);
-    window.addEventListener('sendFlightPreference', handleFlightPreference);
+
+    window.addEventListener("proceedItinerary", handleProceedItinerary);
+    window.addEventListener("sendFlightPreference", handleFlightPreference);
     return () => {
-      window.removeEventListener('proceedItinerary', handleProceedItinerary);
-      window.removeEventListener('sendFlightPreference', handleFlightPreference);
+      window.removeEventListener("proceedItinerary", handleProceedItinerary);
+      window.removeEventListener("sendFlightPreference", handleFlightPreference);
     };
   }, []);
 
@@ -1973,13 +2294,12 @@ export function ChatUI() {
   };
 
   const hasFlightOptions = (text: string) => {
-    return safeIncludes(text, '**Option') && (safeIncludes(text, 'Airline:') || safeIncludes(text, 'Hotel:'));
+    return safeIncludes(text, "**Option") && (safeIncludes(text, "Airline:") || safeIncludes(text, "Hotel:"));
   };
 
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-lg px-4 z-40">
       <div className="relative w-full">
-
         <AnimatePresence>
           {isExpanded && (
             <motion.div
@@ -1995,7 +2315,7 @@ export function ChatUI() {
                   </div>
                   <span className="font-bold text-foreground">TripSage AI</span>
                 </div>
-                <button 
+                <button
                   onClick={handleCloseChat}
                   className="w-8 h-8 rounded-full hover:bg-muted/50 flex items-center justify-center text-muted-foreground"
                   data-testid="close-chat"
@@ -2021,21 +2341,31 @@ export function ChatUI() {
                       className={`px-4 py-2.5 rounded-2xl text-sm ${
                         msg.sender === "user"
                           ? "max-w-[80%] bg-primary text-primary-foreground rounded-br-md"
-                          : (hasFlightOptions(msg.text) || msg.text === "duplicate-itinerary")
-                            ? "w-full bg-transparent p-0" 
-                            : "max-w-[80%] bg-white/80 text-foreground border border-white/50 rounded-bl-md"
+                          : hasFlightOptions(msg.text) || msg.text === "duplicate-itinerary"
+                          ? "w-full bg-transparent p-0"
+                          : "max-w-[80%] bg-white/80 text-foreground border border-white/50 rounded-bl-md"
                       }`}
                       data-testid={`message-${msg.sender}-${msg.id}`}
                     >
                       {msg.sender === "bot" ? (
-                        <FormattedMessage text={msg.text} onFlightSelect={handleFlightSelect} inBookingFlow={inBookingFlow} onModifySearch={handleModifySearch} onExit={handleExit} carImages={msg.carImages} selectedCarImage={msg.selectedCarImage} hotelImages={msg.hotelImages} selectedHotelImage={msg.selectedHotelImage} />
+                        <FormattedMessage
+                          text={msg.text}
+                          onFlightSelect={handleFlightSelect}
+                          inBookingFlow={inBookingFlow}
+                          onModifySearch={handleModifySearch}
+                          onExit={handleExit}
+                          carImages={msg.carImages}
+                          selectedCarImage={msg.selectedCarImage}
+                          hotelImages={msg.hotelImages}
+                          selectedHotelImage={msg.selectedHotelImage}
+                        />
                       ) : (
                         msg.text
                       )}
                     </div>
-                    
+
                     {msg.sender === "bot" && msg.showActions && (
-                      <motion.div 
+                      <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
@@ -2074,28 +2404,28 @@ export function ChatUI() {
           )}
         </AnimatePresence>
 
-        <motion.div 
+        <motion.div
           layout
           className={`glass-panel p-2 flex items-center gap-2 transition-all duration-300 ${
-            isExpanded ? 'rounded-b-[2rem] rounded-t-none' : 'rounded-[2rem]'
-          } ${isExpanded ? 'shadow-glow ring-2 ring-primary/20' : ''}`}
+            isExpanded ? "rounded-b-[2rem] rounded-t-none" : "rounded-[2rem]"
+          } ${isExpanded ? "shadow-glow ring-2 ring-primary/20" : ""}`}
         >
-          <div 
+          <div
             className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary cursor-pointer"
             onClick={handleOpenChat}
           >
             <Sparkles className="w-5 h-5" />
           </div>
-          
+
           {hasDisplayableOptions ? (
             <div className="flex-1 text-muted-foreground text-sm px-2 py-1 italic">
               Select an option above
             </div>
           ) : (
-            <input 
+            <input
               ref={inputRef}
-              type="text" 
-              placeholder="Ask TripSage anything..." 
+              type="text"
+              placeholder="Ask TripSage anything..."
               className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground font-medium text-base px-2 h-10"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -2107,13 +2437,13 @@ export function ChatUI() {
           )}
 
           <div className="flex items-center gap-1">
-             <button 
+            <button
               className="w-10 h-10 rounded-full hover:bg-muted/50 flex items-center justify-center text-muted-foreground transition-colors"
               data-testid="mic-button"
             >
               <Mic className="w-5 h-5" />
             </button>
-            <button 
+            <button
               onClick={() => handleSend()}
               disabled={!message.trim() || chatMutation.isPending}
               className="w-12 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg shadow-primary/25 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100"
@@ -2127,7 +2457,6 @@ export function ChatUI() {
             </button>
           </div>
         </motion.div>
-
       </div>
     </div>
   );
