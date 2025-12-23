@@ -1623,6 +1623,8 @@ export function ChatUI() {
   "";
 
       console.log("Dialogflow raw payload:", data);
+      console.log("CX responseMessages:", (data as any)?.queryResult?.responseMessages);
+
       console.log("Resolved responseText:", responseText);
 
 
