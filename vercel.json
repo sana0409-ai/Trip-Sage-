@@ -1,0 +1,9 @@
+{
+  "functions": {
+    "api/chat.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "buildCommand": "cd client && npm install && npm run build",
+  "outputDirectory": "client/dist"
+}
