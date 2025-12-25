@@ -1,20 +1,26 @@
-const { SessionsClient } = require("@google-cloud/dialogflow-cx");
+import { SessionsClient } from "@google-cloud/dialogflow-cx";
 
-// Small helper
-const safeIncludes = (value, search) => typeof value === "string" && value.includes(search);
-
-module.exports = async function handler(req, res) {
-  // CORS
+export default async function handler(req, res) {
+  // CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-  if (req.method === "OPTIONS") return res.status(204).end();
-  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+  // Handle preflight
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
+  }
+
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
   try {
     const { message, sessionId } = req.body || {};
-    if (!message) return res.status(400).json({ error: "Message is required" });
+
+    if (!message) {
+      return res.status(400).json({ error: "Message is required" });
+    }
 
     const projectId = process.env.DIALOGFLOW_PROJECT_ID;
     const agentId = process.env.DIALOGFLOW_AGENT_ID;
@@ -25,25 +31,32 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({
         error: "Dialogflow CX is not configured properly",
         missing: {
-          DIALOGFLOW_PROJECT_ID: !projectId,
-          DIALOGFLOW_AGENT_ID: !agentId,
-          GOOGLE_APPLICATION_CREDENTIALS_JSON: !credentialsJson,
+          projectId: !projectId,
+          agentId: !agentId,
+          credentials: !credentialsJson,
         },
       });
     }
 
+    // Parse credentials JSON (and fix newline formatting for private_key)
     const credentials = JSON.parse(credentialsJson);
+    const privateKey =
+      typeof credentials.private_key === "string"
+        ? credentials.private_key.replace(/\\n/g, "\n")
+        : credentials.private_key;
 
     const sessionClient = new SessionsClient({
       apiEndpoint: `${location}-dialogflow.googleapis.com`,
       credentials: {
         client_email: credentials.client_email,
-        private_key: credentials.private_key,
+        private_key: privateKey,
       },
       projectId: credentials.project_id,
     });
 
-    const currentSessionId = sessionId || `session-${Date.now()}`;
+    const currentSessionId =
+      sessionId || `session-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
     const sessionPath = sessionClient.projectLocationAgentSessionPath(
       projectId,
       location,
@@ -66,23 +79,23 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({ error: "No response from Dialogflow CX" });
     }
 
-    // Extract response text
+    // Extract text response
     let responseText = "";
     if (queryResult.responseMessages?.length) {
       for (const msg of queryResult.responseMessages) {
         if (msg.text?.text?.length) {
-          responseText += msg.text.text.join("\n") + "\n";
+          responseText += msg.text.text.join("\n");
         }
 
-        // Skip "chips" payloads
+        // skip chips payloads (UI-only)
         if (msg.payload?.fields) {
           const richContent = msg.payload.fields["richContent"];
-          if (richContent?.listValue?.values) {
+          if (richContent?.listValue) {
             let isChipsPayload = false;
 
-            for (const item of richContent.listValue.values) {
-              if (item.listValue?.values) {
-                for (const subItem of item.listValue.values) {
+            for (const item of richContent.listValue.values || []) {
+              if (item.listValue) {
+                for (const subItem of item.listValue.values || []) {
                   const typeField = subItem.structValue?.fields?.["type"];
                   if (typeField?.stringValue === "chips") {
                     isChipsPayload = true;
@@ -97,57 +110,63 @@ module.exports = async function handler(req, res) {
           }
 
           const textField = msg.payload.fields["text"];
-          if (textField?.stringValue) responseText += textField.stringValue + "\n";
+          if (textField?.stringValue) responseText += textField.stringValue;
         }
       }
     }
 
-    responseText = responseText.trim();
-
-    // Pull images from parameters (same logic you had)
+    // Pull images + itinerary params (same behavior as your routes.ts)
+    let itinerary = "";
+    let destination = "";
     const carImages = {};
-    const hotelImages = {};
     let selectedCarImage = "";
+    const hotelImages = {};
     let selectedHotelImage = "";
+
+    const fields = queryResult.parameters?.fields || {};
+
+    const generatedItinerary = fields["session.params.generated_itinerary"];
+    if (generatedItinerary?.stringValue) itinerary = generatedItinerary.stringValue;
+
+    const destParam = fields["destination"];
+    if (destParam?.stringValue) destination = destParam.stringValue;
+
+    for (let i = 1; i <= 5; i++) {
+      const imageKey = `car_opt_${i}_image`;
+      const imageParam = fields[imageKey];
+      if (imageParam?.stringValue) carImages[`option${i}`] = imageParam.stringValue;
+    }
+
+    const selectedCarImageParam = fields["selected_car_image"];
+    if (selectedCarImageParam?.stringValue) selectedCarImage = selectedCarImageParam.stringValue;
 
     const upgradeHotelImageUrl = (url) =>
       url.replace(/\/square\d+\//, "/max500/").replace(/\/max\d+\//, "/max500/");
 
-    const fields = queryResult.parameters?.fields || {};
     for (let i = 1; i <= 5; i++) {
-      const carParam = fields[`car_opt_${i}_image`];
-      if (carParam?.stringValue) carImages[`option${i}`] = carParam.stringValue;
-
-      const hotelParam = fields[`hotel_opt_${i}_image`];
-      if (hotelParam?.stringValue) hotelImages[`option${i}`] = upgradeHotelImageUrl(hotelParam.stringValue);
+      const imageKey = `hotel_opt_${i}_image`;
+      const imageParam = fields[imageKey];
+      if (imageParam?.stringValue) {
+        hotelImages[`option${i}`] = upgradeHotelImageUrl(imageParam.stringValue);
+      }
     }
 
-    if (fields["selected_car_image"]?.stringValue) {
-      selectedCarImage = fields["selected_car_image"].stringValue;
+    const selectedHotelImageParam = fields["selected_hotel_image"];
+    if (selectedHotelImageParam?.stringValue) {
+      selectedHotelImage = upgradeHotelImageUrl(selectedHotelImageParam.stringValue);
     }
 
-    if (fields["selected_hotel_image"]?.stringValue) {
-      selectedHotelImage = upgradeHotelImageUrl(fields["selected_hotel_image"].stringValue);
-    }
-
-    // Itinerary override (same as your server code)
     const intentName = queryResult.intent?.displayName || "";
-    const itineraryParam = fields["session.params.generated_itinerary"];
-    const itinerary = itineraryParam?.stringValue || "";
-
     if (itinerary && intentName === "trip_itinerary_plan") {
       responseText = itinerary;
     }
 
-    responseText = responseText
-      .replace(/Would you like to proceed with planning this trip\?/gi, "")
-      .trim();
+    responseText = (responseText || queryResult.transcript || "").replace(
+      /Would you like to proceed with planning this trip\?/gi,
+      ""
+    ).trim();
 
-    if (!responseText && queryResult.transcript) {
-      responseText = queryResult.transcript;
-    }
-
-    return res.status(200).json({
+    return res.json({
       response: responseText || "I didn't understand that. Could you try again?",
       intent: queryResult.intent?.displayName || null,
       confidence: queryResult.intentDetectionConfidence || 0,
@@ -164,4 +183,4 @@ module.exports = async function handler(req, res) {
       details: err?.message || String(err),
     });
   }
-};
+}
