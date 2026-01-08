@@ -2,6 +2,9 @@
 
 A Flask-based webhook service for travel search flows (flights, hotels, and car rentals). It integrates with Amadeus, Booking, Priceline (RapidAPI), and Geoapify to return option cards and booking summaries. The `/webhook` endpoint is intended for Dialogflow CX, and `/chat` is a lightweight Streamlit-friendly endpoint.
 
+**Live Demo:**  
+https://trip-sage--sanataj0409.replit.app
+
 ## Features
 - Flight search with optional layover filtering (Amadeus)
 - Hotel search with budget filtering and rich image cards (Booking via RapidAPI)
