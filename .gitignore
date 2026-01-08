@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+.env
+.env.*
+streamlit_ui/dialogflow_key.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

@@ -1,0 +1,3547 @@
+{
+  "ranking_version": 5,
+  "recommended_filters": [],
+  "is_beach_ufi": 8,
+  "primary_count": 368,
+  "search_metadata": "hotels_cc1=vn,last_x_property_ids=4677380",
+  "applied_filters": [],
+  "has_low_availability": "",
+  "count": 368,
+  "copyright": [
+    "Only 4 left at this price on Booking.com",
+    "Double Room",
+    "Only 2 left at this price on Booking.com",
+    "Apartment with Sea View",
+    "Queen Room with Two Queen Beds",
+    "Studio with Sea View",
+    "Deluxe Double Room",
+    "Twin Room with Garden View",
+    "\u200bPremium Bayview Twin Room",
+    "Queen Room",
+    "Deluxe Double Room with Garden View",
+    "Only 1 left at this price on Booking.com",
+    "Superior Twin Room with City View",
+    "Apartment with Balcony",
+    "Standard King Room",
+    "Deluxe Queen Room Ocean View with Balcony",
+    "Only 3 left at this price on Booking.com"
+  ],
+  "total_count_with_filters": 368,
+  "extended_count": 0,
+  "page_loading_threshold": 10,
+  "unfiltered_count": 429,
+  "room_distribution": [
+    {
+      "adults": "2",
+      "children": []
+    }
+  ],
+  "result": [
+    {
+      "countrycode": "vn",
+      "currency_code": "VND",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "mobile_discount_percentage": 0,
+      "default_wishlist_name": "Quy Nhon",
+      "city_in_trans": "in Quy Nhon",
+      "default_language": "vi",
+      "url": "https://www.booking.com/hotel/vn/la-cactus-2.html",
+      "checkout": {
+        "from": "",
+        "until": "12:00"
+      },
+      "urgency_c": [
+        0
+      ],
+      "review_score_word": "Very Good",
+      "urgency_room_c": 1,
+      "preferred_plus": 0,
+      "distance_to_cc": "1.00",
+      "is_smart_deal": 0,
+      "updated_checkout": null,
+      "wishlist_count": 0,
+      "address": "03 Tr\u1ea7n V\u0103n \u01a0n",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "currencycode": "VND",
+      "country_trans": "Vietnam",
+      "preferred": 1,
+      "crib_guaranteed": "",
+      "review_recommendation": "",
+      "deals": {
+        "deal_events_killswitch": 0,
+        "deals_available": {
+          "has_flash_deal": 1
+        },
+        "deal_attributes": {}
+      },
+      "block_ids": [
+        "743412201_329564528_2_0_0"
+      ],
+      "latitude": 13.755433,
+      "is_no_prepayment_block": 1,
+      "zip": "",
+      "native_ads_tracking": "",
+      "accommodation_type_name": "Hotels",
+      "distance": "0.99",
+      "review_score": 8.0,
+      "badges": [
+        {
+          "text": "Limited-time Deal",
+          "badge_variant": "constructive",
+          "id": "Limited Time Deal"
+        }
+      ],
+      "longitude": 109.21601,
+      "class": 2.0,
+      "id": "property_card_7434122",
+      "type": "property_card",
+      "address_trans": "03 Tr\u1ea7n V\u0103n \u01a0n",
+      "cc1": "vn",
+      "city_trans": "Quy Nhon",
+      "district": "",
+      "soldout": 0,
+      "checkin": {
+        "until": "16:00",
+        "from": "14:00"
+      },
+      "price_is_final": 1,
+      "accommodation_type": 204,
+      "price_breakdown": {
+        "has_incalculable_charges": 0,
+        "currency": "VND",
+        "sum_excluded_raw": "0.00",
+        "gross_price": "387799.00",
+        "has_tax_exceptions": 0,
+        "has_fine_print_charges": 0,
+        "all_inclusive_price": 387799.0
+      },
+      "is_mobile_deal": 0,
+      "hotel_has_vb_boost": 0,
+      "hotel_name": "La Cactus Hotel 2",
+      "is_city_center": 0,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "unit_type_id": 9,
+          "localized_area": null
+        }
+      },
+      "is_genius_deal": 0,
+      "districts": "",
+      "genius_discount_percentage": 0,
+      "cc_required": 1,
+      "ufi": -3727579,
+      "review_nr": 497,
+      "has_free_parking": 1,
+      "hotel_include_breakfast": 0,
+      "updated_checkin": null,
+      "native_ad_id": "",
+      "hotel_name_trans": "La Cactus Hotel 2",
+      "native_ads_cpc": 0.0,
+      "city": "Quy Nh\u01a1n",
+      "main_photo_id": 494989534,
+      "is_geo_rate": "",
+      "selected_review_topic": null,
+      "district_id": 0,
+      "property_cribs_availability": 0,
+      "city_name_en": "Quy Nh\u01a1n",
+      "children_not_allowed": null,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/494989534.jpg?k=4c3d5cfa22c814e5aa5494008ab8295717da0785909c6372033c25a72ce6a13b&o=",
+      "is_tpi_exclusive_property": 0,
+      "extended": 0,
+      "is_free_cancellable": 1,
+      "hotel_facilities": "420,468,490,124,305,503,209,460,158,423,222,22,493,498,487,117,458,143,210,53,8,2,78,91,436,108,64,489,48,494,140,450,486,504,419,444,424,17,491,452,109,467,421,455,23,456,459,304,129,75,447,418,28,16,461,488,497,127,457,462,183,46,465,466,499,502,495,422,110,496,449,505,506,426,44,15,445,492,425,446",
+      "class_is_estimated": 0,
+      "cant_book": null,
+      "hotel_id": 7434122,
+      "in_best_district": 0,
+      "min_total_price": 387799.0001
+    },
+    {
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "city_in_trans": "in Quy Nhon",
+      "mobile_discount_percentage": 0,
+      "default_wishlist_name": "Quy Nhon",
+      "currency_code": "VND",
+      "countrycode": "vn",
+      "checkout": {
+        "until": "11:00",
+        "from": ""
+      },
+      "url": "https://www.booking.com/hotel/vn/big-tree-backpackers-and-bistro.html",
+      "default_language": "xu",
+      "distance_to_cc": "8.60",
+      "is_smart_deal": 0,
+      "preferred_plus": 1,
+      "review_score_word": "Wonderful",
+      "urgency_c": [
+        0
+      ],
+      "urgency_room_c": 1,
+      "updated_checkout": null,
+      "wishlist_count": 0,
+      "address": "T\u1ed5 2, Khu v\u1ef1c 1, B\u00e3i X\u00e9p, Gh\u1ec1nh R\u00e1ng, Quy Nh\u01a1n, Binh \u0110\u1ecbnh",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "external_reviews": {
+        "score": 9.64000034332275,
+        "should_display": "",
+        "num_reviews": 11,
+        "score_word": "Exceptional"
+      },
+      "review_recommendation": "",
+      "deals": {
+        "deal_attributes": {},
+        "deals_available": {},
+        "deal_events_killswitch": 0
+      },
+      "country_trans": "Vietnam",
+      "currencycode": "VND",
+      "crib_guaranteed": "",
+      "preferred": 1,
+      "badges": [],
+      "longitude": 109.231181144714,
+      "accommodation_type_name": "Hostels",
+      "distance": "8.59",
+      "review_score": 9.0,
+      "zip": "",
+      "native_ads_tracking": "",
+      "is_no_prepayment_block": 1,
+      "block_ids": [
+        "160487952_421155948_2_1_0"
+      ],
+      "latitude": 13.6857250285285,
+      "cc1": "vn",
+      "city_trans": "Quy Nhon",
+      "type": "property_card",
+      "id": "property_card_1604879",
+      "address_trans": "T\u1ed5 2, Khu v\u1ef1c 1, B\u00e3i X\u00e9p, Gh\u1ec1nh R\u00e1ng, Quy Nh\u01a1n, Binh \u0110\u1ecbnh",
+      "class": 3.0,
+      "soldout": 0,
+      "checkin": {
+        "until": "",
+        "from": "14:00"
+      },
+      "district": "",
+      "is_mobile_deal": 0,
+      "price_breakdown": {
+        "all_inclusive_price": 1212750.0,
+        "has_incalculable_charges": 0,
+        "has_tax_exceptions": 0,
+        "gross_price": "1212750.00",
+        "currency": "VND",
+        "sum_excluded_raw": "0.00",
+        "has_fine_print_charges": 0
+      },
+      "hotel_has_vb_boost": 0,
+      "accommodation_type": 203,
+      "price_is_final": 1,
+      "ufi": -3727579,
+      "districts": "",
+      "genius_discount_percentage": 0,
+      "cc_required": 1,
+      "is_city_center": 0,
+      "hotel_name": "Haven Boutique Hotel Quy Nhon",
+      "is_genius_deal": 0,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "unit_type_id": 9,
+          "localized_area": null
+        }
+      },
+      "native_ads_cpc": 0.0,
+      "hotel_name_trans": "Haven Boutique Hotel Quy Nhon",
+      "native_ad_id": "",
+      "updated_checkin": null,
+      "review_nr": 343,
+      "hotel_include_breakfast": 1,
+      "main_photo_id": 738699661,
+      "is_geo_rate": 1,
+      "city": "X\u00f3m B\u00e3i X\u00e9p",
+      "property_cribs_availability": 0,
+      "city_name_en": "X\u00f3m B\u00e3i X\u00e9p",
+      "selected_review_topic": null,
+      "district_id": 0,
+      "children_not_allowed": null,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/738699661.jpg?k=43ae052cf48a5b6d198cf286b57ebc4a8d1ab8e50162507969a976c0dc895634&o=",
+      "min_total_price": 1212750,
+      "in_best_district": 0,
+      "hotel_id": 1604879,
+      "cant_book": null,
+      "class_is_estimated": 0,
+      "extended": 0,
+      "is_tpi_exclusive_property": 0,
+      "is_free_cancellable": 0,
+      "hotel_facilities": "91,2,210,170,424,51,3,404,73,140,411,305,302,500,225,22,403,209,222,423,107,70,161,90,96,426,203,15,409,133,47,14,146,501,410,142,17,109,16,224,407,81,28,7,418"
+    },
+    {
+      "district": "",
+      "checkin": {
+        "until": "23:30",
+        "from": "14:00"
+      },
+      "soldout": 0,
+      "accommodation_type": 201,
+      "price_breakdown": {
+        "has_incalculable_charges": 0,
+        "sum_excluded_raw": "0.00",
+        "currency": "VND",
+        "has_tax_exceptions": 0,
+        "gross_price": "900000.00",
+        "has_fine_print_charges": 0,
+        "all_inclusive_price": 900000.0
+      },
+      "is_mobile_deal": 0,
+      "hotel_has_vb_boost": 0,
+      "price_is_final": 1,
+      "ufi": -3727579,
+      "is_genius_deal": 0,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "unit_type_id": 1,
+          "localized_area": "46"
+        }
+      },
+      "hotel_name": "TMS Quy Nh\u01a1n View Bi\u1ec3n",
+      "is_city_center": 0,
+      "genius_discount_percentage": 0,
+      "cc_required": 1,
+      "districts": "",
+      "updated_checkin": null,
+      "native_ad_id": "",
+      "native_ads_cpc": 0.0,
+      "hotel_name_trans": "TMS Quy Nh\u01a1n View Bi\u1ec3n",
+      "has_free_parking": 1,
+      "review_nr": 231,
+      "hotel_include_breakfast": 0,
+      "city": "Quy Nh\u01a1n",
+      "is_geo_rate": "",
+      "main_photo_id": 610515804,
+      "district_id": 0,
+      "selected_review_topic": null,
+      "property_cribs_availability": 0,
+      "city_name_en": "Quy Nh\u01a1n",
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/610515804.jpg?k=e04ff690b5706ea24c6c28579bfa3f293636ae232a3b855f74501a48177666c0&o=",
+      "children_not_allowed": null,
+      "hotel_id": 8883400,
+      "cant_book": null,
+      "min_total_price": 900000,
+      "in_best_district": 0,
+      "hotel_facilities": "57,159,50,451,414,492,426,479,409,76,243,476,406,101,495,147,118,240,462,497,244,28,413,12,145,501,142,17,410,467,444,3,213,48,25,436,210,117,148,53,498,251,209,186,481,302,468,189,506,445,15,167,248,47,110,90,97,7,212,447,418,456,114,23,421,126,129,304,459,176,401,55,109,58,489,486,140,494,247,412,256,62,464,143,87,80,245,136,493,22,82,20,27,490,144,96,505,449,446,141,203,502,54,138,49,183,107,46,220,457,127,461,219,75,125,455,172,452,491,5,419,424,482,111,51,404,474,485,137,255,78,69,249,473,403,135,246,423,11,470,86,420,59,425,472,44,499,475,405,133,496,422,484,254,70,211,77,188,466,61,72,56,16,134,21,483,9,477,407,81,250,146,480,438,19,504,170,450,187,91,2,64,453,8,6,408,478,225,503,222,158,205,124,411,454,174,185,437,500",
+      "is_tpi_exclusive_property": 0,
+      "extended": 0,
+      "is_free_cancellable": 1,
+      "class_is_estimated": 0,
+      "currency_code": "VND",
+      "mobile_discount_percentage": 0,
+      "default_wishlist_name": "Quy Nhon",
+      "city_in_trans": "in Quy Nhon",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "countrycode": "vn",
+      "url": "https://www.booking.com/hotel/vn/tms-apartment-quy-nhon.html",
+      "checkout": {
+        "until": "12:00",
+        "from": "05:00"
+      },
+      "default_language": "vi",
+      "distance_to_cc": "1.50",
+      "is_smart_deal": 0,
+      "urgency_room_c": 3,
+      "urgency_c": [
+        2
+      ],
+      "review_score_word": "Excellent",
+      "preferred_plus": 1,
+      "wishlist_count": 0,
+      "updated_checkout": null,
+      "booking_home": {
+        "segment": 1,
+        "is_single_unit_property": "",
+        "is_booking_home": 1,
+        "quality_class": 4.0,
+        "group": "apartment_like"
+      },
+      "timezone": "Asia/Ho_Chi_Minh",
+      "address": "28 Nguy\u1ec5n Hu\u1ec7",
+      "deals": {
+        "deal_attributes": {},
+        "deals_available": {},
+        "deal_events_killswitch": 0
+      },
+      "review_recommendation": "",
+      "crib_guaranteed": "",
+      "preferred": 1,
+      "country_trans": "Vietnam",
+      "currencycode": "VND",
+      "review_score": 8.6,
+      "accommodation_type_name": "Apartments",
+      "distance": "1.47",
+      "longitude": 109.2328921,
+      "badges": [
+        {
+          "text": "Late Escape Deal",
+          "id": "Late Escape Campaign",
+          "badge_variant": "constructive"
+        }
+      ],
+      "latitude": 13.7700633,
+      "block_ids": [
+        "888340005_368563491_0_0_0"
+      ],
+      "zip": "",
+      "is_no_prepayment_block": 1,
+      "native_ads_tracking": "",
+      "cc1": "vn",
+      "city_trans": "Quy Nhon",
+      "class": 0.0,
+      "address_trans": "28 Nguy\u1ec5n Hu\u1ec7",
+      "type": "property_card",
+      "id": "property_card_8883400"
+    },
+    {
+      "min_total_price": 620000,
+      "in_best_district": 0,
+      "hotel_id": 14644639,
+      "cant_book": null,
+      "class_is_estimated": 0,
+      "hotel_facilities": "433,452,438,17,5,109,467,145,455,421,456,146,114,459,129,304,75,418,461,488,127,457,220,462,107,200,46,466,101,49,110,484,422,47,449,96,472,426,451,425,420,437,104,463,302,468,511,454,470,124,209,460,222,423,80,487,453,458,210,8,91,78,2,64,163,485,120,48,486,140,450,301,419,424",
+      "is_tpi_exclusive_property": 0,
+      "extended": 0,
+      "is_free_cancellable": 1,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/755785341.jpg?k=99810e79f04f5f33be7fd8611964b86809c10e85ac92bce0b7cc2776c1bbd9e6&o=",
+      "children_not_allowed": null,
+      "city_name_en": "Quy Nh\u01a1n",
+      "property_cribs_availability": 0,
+      "district_id": 0,
+      "selected_review_topic": null,
+      "is_geo_rate": "",
+      "main_photo_id": 755785341,
+      "city": "Quy Nh\u01a1n",
+      "hotel_name_trans": "C\u0103n H\u1ed9 FLC SEA TOWER Quy Nh\u01a1n View Bi\u1ec3n Gi\u00e1 R\u1ebb",
+      "native_ads_cpc": 0.0,
+      "updated_checkin": null,
+      "native_ad_id": "",
+      "review_nr": 22,
+      "has_free_parking": 1,
+      "hotel_include_breakfast": 0,
+      "ufi": -3727579,
+      "cc_required": 1,
+      "genius_discount_percentage": 0,
+      "districts": "",
+      "is_genius_deal": 0,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "localized_area": null,
+          "unit_type_id": 4
+        }
+      },
+      "hotel_name": "C\u0103n H\u1ed9 FLC SEA TOWER Quy Nh\u01a1n View Bi\u1ec3n Gi\u00e1 R\u1ebb",
+      "is_city_center": 0,
+      "hotel_has_vb_boost": 1,
+      "price_breakdown": {
+        "all_inclusive_price": 705164.84,
+        "has_fine_print_charges": 0,
+        "gross_price": "620000.00",
+        "has_tax_exceptions": 0,
+        "currency": "VND",
+        "sum_excluded_raw": 85164.84,
+        "has_incalculable_charges": 0
+      },
+      "is_mobile_deal": 0,
+      "accommodation_type": 219,
+      "price_is_final": 0,
+      "checkin": {
+        "from": "14:00",
+        "until": "22:00"
+      },
+      "soldout": 0,
+      "district": "",
+      "city_trans": "Quy Nhon",
+      "cc1": "vn",
+      "address_trans": "44e V\u00f5 Th\u1ecb Y\u1ebfn",
+      "id": "property_card_14644639",
+      "type": "property_card",
+      "class": 0.0,
+      "longitude": 109.2148133,
+      "badges": [
+        {
+          "id": "Late Escape Campaign",
+          "badge_variant": "constructive",
+          "text": "Late Escape Deal"
+        }
+      ],
+      "review_score": 7.8,
+      "accommodation_type_name": "Condo Hotels",
+      "distance": "1.07",
+      "native_ads_tracking": "",
+      "zip": "",
+      "is_no_prepayment_block": 1,
+      "latitude": 13.7555009,
+      "block_ids": [
+        "1464463902_421859631_5_0_0"
+      ],
+      "deals": {
+        "deal_events_killswitch": 0,
+        "deals_available": {
+          "has_flash_deal": 1
+        },
+        "deal_attributes": {}
+      },
+      "review_recommendation": "",
+      "preferred": 0,
+      "crib_guaranteed": "",
+      "currencycode": "VND",
+      "country_trans": "Vietnam",
+      "has_swimming_pool": 1,
+      "timezone": "Asia/Ho_Chi_Minh",
+      "address": "44e V\u00f5 Th\u1ecb Y\u1ebfn",
+      "booking_home": {
+        "segment": 1,
+        "is_single_unit_property": "",
+        "is_booking_home": 1,
+        "quality_class": 4.0,
+        "group": "apartment_like"
+      },
+      "wishlist_count": 0,
+      "updated_checkout": null,
+      "distance_to_cc": "1.10",
+      "is_smart_deal": 0,
+      "preferred_plus": 0,
+      "urgency_room_c": 4,
+      "review_score_word": "Good",
+      "checkout": {
+        "until": "12:00",
+        "from": "05:00"
+      },
+      "url": "https://www.booking.com/hotel/vn/monkey-quy-nhon.html",
+      "default_language": "vi",
+      "mobile_discount_percentage": 0,
+      "city_in_trans": "in Quy Nhon",
+      "default_wishlist_name": "Quy Nhon",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "currency_code": "VND",
+      "countrycode": "vn"
+    },
+    {
+      "zip": "",
+      "is_no_prepayment_block": 0,
+      "native_ads_tracking": "",
+      "latitude": 13.7546531042662,
+      "block_ids": [
+        "841436801_368676582_3_0_0"
+      ],
+      "longitude": 109.216552967737,
+      "badges": [],
+      "review_score": 8.4,
+      "accommodation_type_name": "Apartments",
+      "distance": "1.03",
+      "address_trans": "02 Nguy\u1ec5n Trung T\u00edn, Nguy\u1ec5n V\u0103n C\u1eeb",
+      "id": "property_card_8414368",
+      "type": "property_card",
+      "class": 0.0,
+      "cc1": "vn",
+      "city_trans": "Quy Nhon",
+      "has_swimming_pool": 1,
+      "timezone": "Asia/Ho_Chi_Minh",
+      "address": "02 Nguy\u1ec5n Trung T\u00edn, Nguy\u1ec5n V\u0103n C\u1eeb",
+      "crib_guaranteed": "",
+      "preferred": 1,
+      "country_trans": "Vietnam",
+      "currencycode": "VND",
+      "review_recommendation": "",
+      "deals": {
+        "deal_events_killswitch": 0,
+        "deal_attributes": {},
+        "deals_available": {}
+      },
+      "preferred_plus": 1,
+      "urgency_room_c": 3,
+      "review_score_word": "Very Good",
+      "urgency_c": [
+        2
+      ],
+      "is_smart_deal": 0,
+      "distance_to_cc": "1.05",
+      "booking_home": {
+        "is_single_unit_property": "",
+        "is_booking_home": 1,
+        "segment": 1,
+        "group": "apartment_like",
+        "quality_class": 4.0
+      },
+      "wishlist_count": 0,
+      "updated_checkout": null,
+      "countrycode": "vn",
+      "city_in_trans": "in Quy Nhon",
+      "mobile_discount_percentage": 0,
+      "default_wishlist_name": "Quy Nhon",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "currency_code": "VND",
+      "default_language": "vi",
+      "checkout": {
+        "until": "12:00",
+        "from": "05:00"
+      },
+      "url": "https://www.booking.com/hotel/vn/flc-sea-tower-thien-nhan-condotel.html",
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/426961939.jpg?k=dcb829dd15930546f78b83e4937f5d128014a972ecc4c5fc8f48ecd6b5de7a71&o=",
+      "children_not_allowed": null,
+      "class_is_estimated": 0,
+      "hotel_facilities": "504,524,516,519,227,450,2,91,435,64,238,453,8,523,225,408,503,158,222,454,124,119,520,437,104,500,59,44,472,425,499,228,484,422,496,475,405,70,466,56,237,534,16,530,9,134,235,480,441,146,533,19,232,438,301,419,111,424,482,51,485,404,230,78,532,458,233,535,69,528,246,135,473,29,423,470,234,11,420,511,449,505,522,96,446,141,525,54,502,223,49,107,200,127,220,457,219,461,527,169,488,224,75,14,455,184,491,196,433,452,258,5,489,494,140,486,198,221,464,143,71,201,80,493,22,245,82,460,448,27,144,490,463,63,506,15,445,231,514,526,110,529,47,442,217,197,513,418,447,7,421,23,114,456,459,304,129,55,109,512,444,515,3,48,193,436,25,439,210,53,160,229,517,214,498,226,209,531,443,305,194,440,481,468,302,159,426,492,451,52,479,495,476,101,465,240,147,118,462,518,497,28,145,236,12,239,501,17,142,521,467",
+      "is_tpi_exclusive_property": 0,
+      "is_free_cancellable": 0,
+      "extended": 0,
+      "min_total_price": 750078,
+      "in_best_district": 0,
+      "cant_book": null,
+      "hotel_id": 8414368,
+      "is_geo_rate": 1,
+      "main_photo_id": 426961939,
+      "city": "Th\u00e0nh ph\u1ed1 Qui Nh\u01a1n",
+      "property_cribs_availability": 0,
+      "city_name_en": "Th\u00e0nh ph\u1ed1 Qui Nh\u01a1n",
+      "district_id": 0,
+      "selected_review_topic": null,
+      "genius_discount_percentage": 0,
+      "cc_required": 1,
+      "districts": "",
+      "is_genius_deal": 0,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "unit_type_id": 1,
+          "localized_area": "50"
+        }
+      },
+      "is_city_center": 0,
+      "hotel_name": "Quy Nhon Pearl - FLC Sea Tower",
+      "ufi": -3727579,
+      "hotel_include_breakfast": 0,
+      "review_nr": 955,
+      "hotel_name_trans": "Quy Nhon Pearl - FLC Sea Tower",
+      "native_ads_cpc": 0.0,
+      "updated_checkin": null,
+      "native_ad_id": "",
+      "checkin": {
+        "from": "14:00",
+        "until": "23:00"
+      },
+      "soldout": 0,
+      "district": "",
+      "price_is_final": 0,
+      "is_mobile_deal": 0,
+      "price_breakdown": {
+        "has_incalculable_charges": 0,
+        "has_fine_print_charges": 1,
+        "has_tax_exceptions": 0,
+        "gross_price": "750078.00",
+        "sum_excluded_raw": 60006.24,
+        "currency": "VND",
+        "all_inclusive_price": 810084.24
+      },
+      "hotel_has_vb_boost": 0,
+      "accommodation_type": 201
+    },
+    {
+      "url": "https://www.booking.com/hotel/vn/monacachy-quy-nhon.html",
+      "checkout": {
+        "until": "12:00",
+        "from": "08:00"
+      },
+      "default_language": "vi",
+      "currency_code": "VND",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "mobile_discount_percentage": 0,
+      "city_in_trans": "in Quy Nhon",
+      "default_wishlist_name": "Quy Nhon",
+      "countrycode": "vn",
+      "updated_checkout": null,
+      "wishlist_count": 0,
+      "booking_home": {
+        "group": "apartment_like",
+        "quality_class": 0.0,
+        "is_single_unit_property": "",
+        "is_booking_home": 1,
+        "segment": 1
+      },
+      "distance_to_cc": "1.00",
+      "is_smart_deal": 0,
+      "review_score_word": "Wonderful",
+      "urgency_room_c": 5,
+      "preferred_plus": 0,
+      "deals": {
+        "deal_events_killswitch": 0,
+        "deals_available": {},
+        "deal_attributes": {}
+      },
+      "review_recommendation": "",
+      "currencycode": "VND",
+      "country_trans": "Vietnam",
+      "crib_guaranteed": "",
+      "preferred": 0,
+      "address": "42d V\u00f5 Th\u1ecb Y\u1ebfn",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "has_swimming_pool": 1,
+      "city_trans": "Quy Nhon",
+      "cc1": "vn",
+      "class": 0.0,
+      "type": "property_card",
+      "id": "property_card_15051622",
+      "address_trans": "42d V\u00f5 Th\u1ecb Y\u1ebfn",
+      "distance": "0.99",
+      "accommodation_type_name": "Condo Hotels",
+      "review_score": 9.0,
+      "badges": [
+        {
+          "text": "Late Escape Deal",
+          "badge_variant": "constructive",
+          "id": "Late Escape Campaign"
+        }
+      ],
+      "longitude": 109.2150361,
+      "block_ids": [
+        "1505162203_422465507_2_0_0"
+      ],
+      "latitude": 13.756399,
+      "zip": "",
+      "is_no_prepayment_block": 1,
+      "native_ads_tracking": "",
+      "accommodation_type": 219,
+      "hotel_has_vb_boost": 0,
+      "price_breakdown": {
+        "has_fine_print_charges": 0,
+        "gross_price": "684112.00",
+        "has_tax_exceptions": 0,
+        "sum_excluded_raw": 124837.96,
+        "currency": "VND",
+        "has_incalculable_charges": 0,
+        "all_inclusive_price": 808949.96
+      },
+      "is_mobile_deal": 0,
+      "price_is_final": 1,
+      "district": "",
+      "soldout": 0,
+      "checkin": {
+        "from": "14:00",
+        "until": "23:00"
+      },
+      "updated_checkin": null,
+      "native_ad_id": "",
+      "native_ads_cpc": 0.0,
+      "hotel_name_trans": "FLC Sea Tower - View Bi\u1ec3n Quy Nhon",
+      "hotel_include_breakfast": 0,
+      "review_nr": 31,
+      "ufi": -3727579,
+      "is_city_center": 0,
+      "hotel_name": "FLC Sea Tower - View Bi\u1ec3n Quy Nhon",
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "localized_area": "48",
+          "unit_type_id": 12
+        }
+      },
+      "is_genius_deal": 0,
+      "districts": "",
+      "cc_required": 1,
+      "genius_discount_percentage": 0,
+      "selected_review_topic": null,
+      "district_id": 0,
+      "property_cribs_availability": 0,
+      "city_name_en": "Quy Nh\u01a1n",
+      "city": "Quy Nh\u01a1n",
+      "main_photo_id": 760404654,
+      "is_geo_rate": "",
+      "cant_book": null,
+      "hotel_id": 15051622,
+      "min_total_price": 684112,
+      "in_best_district": 0,
+      "is_free_cancellable": 1,
+      "is_tpi_exclusive_property": 0,
+      "extended": 0,
+      "hotel_facilities": "108,78,210,458,419,301,482,424,163,404,474,48,485,470,481,194,420,511,468,302,487,473,214,209,423,107,183,147,457,220,118,127,462,96,449,57,159,180,451,426,479,49,476,101,14,455,172,145,17,452,142,433,184,467,5,461,219,224,488,28,75,173,2,91,64,464,143,453,8,170,450,140,486,120,454,104,174,437,463,80,6,478,225,136,460,222,20,27,466,59,425,44,472,47,405,475,484,110,422,114,480,146,456,421,126,304,129,459,438,471,109,16,134,477,483,81,447,418,7",
+      "class_is_estimated": 0,
+      "children_not_allowed": null,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/760404654.jpg?k=4508ecbb9cb252ae9ebcf3ebf3ecffa4cd1e3df67fa23e9c3cb8dcc1a55800f5&o="
+    },
+    {
+      "price_is_final": 1,
+      "price_breakdown": {
+        "has_tax_exceptions": 0,
+        "gross_price": "1984500.00",
+        "currency": "VND",
+        "sum_excluded_raw": "0.00",
+        "has_fine_print_charges": 0,
+        "has_incalculable_charges": 0,
+        "all_inclusive_price": 1984500.0
+      },
+      "is_mobile_deal": 0,
+      "hotel_has_vb_boost": 0,
+      "accommodation_type": 204,
+      "soldout": 0,
+      "checkin": {
+        "until": "00:00",
+        "from": "14:00"
+      },
+      "district": "",
+      "review_nr": 160,
+      "has_free_parking": 1,
+      "hotel_include_breakfast": 1,
+      "native_ads_cpc": 0.0,
+      "hotel_name_trans": "Sala Quy Nhon Beach Hotel",
+      "native_ad_id": "",
+      "updated_checkin": null,
+      "districts": "",
+      "genius_discount_percentage": 0,
+      "cc_required": 1,
+      "hotel_name": "Sala Quy Nhon Beach Hotel",
+      "is_city_center": 0,
+      "is_genius_deal": 0,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "unit_type_id": 9,
+          "localized_area": null
+        }
+      },
+      "ufi": -3727579,
+      "property_cribs_availability": 0,
+      "city_name_en": "Quy Nh\u01a1n, B\u00ecnh \u0110\u1ecbnh, Vi\u1ec7t Nam",
+      "selected_review_topic": null,
+      "district_id": 0,
+      "main_photo_id": 668033933,
+      "is_geo_rate": 1,
+      "city": "Quy Nh\u01a1n, B\u00ecnh \u0110\u1ecbnh, Vi\u1ec7t Nam",
+      "class_is_estimated": 0,
+      "is_free_cancellable": 0,
+      "is_tpi_exclusive_property": 0,
+      "extended": 0,
+      "hotel_facilities": "214,423,209,305,11,468,302,420,257,194,186,424,301,48,485,404,51,163,3,193,78,108,25,53,160,117,210,219,461,166,75,28,172,455,199,5,467,184,410,17,433,142,258,203,426,451,449,50,159,96,101,406,49,409,46,465,177,107,183,462,127,457,118,220,22,408,6,158,20,222,82,460,119,454,144,124,437,185,174,104,450,140,181,486,64,2,198,91,187,43,221,8,143,407,134,16,447,418,7,81,459,304,129,421,23,192,146,109,176,438,253,15,44,425,484,110,422,47,405,133,61,188,90,56",
+      "min_total_price": 1984500,
+      "in_best_district": 0,
+      "hotel_id": 13797006,
+      "cant_book": null,
+      "children_not_allowed": null,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/668033933.jpg?k=23efec5ccad0a650d37c2295043ed58655881b90f0ca1fa97f45e0e9432d37b6&o=",
+      "default_language": "vi",
+      "checkout": {
+        "until": "12:00",
+        "from": "01:00"
+      },
+      "url": "https://www.booking.com/hotel/vn/sala-quynhon-beach.html",
+      "countrycode": "vn",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "default_wishlist_name": "Quy Nhon",
+      "mobile_discount_percentage": 0,
+      "city_in_trans": "in Quy Nhon",
+      "currency_code": "VND",
+      "updated_checkout": null,
+      "wishlist_count": 0,
+      "preferred_plus": 0,
+      "review_score_word": "Wonderful",
+      "urgency_room_c": 6,
+      "is_smart_deal": 0,
+      "distance_to_cc": "2.00",
+      "currencycode": "VND",
+      "country_trans": "Vietnam",
+      "crib_guaranteed": "",
+      "preferred": 1,
+      "review_recommendation": "",
+      "deals": {
+        "deal_events_killswitch": 0,
+        "deal_attributes": {},
+        "deals_available": {}
+      },
+      "has_swimming_pool": 1,
+      "address": "124 Phan Chu Trinh, Ph\u01b0\u1eddng Th\u1ecb N\u1ea1i,Quy Nh\u01a1n, B\u00ecnh \u0110\u1ecbnh, Vi\u1ec7t Nam ",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "id": "property_card_13797006",
+      "type": "property_card",
+      "address_trans": "124 Phan Chu Trinh, Ph\u01b0\u1eddng Th\u1ecb N\u1ea1i,Quy Nh\u01a1n, B\u00ecnh \u0110\u1ecbnh, Vi\u1ec7t Nam ",
+      "class": 4.0,
+      "cc1": "vn",
+      "city_trans": "Quy Nhon",
+      "zip": "55000",
+      "native_ads_tracking": "",
+      "is_no_prepayment_block": 0,
+      "block_ids": [
+        "1379700601_410090988_0_1_0"
+      ],
+      "latitude": 13.77218,
+      "badges": [],
+      "longitude": 109.2371653,
+      "distance": "1.99",
+      "accommodation_type_name": "Hotels",
+      "review_score": 9.4
+    },
+    {
+      "city_name_en": "Th\u00e0nh ph\u1ed1 Qui Nh\u01a1n",
+      "property_cribs_availability": 0,
+      "selected_review_topic": null,
+      "district_id": 0,
+      "main_photo_id": 132135745,
+      "is_geo_rate": "",
+      "city": "Th\u00e0nh ph\u1ed1 Qui Nh\u01a1n",
+      "min_total_price": 324000,
+      "in_best_district": 0,
+      "hotel_id": 3161540,
+      "cant_book": null,
+      "class_is_estimated": 0,
+      "extended": 0,
+      "is_tpi_exclusive_property": 0,
+      "is_free_cancellable": 1,
+      "hotel_facilities": "46,161,91,107,2,108,8,160,111,15,425,96,101,422,48,110,181,47,140,163,52,305,455,23,146,182,5,302,109,174,17,22,16,461,158,28,418",
+      "children_not_allowed": null,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/132135745.jpg?k=7f1c2fe5a3dcf40b496941a65bca1e692b4172fa19ef7363a1b55688423ca04d&o=",
+      "price_breakdown": {
+        "all_inclusive_price": 324000.0,
+        "has_fine_print_charges": 0,
+        "sum_excluded_raw": "0.00",
+        "currency": "VND",
+        "has_tax_exceptions": 0,
+        "gross_price": "324000.00",
+        "has_incalculable_charges": 0
+      },
+      "is_mobile_deal": 1,
+      "hotel_has_vb_boost": 0,
+      "accommodation_type": 208,
+      "price_is_final": 1,
+      "soldout": 0,
+      "checkin": {
+        "from": "12:00",
+        "until": "12:00"
+      },
+      "district": "",
+      "native_ads_cpc": 0.0,
+      "hotel_name_trans": "Nh\u00e0 ngh\u1ec9 Sunrise",
+      "native_ad_id": "",
+      "updated_checkin": null,
+      "has_free_parking": 1,
+      "review_nr": 262,
+      "hotel_include_breakfast": 0,
+      "ufi": -3727579,
+      "districts": "",
+      "cc_required": 1,
+      "genius_discount_percentage": 0,
+      "hotel_name": "Nh\u00e0 ngh\u1ec9 Sunrise",
+      "is_city_center": 0,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "unit_type_id": 9,
+          "localized_area": null
+        }
+      },
+      "is_genius_deal": 0,
+      "deals": {
+        "deals_available": {},
+        "deal_attributes": {},
+        "deal_events_killswitch": 0
+      },
+      "review_recommendation": "",
+      "currencycode": "VND",
+      "country_trans": "Vietnam",
+      "preferred": 1,
+      "crib_guaranteed": "",
+      "address": "12 Tr\u1ea7n V\u0103n \u01a0n",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "cc1": "vn",
+      "city_trans": "Quy Nhon",
+      "id": "property_card_3161540",
+      "type": "property_card",
+      "address_trans": "12 Tr\u1ea7n V\u0103n \u01a0n",
+      "class": 0.0,
+      "badges": [
+        {
+          "badge_variant": "constructive",
+          "id": "Mobile Rate",
+          "text": "Mobile-only price"
+        }
+      ],
+      "longitude": 109.216295,
+      "accommodation_type_name": "Bed and Breakfasts",
+      "distance": "0.98",
+      "review_score": 8.1,
+      "native_ads_tracking": "",
+      "zip": "",
+      "is_no_prepayment_block": 1,
+      "block_ids": [
+        "316154001_130051549_0_0_0"
+      ],
+      "latitude": 13.755356,
+      "checkout": {
+        "from": "12:00",
+        "until": "12:00"
+      },
+      "url": "https://www.booking.com/hotel/vn/nha-nghi-sunrise.html",
+      "default_language": "vi",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "default_wishlist_name": "Quy Nhon",
+      "mobile_discount_percentage": 36000.0,
+      "city_in_trans": "in Quy Nhon",
+      "currency_code": "VND",
+      "countrycode": "vn",
+      "booking_home": {
+        "is_booking_home": 1,
+        "is_single_unit_property": "",
+        "segment": 0,
+        "group": "hotels_and_others",
+        "quality_class": 0.0
+      },
+      "updated_checkout": null,
+      "wishlist_count": 0,
+      "is_smart_deal": 0,
+      "distance_to_cc": "1.00",
+      "preferred_plus": 0,
+      "review_score_word": "Very Good",
+      "urgency_room_c": 1
+    },
+    {
+      "type": "property_card",
+      "id": "property_card_5252520",
+      "address_trans": "20 H\u00e0n M\u1eb7c T\u1eed",
+      "class": 0.0,
+      "cc1": "vn",
+      "city_trans": "Quy Nhon",
+      "native_ads_tracking": "",
+      "zip": "",
+      "is_no_prepayment_block": 0,
+      "block_ids": [
+        "525252006_404363502_0_2_0"
+      ],
+      "latitude": 13.746633,
+      "badges": [
+        {
+          "text": "Late Escape Deal",
+          "badge_variant": "constructive",
+          "id": "Late Escape Campaign"
+        }
+      ],
+      "longitude": 109.213632,
+      "distance": "1.96",
+      "accommodation_type_name": "Hotels",
+      "review_score": 8.9,
+      "country_trans": "Vietnam",
+      "currencycode": "VND",
+      "preferred": 1,
+      "crib_guaranteed": "",
+      "deals": {
+        "deals_available": {},
+        "deal_attributes": {},
+        "deal_events_killswitch": 0
+      },
+      "review_recommendation": "",
+      "has_swimming_pool": 1,
+      "address": "20 H\u00e0n M\u1eb7c T\u1eed",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "updated_checkout": null,
+      "wishlist_count": 0,
+      "preferred_plus": 1,
+      "urgency_c": [
+        0
+      ],
+      "review_score_word": "Excellent",
+      "urgency_room_c": 7,
+      "is_smart_deal": 0,
+      "distance_to_cc": "2.00",
+      "default_language": "vi",
+      "checkout": {
+        "from": "",
+        "until": "12:00"
+      },
+      "url": "https://www.booking.com/hotel/vn/la-maison-boutique.html",
+      "countrycode": "vn",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "mobile_discount_percentage": 0,
+      "default_wishlist_name": "Quy Nhon",
+      "city_in_trans": "in Quy Nhon",
+      "currency_code": "VND",
+      "class_is_estimated": 0,
+      "extended": 0,
+      "is_tpi_exclusive_property": 0,
+      "is_free_cancellable": 0,
+      "hotel_facilities": "75,28,488,497,461,5,467,433,17,491,455,14,223,495,502,426,446,451,492,505,96,457,118,465,46,107,423,209,498,302,468,194,420,305,11,485,48,163,3,444,482,424,301,210,436,78,25,108,418,16,109,471,129,304,421,110,422,496,47,499,445,472,15,44,425,506,72,161,466,158,222,503,22,493,6,463,185,104,119,454,490,124,494,450,140,489,504,8,143,64,91,2,221",
+      "in_best_district": 0,
+      "min_total_price": 754800,
+      "hotel_id": 5252520,
+      "cant_book": null,
+      "children_not_allowed": null,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/631505136.jpg?k=4bff380eec4f209b56c2f075710e42372a846ac5a9b954874c97e1f6b327546e&o=",
+      "property_cribs_availability": 0,
+      "city_name_en": "Th\u00e0nh ph\u1ed1 Qui Nh\u01a1n",
+      "district_id": 0,
+      "selected_review_topic": null,
+      "main_photo_id": 631505136,
+      "is_geo_rate": "",
+      "city": "Th\u00e0nh ph\u1ed1 Qui Nh\u01a1n",
+      "review_nr": 206,
+      "has_free_parking": 1,
+      "hotel_include_breakfast": 0,
+      "native_ads_cpc": 0.0,
+      "hotel_name_trans": "Mira Boutique Hotel Quy Nhon",
+      "native_ad_id": "",
+      "updated_checkin": null,
+      "districts": "",
+      "cc_required": 1,
+      "genius_discount_percentage": 0,
+      "hotel_name": "Mira Boutique Hotel Quy Nhon",
+      "is_city_center": 0,
+      "is_genius_deal": 0,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "unit_type_id": 8,
+          "localized_area": null
+        }
+      },
+      "ufi": -3727579,
+      "price_is_final": 1,
+      "price_breakdown": {
+        "all_inclusive_price": 754800.0,
+        "currency": "VND",
+        "sum_excluded_raw": "0.00",
+        "gross_price": "754800.00",
+        "has_tax_exceptions": 0,
+        "has_fine_print_charges": 0,
+        "has_incalculable_charges": 0
+      },
+      "hotel_has_vb_boost": 0,
+      "is_mobile_deal": 0,
+      "accommodation_type": 204,
+      "soldout": 0,
+      "checkin": {
+        "until": "00:00",
+        "from": "14:00"
+      },
+      "district": ""
+    },
+    {
+      "district": "",
+      "soldout": 0,
+      "checkin": {
+        "until": "00:00",
+        "from": "14:00"
+      },
+      "accommodation_type": 204,
+      "hotel_has_vb_boost": 0,
+      "price_breakdown": {
+        "has_incalculable_charges": 0,
+        "has_fine_print_charges": 0,
+        "has_tax_exceptions": 0,
+        "gross_price": "3393000.00",
+        "currency": "VND",
+        "sum_excluded_raw": "0.00",
+        "all_inclusive_price": 3393000.0
+      },
+      "is_mobile_deal": 0,
+      "price_is_final": 1,
+      "ufi": -3727579,
+      "hotel_name": "Grand Hyams Hotel - Quy Nhon Beach",
+      "is_city_center": 0,
+      "is_genius_deal": 0,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "unit_type_id": 8,
+          "localized_area": null
+        }
+      },
+      "districts": "",
+      "genius_discount_percentage": 0,
+      "cc_required": 1,
+      "updated_checkin": null,
+      "native_ad_id": "",
+      "hotel_name_trans": "Grand Hyams Hotel - Quy Nhon Beach",
+      "native_ads_cpc": 0.0,
+      "hotel_include_breakfast": 0,
+      "has_free_parking": 1,
+      "review_nr": 746,
+      "city": "Quy Nhon",
+      "main_photo_id": 755916141,
+      "is_geo_rate": "",
+      "selected_review_topic": null,
+      "district_id": 0,
+      "city_name_en": "Quy Nhon",
+      "property_cribs_availability": 0,
+      "children_not_allowed": null,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/755916141.jpg?k=23600468b42db54dbc8c4705680ff95449fca322c7c04026155fe6d6026d5561&o=",
+      "cant_book": null,
+      "hotel_id": 9170416,
+      "min_total_price": 3393000,
+      "in_best_district": 0,
+      "is_tpi_exclusive_property": 0,
+      "is_free_cancellable": 0,
+      "extended": 0,
+      "hotel_facilities": "8,238,453,64,103,435,91,2,241,450,227,73,519,524,504,500,174,185,520,124,411,454,222,205,158,503,408,225,6,534,237,72,56,161,466,133,496,484,422,499,425,472,44,253,232,533,235,250,81,134,21,407,477,530,16,535,458,252,532,255,78,485,51,482,419,301,511,257,420,11,29,423,246,249,528,457,127,46,200,107,177,49,223,502,54,203,96,522,505,449,5,199,433,258,491,172,455,14,75,488,461,527,219,143,43,198,256,181,486,140,247,463,490,144,20,27,242,448,460,245,22,248,47,529,110,526,514,231,445,506,109,55,471,176,129,304,459,456,23,126,421,418,160,53,210,117,439,25,48,3,444,512,189,468,440,194,305,443,531,209,226,214,251,517,462,240,465,243,101,495,451,492,121,426,467,521,142,10,17,410,501,239,236,145,28,497,244,518",
+      "class_is_estimated": 0,
+      "currency_code": "VND",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "default_wishlist_name": "Quy Nhon",
+      "mobile_discount_percentage": 0,
+      "city_in_trans": "in Quy Nhon",
+      "countrycode": "vn",
+      "url": "https://www.booking.com/hotel/vn/grand-hyams-quy-nhon-beach-quy-nhon1.html",
+      "checkout": {
+        "from": "11:00",
+        "until": "12:00"
+      },
+      "default_language": "en",
+      "is_smart_deal": 0,
+      "distance_to_cc": "1.50",
+      "review_score_word": "Wonderful",
+      "urgency_room_c": 8,
+      "preferred_plus": 0,
+      "updated_checkout": null,
+      "wishlist_count": 0,
+      "address": "28 Nguyen Hue, Le Loi ward, Quy Nhon city, Binh Dinh province, Viet Nam",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "has_swimming_pool": 1,
+      "deals": {
+        "deals_available": {},
+        "deal_attributes": {},
+        "deal_events_killswitch": 0
+      },
+      "review_recommendation": "",
+      "currencycode": "VND",
+      "country_trans": "Vietnam",
+      "crib_guaranteed": "",
+      "preferred": 1,
+      "accommodation_type_name": "Hotels",
+      "distance": "1.47",
+      "review_score": 9.1,
+      "badges": [
+        {
+          "text": "Late Escape Deal",
+          "badge_variant": "constructive",
+          "id": "Late Escape Campaign"
+        }
+      ],
+      "longitude": 109.232892,
+      "block_ids": [
+        "917041611_363231423_2_41_0"
+      ],
+      "latitude": 13.770063,
+      "zip": "",
+      "is_no_prepayment_block": 0,
+      "native_ads_tracking": "",
+      "city_trans": "Quy Nhon",
+      "cc1": "vn",
+      "class": 5.0,
+      "type": "property_card",
+      "id": "property_card_9170416",
+      "address_trans": "28 Nguyen Hue, Le Loi ward, Quy Nhon city, Binh Dinh province, Viet Nam"
+    },
+    {
+      "booking_home": {
+        "quality_class": 4.0,
+        "group": "apartment_like",
+        "segment": 1,
+        "is_single_unit_property": "",
+        "is_booking_home": 1
+      },
+      "updated_checkout": null,
+      "wishlist_count": 0,
+      "preferred_plus": 0,
+      "review_score_word": "Wonderful",
+      "urgency_room_c": 5,
+      "is_smart_deal": 0,
+      "distance_to_cc": "1.10",
+      "default_language": "vi",
+      "checkout": {
+        "until": "12:00",
+        "from": "05:00"
+      },
+      "url": "https://www.booking.com/hotel/vn/legence-apartel-quy-nhon.html",
+      "countrycode": "vn",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "mobile_discount_percentage": 0,
+      "default_wishlist_name": "Quy Nhon",
+      "city_in_trans": "in Quy Nhon",
+      "currency_code": "VND",
+      "type": "property_card",
+      "id": "property_card_14814143",
+      "address_trans": "33b V\u00f5 Th\u1ecb Y\u1ebfn",
+      "class": 0.0,
+      "city_trans": "Quy Nhon",
+      "cc1": "vn",
+      "is_no_prepayment_block": 1,
+      "zip": "",
+      "native_ads_tracking": "",
+      "block_ids": [
+        "1481414303_421054303_2_0_0"
+      ],
+      "latitude": 13.7556288,
+      "badges": [
+        {
+          "badge_variant": "constructive",
+          "id": "Late Escape Campaign",
+          "text": "Late Escape Deal"
+        }
+      ],
+      "longitude": 109.2145916,
+      "accommodation_type_name": "Condo Hotels",
+      "distance": "1.08",
+      "review_score": 9.0,
+      "country_trans": "Vietnam",
+      "currencycode": "VND",
+      "preferred": 0,
+      "crib_guaranteed": "",
+      "deals": {
+        "deal_events_killswitch": 0,
+        "deals_available": {},
+        "deal_attributes": {}
+      },
+      "review_recommendation": "",
+      "has_swimming_pool": 1,
+      "address": "33b V\u00f5 Th\u1ecb Y\u1ebfn",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "has_free_parking": 1,
+      "hotel_include_breakfast": 0,
+      "review_nr": 36,
+      "native_ads_cpc": 0.0,
+      "hotel_name_trans": "FLC Sea Tower- Quy Nhon Beach",
+      "updated_checkin": null,
+      "native_ad_id": "",
+      "districts": "",
+      "cc_required": 1,
+      "genius_discount_percentage": 0,
+      "hotel_name": "FLC Sea Tower- Quy Nhon Beach",
+      "is_city_center": 0,
+      "is_genius_deal": 0,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "localized_area": "48",
+          "unit_type_id": 12
+        }
+      },
+      "ufi": -3727579,
+      "price_is_final": 1,
+      "is_mobile_deal": 0,
+      "price_breakdown": {
+        "has_fine_print_charges": 0,
+        "sum_excluded_raw": 124099.27,
+        "currency": "VND",
+        "has_tax_exceptions": 0,
+        "gross_price": "680064.00",
+        "has_incalculable_charges": 0,
+        "all_inclusive_price": 804163.27
+      },
+      "hotel_has_vb_boost": 0,
+      "accommodation_type": 219,
+      "soldout": 0,
+      "checkin": {
+        "until": "23:30",
+        "from": "14:00"
+      },
+      "district": "",
+      "class_is_estimated": 0,
+      "extended": 0,
+      "is_tpi_exclusive_property": 0,
+      "is_free_cancellable": 1,
+      "hotel_facilities": "20,27,222,82,460,225,22,478,6,80,463,437,174,104,119,454,124,486,140,450,170,58,8,143,453,62,464,64,91,2,173,7,447,418,81,483,9,477,134,16,109,471,19,438,459,129,304,421,146,456,480,484,422,110,475,47,167,472,44,425,59,466,70,423,209,214,473,487,302,468,511,420,194,481,470,485,137,48,474,163,111,424,482,301,419,53,69,160,148,458,210,78,75,28,488,224,461,5,467,452,142,433,17,455,145,172,14,101,476,49,76,479,426,451,414,57,449,96,462,127,457,147,220,118,46,107",
+      "min_total_price": 680064,
+      "in_best_district": 0,
+      "hotel_id": 14814143,
+      "cant_book": null,
+      "children_not_allowed": null,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/747335319.jpg?k=703a8c8e814187fdf91d70c0b2e1d40814e05a7b02d60f80ed42fea258d899e7&o=",
+      "property_cribs_availability": 0,
+      "city_name_en": "Quy Nh\u01a1n",
+      "selected_review_topic": null,
+      "district_id": 0,
+      "main_photo_id": 747335319,
+      "is_geo_rate": "",
+      "city": "Quy Nh\u01a1n"
+    },
+    {
+      "review_nr": 972,
+      "has_free_parking": 1,
+      "hotel_include_breakfast": 0,
+      "hotel_name_trans": "Mira Grand Hotel Quy Nh\u01a1n",
+      "native_ads_cpc": 0.0,
+      "native_ad_id": "",
+      "updated_checkin": null,
+      "districts": "",
+      "cc_required": 1,
+      "genius_discount_percentage": 0,
+      "hotel_name": "Mira Grand Hotel Quy Nh\u01a1n",
+      "is_city_center": 0,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "unit_type_id": 9,
+          "localized_area": null
+        }
+      },
+      "is_genius_deal": 0,
+      "ufi": -3727579,
+      "price_is_final": 1,
+      "is_mobile_deal": 0,
+      "price_breakdown": {
+        "all_inclusive_price": 648040.0,
+        "has_fine_print_charges": 0,
+        "currency": "VND",
+        "sum_excluded_raw": "0.00",
+        "gross_price": "648040.00",
+        "has_tax_exceptions": 0,
+        "has_incalculable_charges": 0
+      },
+      "hotel_has_vb_boost": 0,
+      "accommodation_type": 204,
+      "soldout": 0,
+      "checkin": {
+        "from": "14:00",
+        "until": ""
+      },
+      "district": "",
+      "class_is_estimated": 0,
+      "is_tpi_exclusive_property": 0,
+      "is_free_cancellable": 0,
+      "extended": 0,
+      "hotel_facilities": "520,119,124,490,463,104,174,185,437,225,493,22,523,222,158,448,460,503,64,464,435,187,91,2,8,504,181,450,140,494,519,516,524,489,129,304,459,456,192,23,421,109,438,134,530,513,16,7,418,447,81,161,188,534,425,472,445,15,44,506,442,47,496,529,422,110,526,499,514,305,470,468,194,420,473,487,517,528,423,443,531,209,532,439,25,108,436,78,160,535,53,210,458,424,444,512,419,301,48,3,515,163,51,455,521,467,5,142,433,491,17,184,497,488,461,518,28,75,465,46,107,462,457,127,451,446,492,426,96,522,449,49,525",
+      "in_best_district": 0,
+      "min_total_price": 648040,
+      "hotel_id": 9655781,
+      "cant_book": null,
+      "children_not_allowed": null,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/662561698.jpg?k=0e4e3eb64f85c1aa4b3c458df318d057ba53d572602492a8d9bdb1167142a4f5&o=",
+      "property_cribs_availability": 0,
+      "city_name_en": "",
+      "selected_review_topic": null,
+      "district_id": 0,
+      "main_photo_id": 662561698,
+      "is_geo_rate": "",
+      "city": "",
+      "updated_checkout": null,
+      "wishlist_count": 0,
+      "preferred_plus": 1,
+      "review_score_word": "Excellent",
+      "urgency_room_c": 9,
+      "is_smart_deal": 0,
+      "distance_to_cc": "1.40",
+      "default_language": "vi",
+      "checkout": {
+        "until": "12:00",
+        "from": ""
+      },
+      "url": "https://www.booking.com/hotel/vn/raon-quy-nhon.html",
+      "countrycode": "vn",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "city_in_trans": "in Quy Nhon",
+      "mobile_discount_percentage": 0,
+      "default_wishlist_name": "Quy Nhon",
+      "currency_code": "VND",
+      "id": "property_card_9655781",
+      "type": "property_card",
+      "address_trans": "07 Nguy\u1ec5n Th\u1ecb \u0110\u1ecbnh, P. Nguy\u1ec5n V\u0103n C\u1eeb, Tp Quy Nh\u01a1n",
+      "class": 3.0,
+      "city_trans": "Quy Nhon",
+      "cc1": "vn",
+      "native_ads_tracking": "",
+      "zip": "",
+      "is_no_prepayment_block": 0,
+      "block_ids": [
+        "965578105_409338469_2_0_0"
+      ],
+      "latitude": 13.7541975063611,
+      "badges": [
+        {
+          "badge_variant": "constructive",
+          "id": "Late Escape Campaign",
+          "text": "Late Escape Deal"
+        }
+      ],
+      "longitude": 109.212123103639,
+      "accommodation_type_name": "Hotels",
+      "distance": "1.38",
+      "review_score": 8.8,
+      "country_trans": "Vietnam",
+      "currencycode": "VND",
+      "crib_guaranteed": "",
+      "preferred": 1,
+      "review_recommendation": "",
+      "deals": {
+        "deal_events_killswitch": 0,
+        "deal_attributes": {},
+        "deals_available": {}
+      },
+      "has_swimming_pool": 1,
+      "address": "07 Nguy\u1ec5n Th\u1ecb \u0110\u1ecbnh, P. Nguy\u1ec5n V\u0103n C\u1eeb, Tp Quy Nh\u01a1n",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "urgency_room_c": 10,
+      "urgency_c": [
+        0
+      ],
+      "review_score_word": "Very Good",
+      "preferred_plus": 0,
+      "is_smart_deal": 0,
+      "distance_to_cc": "8.60",
+      "wishlist_count": 0,
+      "updated_checkout": null,
+      "countrycode": "vn",
+      "currency_code": "VND",
+      "mobile_discount_percentage": 0,
+      "city_in_trans": "in Quy Nhon",
+      "default_wishlist_name": "Quy Nhon",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "default_language": "vi",
+      "url": "https://www.booking.com/hotel/vn/casa-marina-resort.html",
+      "checkout": {
+        "until": "12:30",
+        "from": "12:00"
+      },
+      "latitude": 13.685678,
+      "block_ids": [
+        "275400002_401765535_2_1_0"
+      ],
+      "is_no_prepayment_block": 0,
+      "zip": "",
+      "native_ads_tracking": "",
+      "review_score": 8.4,
+      "accommodation_type_name": "Resorts",
+      "distance": "8.60",
+      "longitude": 109.231095,
+      "badges": [
+        {
+          "text": "Late Escape Deal",
+          "id": "Late Escape Campaign",
+          "badge_variant": "constructive"
+        }
+      ],
+      "class": 4.0,
+      "address_trans": "Zone 1, Km 15, National Road 1D, Ghenh Rang",
+      "type": "property_card",
+      "id": "property_card_2754000",
+      "cc1": "vn",
+      "city_trans": "Quy Nhon",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "address": "Zone 1, Km 15, National Road 1D, Ghenh Rang",
+      "has_swimming_pool": 1,
+      "preferred": 1,
+      "crib_guaranteed": "",
+      "currencycode": "VND",
+      "country_trans": "Vietnam",
+      "deals": {
+        "deal_events_killswitch": 0,
+        "deals_available": {},
+        "deal_attributes": {}
+      },
+      "review_recommendation": "",
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "unit_type_id": 9,
+          "localized_area": null
+        }
+      },
+      "is_genius_deal": 0,
+      "hotel_name": "Casa Marina Resort",
+      "is_city_center": 0,
+      "genius_discount_percentage": 0,
+      "cc_required": 1,
+      "districts": "",
+      "ufi": -3727579,
+      "has_free_parking": 1,
+      "review_nr": 405,
+      "hotel_include_breakfast": 0,
+      "native_ad_id": "",
+      "updated_checkin": null,
+      "native_ads_cpc": 0.0,
+      "hotel_name_trans": "Casa Marina Resort",
+      "district": "",
+      "checkin": {
+        "from": "14:00",
+        "until": "00:00"
+      },
+      "soldout": 0,
+      "price_is_final": 1,
+      "accommodation_type": 206,
+      "price_breakdown": {
+        "has_incalculable_charges": 0,
+        "has_fine_print_charges": 0,
+        "has_tax_exceptions": 0,
+        "gross_price": "2256750.00",
+        "sum_excluded_raw": "0.00",
+        "currency": "VND",
+        "all_inclusive_price": 2256750.0
+      },
+      "is_mobile_deal": 0,
+      "hotel_has_vb_boost": 0,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/219494123.jpg?k=8221aed5c060c10b688e26af721eecd5398a1689db8a1a3bfa0feb9778023e78&o=",
+      "children_not_allowed": null,
+      "hotel_facilities": "8,160,439,198,91,2,435,221,108,485,450,51,3,301,302,468,500,440,104,305,119,470,454,124,11,443,20,205,448,158,222,423,22,6,72,220,465,46,161,107,484,495,422,110,442,133,47,496,52,15,426,203,44,446,425,449,57,96,5,109,467,176,471,433,253,501,23,455,14,421,146,75,7,28,418,81,21,16",
+      "is_free_cancellable": 0,
+      "is_tpi_exclusive_property": 0,
+      "extended": 0,
+      "class_is_estimated": 0,
+      "hotel_id": 2754000,
+      "cant_book": null,
+      "min_total_price": 2256750,
+      "in_best_district": 0,
+      "city": "Quy Nhon",
+      "is_geo_rate": "",
+      "main_photo_id": 219494123,
+      "district_id": 0,
+      "selected_review_topic": null,
+      "property_cribs_availability": 0,
+      "city_name_en": "Quy Nhon"
+    },
+    {
+      "address": "28 Nguy\u1ec5n Hu\u1ec7",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "review_recommendation": "",
+      "deals": {
+        "deal_attributes": {},
+        "deals_available": {},
+        "deal_events_killswitch": 0
+      },
+      "currencycode": "VND",
+      "country_trans": "Vietnam",
+      "crib_guaranteed": "",
+      "preferred": 1,
+      "badges": [
+        {
+          "badge_variant": "constructive",
+          "id": "Late Escape Campaign",
+          "text": "Late Escape Deal"
+        }
+      ],
+      "longitude": 109.2328921,
+      "distance": "1.47",
+      "accommodation_type_name": "Apartments",
+      "review_score": 8.6,
+      "is_no_prepayment_block": 1,
+      "zip": "",
+      "native_ads_tracking": "",
+      "block_ids": [
+        "846657812_356919298_0_0_0"
+      ],
+      "latitude": 13.7700633,
+      "cc1": "vn",
+      "city_trans": "Quy Nhon",
+      "id": "property_card_8466578",
+      "type": "property_card",
+      "address_trans": "28 Nguy\u1ec5n Hu\u1ec7",
+      "class": 0.0,
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "mobile_discount_percentage": 0,
+      "default_wishlist_name": "Quy Nhon",
+      "city_in_trans": "in Quy Nhon",
+      "currency_code": "VND",
+      "countrycode": "vn",
+      "checkout": {
+        "until": "12:00",
+        "from": "05:00"
+      },
+      "url": "https://www.booking.com/hotel/vn/can-ho-view-bien-tms-quy-nhon.html",
+      "default_language": "vi",
+      "is_smart_deal": 0,
+      "distance_to_cc": "1.50",
+      "preferred_plus": 0,
+      "review_score_word": "Excellent",
+      "urgency_c": [
+        2
+      ],
+      "urgency_room_c": 3,
+      "booking_home": {
+        "segment": 1,
+        "is_booking_home": 1,
+        "is_single_unit_property": "",
+        "quality_class": 4.0,
+        "group": "apartment_like"
+      },
+      "updated_checkout": null,
+      "wishlist_count": 0,
+      "main_photo_id": 550492311,
+      "is_geo_rate": "",
+      "city": "Quy Nh\u01a1n",
+      "property_cribs_availability": 0,
+      "city_name_en": "Quy Nh\u01a1n",
+      "selected_review_topic": null,
+      "district_id": 0,
+      "children_not_allowed": null,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/550492311.jpg?k=a67c25188de54cdd53bd2fcf92f64d61dbde8aeef144c087db1fbbc3b1048ee7&o=",
+      "min_total_price": 900000,
+      "in_best_district": 0,
+      "hotel_id": 8466578,
+      "cant_book": null,
+      "class_is_estimated": 0,
+      "is_tpi_exclusive_property": 0,
+      "is_free_cancellable": 1,
+      "extended": 0,
+      "hotel_facilities": "27,20,242,460,82,245,136,22,493,87,463,490,144,486,140,247,494,412,489,58,143,62,464,256,7,418,447,215,513,55,109,471,401,176,129,304,459,456,23,421,126,248,47,529,110,167,526,514,231,445,15,506,97,90,531,209,226,498,251,517,229,302,468,186,481,48,3,444,512,53,210,117,148,25,436,28,413,244,497,518,467,521,142,17,10,410,501,239,12,236,145,243,406,476,101,495,409,479,76,451,492,414,426,159,50,57,462,147,118,240,222,158,205,503,408,478,225,6,523,500,174,185,437,520,124,411,454,450,227,519,170,504,8,453,238,64,187,91,2,250,81,134,21,483,477,9,407,530,16,438,232,19,533,146,480,235,475,133,405,496,228,484,422,499,425,472,402,44,59,534,72,237,56,466,61,254,70,77,188,423,135,473,403,487,246,249,528,86,257,420,11,234,470,400,230,474,404,485,137,51,482,424,111,419,69,535,458,233,532,255,78,75,216,488,461,527,219,5,452,491,125,455,172,14,138,49,502,54,525,446,141,203,96,522,505,449,220,457,127,46,183,107",
+      "soldout": 0,
+      "checkin": {
+        "until": "23:30",
+        "from": "14:00"
+      },
+      "district": "",
+      "hotel_has_vb_boost": 0,
+      "price_breakdown": {
+        "all_inclusive_price": 900000.0,
+        "has_incalculable_charges": 0,
+        "has_fine_print_charges": 0,
+        "has_tax_exceptions": 0,
+        "gross_price": "900000.00",
+        "currency": "VND",
+        "sum_excluded_raw": "0.00"
+      },
+      "is_mobile_deal": 0,
+      "accommodation_type": 201,
+      "price_is_final": 1,
+      "ufi": -3727579,
+      "districts": "",
+      "cc_required": 1,
+      "genius_discount_percentage": 0,
+      "hotel_name": "TMS Sea Condotel View Bi\u1ec3n",
+      "is_city_center": 0,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "unit_type_id": 1,
+          "localized_area": "46"
+        }
+      },
+      "is_genius_deal": 0,
+      "native_ads_cpc": 0.0,
+      "hotel_name_trans": "TMS Sea Condotel View Bi\u1ec3n",
+      "native_ad_id": "",
+      "updated_checkin": null,
+      "has_free_parking": 1,
+      "hotel_include_breakfast": 0,
+      "review_nr": 167
+    },
+    {
+      "wishlist_count": 0,
+      "updated_checkout": null,
+      "urgency_room_c": 12,
+      "review_score_word": "Wonderful",
+      "urgency_c": [
+        11
+      ],
+      "preferred_plus": 0,
+      "distance_to_cc": "1.45",
+      "is_smart_deal": 0,
+      "default_language": "vi",
+      "url": "https://www.booking.com/hotel/vn/lemint-thanh-pho-qui-nhon.html",
+      "checkout": {
+        "until": "00:00",
+        "from": ""
+      },
+      "countrycode": "vn",
+      "currency_code": "VND",
+      "mobile_discount_percentage": 0,
+      "city_in_trans": "in Quy Nhon",
+      "default_wishlist_name": "Quy Nhon",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "class": 3.0,
+      "address_trans": "03 Tr\u1ea7n Kh\u00e1nh D\u01b0",
+      "id": "property_card_8429993",
+      "type": "property_card",
+      "cc1": "vn",
+      "city_trans": "Quy Nhon",
+      "latitude": 13.753485,
+      "block_ids": [
+        "842999308_421512357_2_1_0"
+      ],
+      "zip": "",
+      "native_ads_tracking": "",
+      "is_no_prepayment_block": 0,
+      "review_score": 9.1,
+      "distance": "1.41",
+      "accommodation_type_name": "Hotels",
+      "longitude": 109.212429,
+      "badges": [],
+      "crib_guaranteed": "",
+      "preferred": 1,
+      "currencycode": "VND",
+      "country_trans": "Vietnam",
+      "deals": {
+        "deals_available": {},
+        "deal_attributes": {},
+        "deal_events_killswitch": 0
+      },
+      "review_recommendation": "",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "address": "03 Tr\u1ea7n Kh\u00e1nh D\u01b0",
+      "has_swimming_pool": 1,
+      "hotel_include_breakfast": 1,
+      "has_free_parking": 1,
+      "review_nr": 203,
+      "native_ad_id": "",
+      "updated_checkin": null,
+      "hotel_name_trans": "Le Mint Hotel Quy Nh\u01a1n",
+      "native_ads_cpc": 0.0,
+      "is_genius_deal": 0,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "unit_type_id": 8,
+          "localized_area": null
+        }
+      },
+      "is_city_center": 0,
+      "hotel_name": "Le Mint Hotel Quy Nh\u01a1n",
+      "genius_discount_percentage": 0,
+      "cc_required": 1,
+      "districts": "",
+      "ufi": -3727579,
+      "price_is_final": 1,
+      "accommodation_type": 204,
+      "hotel_has_vb_boost": 1,
+      "price_breakdown": {
+        "all_inclusive_price": 1623600.0,
+        "has_tax_exceptions": 0,
+        "gross_price": "1623600.00",
+        "currency": "VND",
+        "sum_excluded_raw": "0.00",
+        "has_fine_print_charges": 0,
+        "has_incalculable_charges": 0
+      },
+      "is_mobile_deal": 0,
+      "district": "",
+      "checkin": {
+        "from": "14:00",
+        "until": ""
+      },
+      "soldout": 0,
+      "hotel_facilities": "418,447,81,16,109,176,304,129,192,456,422,496,47,442,499,15,44,445,425,506,161,466,158,448,222,493,22,500,104,119,494,450,140,489,504,8,201,64,2,198,91,435,75,28,488,497,461,5,467,491,17,452,433,455,495,49,52,502,426,492,451,449,96,127,118,457,220,46,177,107,443,423,209,468,440,305,48,51,3,444,424,301,160,458,210,78,436",
+      "is_free_cancellable": 0,
+      "is_tpi_exclusive_property": 0,
+      "extended": 0,
+      "class_is_estimated": 0,
+      "cant_book": null,
+      "hotel_id": 8429993,
+      "min_total_price": 1623600,
+      "in_best_district": 0,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/666016750.jpg?k=ffa74dd850030248bff9e0a9ed817463e7bc29cfcc247cff55cb4a2821ed684b&o=",
+      "children_not_allowed": null,
+      "district_id": 0,
+      "selected_review_topic": null,
+      "city_name_en": "Th\u00e0nh ph\u1ed1 Qui Nh\u01a1n",
+      "property_cribs_availability": 0,
+      "city": "Th\u00e0nh ph\u1ed1 Qui Nh\u01a1n",
+      "is_geo_rate": 1,
+      "main_photo_id": 666016750
+    },
+    {
+      "children_not_allowed": null,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/514757111.jpg?k=66346e4cabda4c675e59705b4bac5013b17372ca038bc54d13e439bcf3f29484&o=",
+      "cant_book": null,
+      "hotel_id": 10749319,
+      "in_best_district": 0,
+      "min_total_price": 825000,
+      "is_tpi_exclusive_property": 0,
+      "extended": 0,
+      "is_free_cancellable": 0,
+      "hotel_facilities": "489,140,486,247,494,221,198,464,201,143,80,245,22,493,460,82,242,27,490,463,506,231,15,445,526,514,47,248,110,529,197,90,513,212,447,418,114,192,456,421,23,304,129,459,195,471,55,109,512,444,3,515,48,213,25,436,210,117,160,53,517,229,226,251,498,531,209,481,186,194,468,189,302,57,159,492,451,426,479,76,243,495,476,101,465,118,240,462,518,244,497,28,236,501,239,17,142,467,521,504,516,227,450,519,187,2,91,64,238,453,8,523,408,478,503,222,158,124,454,119,520,104,437,185,500,59,425,44,472,499,496,475,405,228,484,422,211,70,188,466,161,72,237,534,530,16,477,483,21,81,250,480,146,235,232,438,19,419,424,482,111,51,474,230,485,108,78,532,458,233,69,535,249,528,487,135,473,246,423,400,470,234,420,522,96,449,505,446,54,502,525,49,223,200,107,183,46,220,457,127,461,219,488,169,75,125,455,491,258,452,433,199,5",
+      "class_is_estimated": 0,
+      "city": "Quy Nh\u01a1n",
+      "main_photo_id": 514757111,
+      "is_geo_rate": "",
+      "district_id": 0,
+      "selected_review_topic": null,
+      "city_name_en": "Quy Nh\u01a1n",
+      "property_cribs_availability": 0,
+      "ufi": -3727579,
+      "is_city_center": 0,
+      "hotel_name": "FLC Sea Tower Condotel",
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "localized_area": "48",
+          "unit_type_id": 1
+        }
+      },
+      "is_genius_deal": 0,
+      "districts": "",
+      "genius_discount_percentage": 0,
+      "cc_required": 1,
+      "native_ad_id": "",
+      "updated_checkin": null,
+      "hotel_name_trans": "FLC Sea Tower Condotel",
+      "native_ads_cpc": 0.0,
+      "hotel_include_breakfast": 0,
+      "has_free_parking": 1,
+      "review_nr": 122,
+      "district": "",
+      "soldout": 0,
+      "checkin": {
+        "until": "23:30",
+        "from": "14:00"
+      },
+      "accommodation_type": 219,
+      "is_mobile_deal": 0,
+      "price_breakdown": {
+        "has_incalculable_charges": 0,
+        "has_fine_print_charges": 0,
+        "gross_price": "825000.00",
+        "has_tax_exceptions": 0,
+        "currency": "VND",
+        "sum_excluded_raw": "66000.00",
+        "all_inclusive_price": 891000.0
+      },
+      "hotel_has_vb_boost": 1,
+      "price_is_final": 0,
+      "accommodation_type_name": "Condo Hotels",
+      "distance": "1.05",
+      "review_score": 8.2,
+      "badges": [
+        {
+          "id": "Late Escape Campaign",
+          "badge_variant": "constructive",
+          "text": "Late Escape Deal"
+        }
+      ],
+      "longitude": 109.215131,
+      "block_ids": [
+        "1074931901_380056607_3_0_0"
+      ],
+      "latitude": 13.755459,
+      "zip": "",
+      "native_ads_tracking": "",
+      "is_no_prepayment_block": 1,
+      "cc1": "vn",
+      "city_trans": "Quy Nhon",
+      "class": 0.0,
+      "type": "property_card",
+      "id": "property_card_10749319",
+      "address_trans": "V\u00f5 Th\u1ecb Y\u1ebfn T\u00f2a Nh\u00e0 FLC Sea Tower Quy Nh\u01a1n",
+      "address": "V\u00f5 Th\u1ecb Y\u1ebfn T\u00f2a Nh\u00e0 FLC Sea Tower Quy Nh\u01a1n",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "has_swimming_pool": 1,
+      "deals": {
+        "deal_attributes": {},
+        "deals_available": {},
+        "deal_events_killswitch": 0
+      },
+      "review_recommendation": "",
+      "country_trans": "Vietnam",
+      "currencycode": "VND",
+      "preferred": 1,
+      "crib_guaranteed": "",
+      "distance_to_cc": "1.10",
+      "is_smart_deal": 0,
+      "review_score_word": "Very Good",
+      "urgency_room_c": 13,
+      "preferred_plus": 0,
+      "updated_checkout": null,
+      "wishlist_count": 0,
+      "booking_home": {
+        "quality_class": 4.0,
+        "group": "apartment_like",
+        "segment": 1,
+        "is_booking_home": 1,
+        "is_single_unit_property": ""
+      },
+      "currency_code": "VND",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "mobile_discount_percentage": 0,
+      "city_in_trans": "in Quy Nhon",
+      "default_wishlist_name": "Quy Nhon",
+      "countrycode": "vn",
+      "url": "https://www.booking.com/hotel/vn/flc-sea-tower-condotel.html",
+      "checkout": {
+        "until": "12:00",
+        "from": "00:00"
+      },
+      "default_language": "vi"
+    },
+    {
+      "price_breakdown": {
+        "all_inclusive_price": 432000.0,
+        "has_incalculable_charges": 0,
+        "sum_excluded_raw": "0.00",
+        "currency": "VND",
+        "has_tax_exceptions": 0,
+        "gross_price": "432000.00",
+        "has_fine_print_charges": 0
+      },
+      "is_mobile_deal": 0,
+      "hotel_has_vb_boost": 0,
+      "accommodation_type": 204,
+      "price_is_final": 1,
+      "soldout": 0,
+      "checkin": {
+        "until": "12:00",
+        "from": "12:00"
+      },
+      "district": "",
+      "native_ads_cpc": 0.0,
+      "hotel_name_trans": "Thao Nguyen Homestay",
+      "updated_checkin": null,
+      "native_ad_id": "",
+      "review_nr": 34,
+      "has_free_parking": 1,
+      "hotel_include_breakfast": 0,
+      "ufi": -3727579,
+      "districts": "",
+      "cc_required": 1,
+      "genius_discount_percentage": 0,
+      "hotel_name": "Thao Nguyen Homestay",
+      "is_city_center": 0,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "unit_type_id": 9,
+          "localized_area": null
+        }
+      },
+      "is_genius_deal": 0,
+      "city_name_en": "Quy Nh\u01a1n",
+      "property_cribs_availability": 0,
+      "selected_review_topic": null,
+      "district_id": 0,
+      "main_photo_id": 472064752,
+      "is_geo_rate": "",
+      "city": "Quy Nh\u01a1n",
+      "in_best_district": 0,
+      "min_total_price": 432000,
+      "hotel_id": 10286496,
+      "cant_book": null,
+      "class_is_estimated": 0,
+      "is_free_cancellable": 0,
+      "is_tpi_exclusive_property": 0,
+      "extended": 0,
+      "hotel_facilities": "28,7,63,16,15,17,109,5,302,8,2,305,46",
+      "children_not_allowed": null,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/472064752.jpg?k=f62bd24815bd7aab6eace0920342bb1c8fbbf20d3542fb282e0f7f7e3474078a&o=",
+      "checkout": {
+        "from": "",
+        "until": "10:00"
+      },
+      "url": "https://www.booking.com/hotel/vn/thao-nguyen-homestay-quy-nhon.html",
+      "default_language": "vi",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "city_in_trans": "in Quy Nhon",
+      "mobile_discount_percentage": 0,
+      "default_wishlist_name": "Quy Nhon",
+      "currency_code": "VND",
+      "countrycode": "vn",
+      "updated_checkout": null,
+      "wishlist_count": 0,
+      "is_smart_deal": 0,
+      "distance_to_cc": "0.45",
+      "preferred_plus": 0,
+      "review_score_word": "Wonderful",
+      "urgency_c": [
+        11
+      ],
+      "urgency_room_c": 14,
+      "review_recommendation": "",
+      "deals": {
+        "deal_events_killswitch": 0,
+        "deal_attributes": {},
+        "deals_available": {}
+      },
+      "currencycode": "VND",
+      "country_trans": "Vietnam",
+      "crib_guaranteed": "",
+      "preferred": 0,
+      "address": "41 Nguy\u1ec5n L\u1ea1c 41 nguy\u1ec5n lac, ph\u01b0\u1eddng tr\u1ea7n ph\u00fa, tp quy nh\u01a1n, b\u00ecnh \u0111\u1ecbnh",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "cc1": "vn",
+      "city_trans": "Quy Nhon",
+      "type": "property_card",
+      "id": "property_card_10286496",
+      "address_trans": "41 Nguy\u1ec5n L\u1ea1c 41 nguy\u1ec5n lac, ph\u01b0\u1eddng tr\u1ea7n ph\u00fa, tp quy nh\u01a1n, b\u00ecnh \u0111\u1ecbnh",
+      "class": 0.0,
+      "badges": [],
+      "longitude": 109.224795,
+      "accommodation_type_name": "Hotels",
+      "distance": "0.40",
+      "review_score": 9.0,
+      "native_ads_tracking": "",
+      "zip": "",
+      "is_no_prepayment_block": 0,
+      "block_ids": [
+        "1028649601_375593820_2_2_0"
+      ],
+      "latitude": 13.76449
+    },
+    {
+      "is_smart_deal": 0,
+      "distance_to_cc": "1.50",
+      "urgency_c": [
+        2
+      ],
+      "review_score_word": "Wonderful",
+      "urgency_room_c": 3,
+      "preferred_plus": 1,
+      "updated_checkout": null,
+      "wishlist_count": 0,
+      "booking_home": {
+        "quality_class": 4.0,
+        "group": "apartment_like",
+        "segment": 1,
+        "is_booking_home": 1,
+        "is_single_unit_property": ""
+      },
+      "currency_code": "VND",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "default_wishlist_name": "Quy Nhon",
+      "mobile_discount_percentage": 0,
+      "city_in_trans": "in Quy Nhon",
+      "countrycode": "vn",
+      "url": "https://www.booking.com/hotel/vn/can-ho-bien-quy-nhon.html",
+      "checkout": {
+        "until": "12:00",
+        "from": "06:00"
+      },
+      "default_language": "vi",
+      "accommodation_type_name": "Apartments",
+      "distance": "1.47",
+      "review_score": 9.1,
+      "badges": [
+        {
+          "badge_variant": "constructive",
+          "id": "Late Escape Campaign",
+          "text": "Late Escape Deal"
+        }
+      ],
+      "longitude": 109.2328921,
+      "block_ids": [
+        "925165415_364319498_4_0_0"
+      ],
+      "latitude": 13.7700633,
+      "zip": "",
+      "is_no_prepayment_block": 1,
+      "native_ads_tracking": "",
+      "city_trans": "Quy Nhon",
+      "cc1": "vn",
+      "class": 0.0,
+      "type": "property_card",
+      "id": "property_card_9251654",
+      "address_trans": "28 Nguy\u1ec5n Hu\u1ec7",
+      "address": "28 Nguy\u1ec5n Hu\u1ec7",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "deals": {
+        "deal_attributes": {},
+        "deals_available": {},
+        "deal_events_killswitch": 0
+      },
+      "review_recommendation": "",
+      "currencycode": "VND",
+      "country_trans": "Vietnam",
+      "preferred": 1,
+      "crib_guaranteed": "",
+      "ufi": -3727579,
+      "is_city_center": 0,
+      "hotel_name": "TMS Quy Nh\u01a1n Sea View",
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "localized_area": "46",
+          "unit_type_id": 1
+        }
+      },
+      "is_genius_deal": 0,
+      "districts": "",
+      "cc_required": 1,
+      "genius_discount_percentage": 0,
+      "native_ad_id": "",
+      "updated_checkin": null,
+      "native_ads_cpc": 0.0,
+      "hotel_name_trans": "TMS Quy Nh\u01a1n Sea View",
+      "has_free_parking": 1,
+      "hotel_include_breakfast": 0,
+      "review_nr": 84,
+      "district": "",
+      "soldout": 0,
+      "checkin": {
+        "from": "14:00",
+        "until": "23:30"
+      },
+      "accommodation_type": 201,
+      "price_breakdown": {
+        "all_inclusive_price": 900000.0,
+        "has_incalculable_charges": 0,
+        "gross_price": "900000.00",
+        "has_tax_exceptions": 0,
+        "sum_excluded_raw": "0.00",
+        "currency": "VND",
+        "has_fine_print_charges": 0
+      },
+      "is_mobile_deal": 0,
+      "hotel_has_vb_boost": 0,
+      "price_is_final": 1,
+      "children_not_allowed": null,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/614439570.jpg?k=6c780d15ac5f878c85cf1aeaa8956335ea6d359941e9f76c3d14e531acffa0cd&o=",
+      "cant_book": null,
+      "hotel_id": 9251654,
+      "min_total_price": 900000,
+      "in_best_district": 0,
+      "is_tpi_exclusive_property": 0,
+      "extended": 0,
+      "is_free_cancellable": 0,
+      "hotel_facilities": "477,407,9,483,21,16,438,232,19,480,441,146,235,496,405,475,422,484,228,499,425,402,472,237,466,61,70,211,77,254,188,222,158,408,478,174,437,185,124,454,411,450,227,8,453,238,64,187,435,2,91,75,216,224,488,461,219,5,491,452,14,455,49,54,141,446,96,449,220,457,127,46,107,183,423,487,473,403,86,257,420,400,470,234,404,474,230,137,485,424,482,111,419,69,233,458,252,255,78,447,418,212,7,215,55,109,401,471,304,129,459,456,421,47,442,110,231,15,445,97,90,448,242,27,460,82,493,80,87,463,490,140,486,412,494,489,168,58,143,464,62,221,256,28,413,244,497,467,10,17,142,410,239,236,12,145,243,495,476,101,406,409,479,76,492,414,451,426,159,57,50,462,118,240,443,209,226,498,229,468,302,440,186,481,48,213,3,163,444,160,210,117,148,439,25,436",
+      "class_is_estimated": 0,
+      "city": "Quy Nh\u01a1n",
+      "main_photo_id": 614439570,
+      "is_geo_rate": "",
+      "selected_review_topic": null,
+      "district_id": 0,
+      "city_name_en": "Quy Nh\u01a1n",
+      "property_cribs_availability": 0
+    },
+    {
+      "is_smart_deal": 0,
+      "distance_to_cc": "1.85",
+      "urgency_room_c": 15,
+      "review_score_word": "Excellent",
+      "preferred_plus": 0,
+      "wishlist_count": 0,
+      "updated_checkout": null,
+      "currency_code": "VND",
+      "default_wishlist_name": "Quy Nhon",
+      "mobile_discount_percentage": 0,
+      "city_in_trans": "in Quy Nhon",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "countrycode": "vn",
+      "url": "https://www.booking.com/hotel/vn/fleur-de-lys-quy-nhon.html",
+      "checkout": {
+        "from": "00:00",
+        "until": "12:00"
+      },
+      "default_language": "en",
+      "review_score": 8.8,
+      "accommodation_type_name": "Hotels",
+      "distance": "1.83",
+      "longitude": 109.236110235443,
+      "badges": [
+        {
+          "text": "Late Escape Deal",
+          "id": "Late Escape Campaign",
+          "badge_variant": "constructive"
+        }
+      ],
+      "latitude": 13.7711872161837,
+      "block_ids": [
+        "678512601_277082865_0_2_0"
+      ],
+      "is_no_prepayment_block": 0,
+      "zip": "",
+      "native_ads_tracking": "",
+      "city_trans": "Quy Nhon",
+      "cc1": "vn",
+      "class": 4.0,
+      "address_trans": "16 \u0110\u01b0\u1eddng Nguy\u1ec5n Hu\u1ec7",
+      "id": "property_card_6785126",
+      "type": "property_card",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "address": "16 \u0110\u01b0\u1eddng Nguy\u1ec5n Hu\u1ec7",
+      "has_swimming_pool": 1,
+      "review_recommendation": "",
+      "deals": {
+        "deal_events_killswitch": 0,
+        "deals_available": {},
+        "deal_attributes": {}
+      },
+      "crib_guaranteed": "",
+      "preferred": 1,
+      "currencycode": "VND",
+      "country_trans": "Vietnam",
+      "ufi": -3727579,
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "unit_type_id": 9,
+          "localized_area": null
+        }
+      },
+      "is_genius_deal": 0,
+      "is_city_center": 0,
+      "hotel_name": "Fleur de Lys Hotel Quy Nhon",
+      "genius_discount_percentage": 0,
+      "cc_required": 1,
+      "districts": "",
+      "native_ad_id": "",
+      "updated_checkin": null,
+      "hotel_name_trans": "Fleur de Lys Hotel Quy Nhon",
+      "native_ads_cpc": 0.0,
+      "hotel_include_breakfast": 0,
+      "has_free_parking": 1,
+      "review_nr": 336,
+      "district": "",
+      "checkin": {
+        "from": "14:00",
+        "until": "00:00"
+      },
+      "soldout": 0,
+      "accommodation_type": 204,
+      "price_breakdown": {
+        "sum_excluded_raw": "0.00",
+        "currency": "VND",
+        "has_tax_exceptions": 0,
+        "gross_price": "2398500.00",
+        "has_fine_print_charges": 0,
+        "has_incalculable_charges": 0,
+        "all_inclusive_price": 2398500.0
+      },
+      "hotel_has_vb_boost": 0,
+      "is_mobile_deal": 0,
+      "price_is_final": 1,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/280201276.jpg?k=b3b45ef185d6014cf51a13cd5a11bf5ec395081bfeda685262470a7b65d5093d&o=",
+      "children_not_allowed": null,
+      "hotel_id": 6785126,
+      "cant_book": null,
+      "in_best_district": 0,
+      "min_total_price": 2398500,
+      "hotel_facilities": "425,445,44,15,506,63,405,442,133,248,47,496,529,484,422,526,499,514,466,161,534,134,21,477,407,530,513,16,7,418,250,81,129,304,533,459,146,456,23,421,55,109,438,253,176,504,486,181,450,73,140,247,519,516,489,64,464,221,198,91,2,241,8,453,408,245,22,139,6,523,222,20,205,242,158,503,520,119,124,454,144,500,104,437,451,492,203,426,96,522,505,449,243,101,495,502,54,52,525,465,46,200,177,107,462,457,118,220,240,244,497,461,527,219,518,75,501,455,521,467,5,199,452,258,433,491,17,10,184,482,424,444,512,301,485,48,3,163,515,51,532,108,436,78,160,535,53,210,252,458,117,487,498,251,246,249,517,528,423,443,531,209,305,11,302,468,440,257,420",
+      "extended": 0,
+      "is_tpi_exclusive_property": 0,
+      "is_free_cancellable": 0,
+      "class_is_estimated": 0,
+      "city": "Th\u00e0nh ph\u1ed1 Qui Nh\u01a1n",
+      "is_geo_rate": "",
+      "main_photo_id": 280201276,
+      "district_id": 0,
+      "selected_review_topic": null,
+      "city_name_en": "Th\u00e0nh ph\u1ed1 Qui Nh\u01a1n",
+      "property_cribs_availability": 0
+    },
+    {
+      "address_trans": "07 L\u00ea L\u1ee3i",
+      "type": "property_card",
+      "id": "property_card_4677380",
+      "class": 2.0,
+      "cc1": "vn",
+      "city_trans": "Quy Nhon",
+      "is_no_prepayment_block": 1,
+      "zip": "",
+      "native_ads_tracking": "",
+      "latitude": 13.770689,
+      "block_ids": [
+        "467738012_419291917_2_1_0"
+      ],
+      "longitude": 109.231514,
+      "badges": [],
+      "review_score": 8.0,
+      "distance": "1.40",
+      "accommodation_type_name": "Hotels",
+      "preferred": 1,
+      "crib_guaranteed": "",
+      "currencycode": "VND",
+      "country_trans": "Vietnam",
+      "review_recommendation": "",
+      "deals": {
+        "deal_attributes": {},
+        "deals_available": {},
+        "deal_events_killswitch": 0
+      },
+      "timezone": "Asia/Ho_Chi_Minh",
+      "address": "07 L\u00ea L\u1ee3i",
+      "wishlist_count": 0,
+      "updated_checkout": null,
+      "preferred_plus": 1,
+      "urgency_room_c": 14,
+      "review_score_word": "Very Good",
+      "urgency_c": [
+        16
+      ],
+      "is_smart_deal": 0,
+      "distance_to_cc": "1.40",
+      "default_language": "vi",
+      "checkout": {
+        "from": "",
+        "until": "12:00"
+      },
+      "url": "https://www.booking.com/hotel/vn/delight.html",
+      "countrycode": "vn",
+      "mobile_discount_percentage": 0,
+      "default_wishlist_name": "Quy Nhon",
+      "city_in_trans": "in Quy Nhon",
+      "bwallet": {
+        "hotel_eligibility": 0
+      },
+      "currency_code": "VND",
+      "class_is_estimated": 0,
+      "hotel_facilities": "163,485,230,444,424,458,210,160,436,439,209,443,423,249,246,251,487,226,468,302,52,54,502,495,243,449,505,96,426,492,451,446,240,457,107,46,465,75,28,461,488,244,497,184,491,17,10,452,467,455,489,494,247,450,227,140,486,181,453,8,2,241,464,503,448,493,245,454,490,499,422,484,47,496,248,506,445,425,161,466,250,418,55,109,146,456,459,304,129",
+      "is_tpi_exclusive_property": 0,
+      "is_free_cancellable": 1,
+      "extended": 0,
+      "min_total_price": 599422,
+      "in_best_district": 0,
+      "cant_book": null,
+      "hotel_id": 4677380,
+      "main_photo_url": "https://cf.bstatic.com/xdata/images/hotel/square60/189087343.jpg?k=2c8c2189c5ec64579a62faa07c44adb610f68ac2cad39fc43c727c88d4bdd5c1&o=",
+      "children_not_allowed": null,
+      "property_cribs_availability": 0,
+      "city_name_en": "Th\u00e0nh ph\u1ed1 Qui Nh\u01a1n",
+      "selected_review_topic": null,
+      "district_id": 0,
+      "is_geo_rate": 1,
+      "main_photo_id": 189087343,
+      "city": "Th\u00e0nh ph\u1ed1 Qui Nh\u01a1n",
+      "has_free_parking": 1,
+      "hotel_include_breakfast": 1,
+      "review_nr": 247,
+      "hotel_name_trans": "HAKU Boutique Hotel Quy Nh\u01a1n - L\u00ea L\u1ee3i",
+      "native_ads_cpc": 0.0,
+      "updated_checkin": null,
+      "native_ad_id": "",
+      "genius_discount_percentage": 0,
+      "cc_required": 1,
+      "districts": "",
+      "matching_units_configuration": {
+        "matching_units_common_config": {
+          "localized_area": null,
+          "unit_type_id": 9
+        }
+      },
+      "is_genius_deal": 0,
+      "is_city_center": 0,
+      "hotel_name": "HAKU Boutique Hotel Quy Nh\u01a1n - L\u00ea L\u1ee3i",
+      "ufi": -3727579,
+      "price_is_final": 1,
+      "price_breakdown": {
+        "all_inclusive_price": 599422.0,
+        "has_incalculable_charges": 0,
+        "has_fine_print_charges": 0,
+        "currency": "VND",
+        "sum_excluded_raw": "0.00",
+        "has_tax_exceptions": 0,
+        "gross_price": "599422.00"
+      },
+      "is_mobile_deal": 0,
+      "hotel_has_vb_boost": 0,
+      "accommodation_type": 204,
+      "checkin": {
+        "until": "16:00",
+        "from": "14:00"
+      },
+      "soldout": 0,
+      "district": ""
+    }
+  ],
+  "search_radius": 0.0,
+  "unfiltered_primary_count": 429,
+  "sorting": {
+    "selected_identifier": "popularity",
+    "options": [
+      {
+        "name": "Distance From Downtown",
+        "loading_message": "",
+        "identifier": "distance"
+      },
+      {
+        "name": "Popularity",
+        "identifier": "popularity",
+        "loading_message": ""
+      },
+      {
+        "loading_message": "",
+        "identifier": "class_descending",
+        "name": "Stars (5 to 0)"
+      },
+      {
+        "name": "Stars (0 to 5)",
+        "identifier": "class_ascending",
+        "loading_message": ""
+      },
+      {
+        "name": "Guest Review Score",
+        "identifier": "bayesian_review_score",
+        "loading_message": ""
+      },
+      {
+        "name": "Price (low to high)",
+        "identifier": "price",
+        "loading_message": ""
+      }
+    ]
+  },
+  "b_max_los_data": {
+    "experiment": "long_stays_android_extend_los_2",
+    "max_allowed_los": 90,
+    "default_los": 45,
+    "has_extended_los": 1,
+    "extended_los": 90,
+    "is_fullon": 0
+  },
+  "base_filters": [
+    {
+      "type": "multiple_union",
+      "layout": {
+        "collapsed_count": 5,
+        "is_collapsed": 0,
+        "is_collapsable": 0
+      },
+      "id": "price_category",
+      "irene_resp_id": "pri",
+      "any_text": "No price range selected",
+      "title": "Your budget (for 2 nights)",
+      "is_group": 0,
+      "iconfont": "pricetag",
+      "subtitle": "",
+      "categories": [
+        {
+          "selected": 0,
+          "id": "price_category::50",
+          "display_format": "%LOWER% - %UPPER%",
+          "from": 0,
+          "count": 342,
+          "style_for_count": 0,
+          "to": 50,
+          "name": "$0 - $100 "
+        },
+        {
+          "display_format": "%LOWER% - %UPPER%",
+          "selected": 0,
+          "id": "price_category::100",
+          "style_for_count": 0,
+          "from": 50,
+          "count": 121,
+          "to": 100,
+          "name": "$100 - $200 "
+        },
+        {
+          "style_for_count": 0,
+          "from": 100,
+          "count": 41,
+          "display_format": "%LOWER% - %UPPER%",
+          "id": "price_category::150",
+          "selected": 0,
+          "name": "$200 - $300 ",
+          "to": 150
+        },
+        {
+          "style_for_count": 0,
+          "count": 30,
+          "from": 150,
+          "display_format": "%LOWER% - %UPPER%",
+          "id": "price_category::200",
+          "selected": 0,
+          "to": 200,
+          "name": "$300 - $400 "
+        },
+        {
+          "name": "$400 + ",
+          "to": 0,
+          "count": 24,
+          "from": 200,
+          "style_for_count": 0,
+          "selected": 0,
+          "id": "price_category::250",
+          "display_format": "%LOWER% + "
+        }
+      ]
+    },
+    {
+      "id": "popular",
+      "layout": {
+        "is_collapsed": 0,
+        "is_collapsable": 0,
+        "collapsed_count": 5
+      },
+      "type": "multiple_intersection",
+      "irene_resp_id": "popular",
+      "any_text": "No rating selected",
+      "title": "Popular Filters",
+      "is_group": 0,
+      "iconfont": "aconfirmation",
+      "subtitle": "",
+      "categories": [
+        {
+          "count": 47,
+          "style_for_count": 0,
+          "name": "Breakfast included",
+          "id": "mealplan::breakfast_included",
+          "popular": 1,
+          "selected": 0,
+          "popular_rank": 3
+        },
+        {
+          "count": 209,
+          "style_for_count": 0,
+          "id": "reviewscorebuckets::80",
+          "name": "Very Good: 8+",
+          "popular": 1,
+          "selected": 0,
+          "popular_rank": 6
+        },
+        {
+          "style_for_count": 0,
+          "count": 360,
+          "popular_rank": 8,
+          "id": "twin_double_bed::3",
+          "name": "Double bed",
+          "popular": 1,
+          "selected": 0
+        },
+        {
+          "count": 163,
+          "style_for_count": 0,
+          "name": "Hotels",
+          "id": "property_type::204",
+          "selected": 0,
+          "popular": 1,
+          "popular_rank": 9
+        },
+        {
+          "popular": 1,
+          "selected": 0,
+          "name": "Good: 7+",
+          "id": "reviewscorebuckets::70",
+          "popular_rank": 10,
+          "count": 242,
+          "style_for_count": 0
+        },
+        {
+          "style_for_count": 0,
+          "count": 3,
+          "popular_rank": 11,
+          "selected": 0,
+          "popular": 1,
+          "name": "Hostels",
+          "id": "property_type::203"
+        },
+        {
+          "count": 345,
+          "style_for_count": 0,
+          "name": "Parking",
+          "id": "facility::2",
+          "popular": 1,
+          "selected": 0,
+          "popular_rank": 13
+        },
+        {
+          "style_for_count": 0,
+          "count": 6,
+          "popular_rank": 14,
+          "popular": 1,
+          "selected": 0,
+          "id": "property_type::206",
+          "name": "Resorts"
+        }
+      ]
+    },
+    {
+      "categories": [
+        {
+          "count": 85,
+          "style_for_count": 0,
+          "selected": 0,
+          "name": "Free cancellation",
+          "id": "free_cancellation::1"
+        }
+      ],
+      "subtitle": "",
+      "iconfont": "aconfirmation",
+      "is_group": 0,
+      "any_text": null,
+      "title": "Free cancellation ",
+      "irene_resp_id": "fc",
+      "id": "free_cancellation",
+      "layout": {
+        "is_collapsed": 0,
+        "is_collapsable": 0,
+        "collapsed_count": 5
+      },
+      "type": "single_option"
+    },
+    {
+      "type": "multiple_union",
+      "layout": {
+        "is_collapsable": 1,
+        "is_collapsed": 1,
+        "collapsed_count": 5
+      },
+      "id": "property_type",
+      "irene_resp_id": "ht_id",
+      "iconfont": "homecrop",
+      "is_group": 0,
+      "title": "Property Type",
+      "any_text": "No property type selected",
+      "categories": [
+        {
+          "id": "property_type::201",
+          "name": "Apartments",
+          "selected": 0,
+          "style_for_count": 0,
+          "count": 183
+        },
+        {
+          "name": "Hotels",
+          "id": "property_type::204",
+          "selected": 0,
+          "popular": 1,
+          "popular_rank": 9,
+          "count": 163,
+          "style_for_count": 0
+        },
+        {
+          "style_for_count": 0,
+          "count": 20,
+          "selected": 0,
+          "name": "Homestays",
+          "id": "property_type::222"
+        },
+        {
+          "style_for_count": 0,
+          "count": 9,
+          "selected": 0,
+          "name": "Guesthouses",
+          "id": "property_type::216"
+        },
+        {
+          "popular_rank": 14,
+          "selected": 0,
+          "popular": 1,
+          "id": "property_type::206",
+          "name": "Resorts",
+          "style_for_count": 0,
+          "count": 6
+        },
+        {
+          "name": "Hostels",
+          "id": "property_type::203",
+          "selected": 0,
+          "popular": 1,
+          "popular_rank": 11,
+          "count": 3,
+          "style_for_count": 0
+        },
+        {
+          "count": 3,
+          "style_for_count": 0,
+          "selected": 0,
+          "id": "property_type::208",
+          "name": "Bed and Breakfasts"
+        },
+        {
+          "name": "Villas",
+          "id": "property_type::213",
+          "selected": 0,
+          "count": 1,
+          "style_for_count": 0
+        },
+        {
+          "style_for_count": 0,
+          "count": 1,
+          "selected": 0,
+          "id": "property_type::214",
+          "name": "Campgrounds"
+        },
+        {
+          "style_for_count": 0,
+          "count": 1,
+          "selected": 0,
+          "name": "Vacation Homes",
+          "id": "property_type::220"
+        },
+        {
+          "selected": 0,
+          "name": "Love Hotels",
+          "id": "property_type::226",
+          "count": 1,
+          "style_for_count": 0
+        }
+      ],
+      "subtitle": ""
+    },
+    {
+      "is_group": 0,
+      "categories": [
+        {
+          "experiment_tracking_data": {
+            "track_on_select": [
+              {
+                "type": 1,
+                "experiment_tag": "mpsae_stay_type_filter_apps",
+                "value": 1
+              }
+            ]
+          },
+          "name": "Adults only",
+          "id": "stay_type::2",
+          "selected": 0,
+          "count": 7,
+          "style_for_count": 0
+        }
+      ],
+      "layout": {
+        "collapsed_count": 5,
+        "is_collapsable": 0,
+        "is_collapsed": 0
+      },
+      "id": "stay_type",
+      "type": "multiple_union",
+      "irene_resp_id": "stay_type",
+      "any_text": null,
+      "title": "Travel group",
+      "iconfont": null,
+      "subtitle": "",
+      "experiment_tracking_data": {
+        "track_on_view": [
+          {
+            "type": 1,
+            "experiment_tag": "mpsae_stay_type_filter_apps",
+            "value": 4
+          }
+        ]
+      }
+    },
+    {
+      "is_group": 0,
+      "categories": [
+        {
+          "selected": 0,
+          "id": "chaincode::7316",
+          "name": "Anantara Hotels & Resorts",
+          "style_for_count": 0,
+          "count": 1
+        },
+        {
+          "style_for_count": 0,
+          "count": 1,
+          "id": "chaincode::7317",
+          "name": "Avani Hotels & Resorts",
+          "selected": 0
+        },
+        {
+          "style_for_count": 0,
+          "count": 1,
+          "id": "chaincode::7892",
+          "name": "Muong Thanh Hospitality",
+          "selected": 0
+        }
+      ],
+      "layout": {
+        "is_collapsable": 0,
+        "is_collapsed": 0,
+        "collapsed_count": 5
+      },
+      "id": "chaincode",
+      "type": "multiple_union",
+      "irene_resp_id": "chaincode",
+      "any_text": "No chain selected",
+      "title": "Chain",
+      "iconfont": "hotel",
+      "subtitle": "",
+      "experiment_tracking_data": {
+        "track_on_view": [
+          {
+            "type": 0,
+            "value": 1,
+            "experiment_tag": "mpswe_apps_brands_filter"
+          }
+        ]
+      }
+    },
+    {
+      "is_group": 0,
+      "iconfont": "frontdesk",
+      "title": "Facilities",
+      "any_text": "No facilities selected",
+      "categories": [
+        {
+          "count": 250,
+          "style_for_count": 0,
+          "selected": 0,
+          "name": "24-hour front desk",
+          "id": "facility::8"
+        },
+        {
+          "selected": 0,
+          "name": "Airport shuttle",
+          "id": "facility::17",
+          "count": 222,
+          "style_for_count": 0
+        },
+        {
+          "style_for_count": 0,
+          "count": 3,
+          "selected": 0,
+          "id": "facility::139",
+          "name": "Airport shuttle (free)"
+        },
+        {
+          "name": "BBQ facilities",
+          "id": "facility::72",
+          "selected": 0,
+          "count": 69,
+          "style_for_count": 0
+        },
+        {
+          "style_for_count": 0,
+          "count": 26,
+          "selected": 0,
+          "id": "facility::182",
+          "name": "Electric vehicle charging station"
+        },
+        {
+          "selected": 0,
+          "name": "Family rooms",
+          "id": "facility::28",
+          "count": 300,
+          "style_for_count": 0
+        },
+        {
+          "selected": 0,
+          "id": "facility::11",
+          "name": "Fitness center",
+          "style_for_count": 0,
+          "count": 34
+        },
+        {
+          "selected": 0,
+          "id": "facility::46",
+          "name": "Free parking",
+          "style_for_count": 0,
+          "count": 291
+        },
+        {
+          "count": 308,
+          "style_for_count": 0,
+          "selected": 0,
+          "name": "Free Wifi",
+          "id": "facility::107"
+        },
+        {
+          "selected": 0,
+          "name": "Non-smoking rooms",
+          "id": "facility::16",
+          "style_for_count": 0,
+          "count": 277
+        },
+        {
+          "count": 345,
+          "style_for_count": 0,
+          "popular": 1,
+          "selected": 0,
+          "id": "facility::2",
+          "name": "Parking",
+          "popular_rank": 13
+        },
+        {
+          "name": "Pet friendly",
+          "id": "facility::4",
+          "selected": 0,
+          "style_for_count": 0,
+          "count": 47
+        },
+        {
+          "selected": 0,
+          "id": "facility::3",
+          "name": "Restaurant",
+          "count": 88,
+          "style_for_count": 0
+        },
+        {
+          "count": 219,
+          "style_for_count": 0,
+          "name": "Room service",
+          "id": "facility::5",
+          "selected": 0
+        },
+        {
+          "count": 58,
+          "style_for_count": 0,
+          "selected": 0,
+          "id": "facility::54",
+          "name": "Spa"
+        },
+        {
+          "name": "Swimming pool",
+          "id": "facility::433",
+          "selected": 0,
+          "count": 138,
+          "style_for_count": 0
+        },
+        {
+          "style_for_count": 0,
+          "count": 48,
+          "id": "facility::185",
+          "name": "Wheelchair accessible",
+          "selected": 0
+        }
+      ],
+      "subtitle": "",
+      "id": "facility",
+      "layout": {
+        "is_collapsed": 1,
+        "is_collapsable": 1,
+        "collapsed_count": 5
+      },
+      "type": "multiple_intersection",
+      "irene_resp_id": "hotelfacility"
+    },
+    {
+      "layout": {
+        "collapsed_count": 5,
+        "is_collapsable": 1,
+        "is_collapsed": 1
+      },
+      "type": "multiple_intersection",
+      "id": "room_facility",
+      "irene_resp_id": "roomfacility",
+      "is_group": 0,
+      "categories": [
+        {
+          "selected": 0,
+          "id": "room_facility::998",
+          "name": "Coffee/Tea maker",
+          "style_for_count": 0,
+          "count": 282
+        },
+        {
+          "count": 278,
+          "style_for_count": 0,
+          "selected": 0,
+          "id": "room_facility::86",
+          "name": "Electric kettle"
+        },
+        {
+          "style_for_count": 0,
+          "count": 230,
+          "name": "Sea view",
+          "id": "room_facility::108",
+          "selected": 0
+        },
+        {
+          "id": "room_facility::81",
+          "name": "View",
+          "selected": 0,
+          "style_for_count": 0,
+          "count": 329
+        },
+        {
+          "count": 191,
+          "style_for_count": 0,
+          "name": "Soundproof",
+          "id": "room_facility::79",
+          "selected": 0
+        },
+        {
+          "style_for_count": 0,
+          "count": 59,
+          "selected": 0,
+          "name": "Patio",
+          "id": "room_facility::37"
+        },
+        {
+          "selected": 0,
+          "id": "room_facility::34",
+          "name": "Washing machine",
+          "style_for_count": 0,
+          "count": 169
+        },
+        {
+          "selected": 0,
+          "id": "room_facility::75",
+          "name": "Flat-screen TV",
+          "style_for_count": 0,
+          "count": 341
+        },
+        {
+          "name": "Balcony",
+          "id": "room_facility::17",
+          "selected": 0,
+          "count": 260,
+          "style_for_count": 0
+        },
+        {
+          "style_for_count": 0,
+          "count": 162,
+          "name": "Terrace",
+          "id": "room_facility::123",
+          "selected": 0
+        },
+        {
+          "selected": 0,
+          "name": "Bathtub",
+          "id": "room_facility::5",
+          "style_for_count": 0,
+          "count": 138
+        },
+        {
+          "experiment_tracking_data": {
+            "track_on_deselect": [
+              {
+                "type": 1,
+                "experiment_tag": "ctsd_apps_desk_room_facility",
+                "value": 3
+              }
+            ],
+            "track_on_view": [
+              {
+                "type": 1,
+                "experiment_tag": "ctsd_apps_desk_room_facility",
+                "value": 1
+              }
+            ],
+            "track_on_select": [
+              {
+                "value": 2,
+                "experiment_tag": "ctsd_apps_desk_room_facility",
+                "type": 1
+              }
+            ]
+          },
+          "id": "room_facility::23",
+          "name": "Desk",
+          "selected": 0,
+          "style_for_count": 0,
+          "count": 261
+        },
+        {
+          "selected": 0,
+          "name": "Air conditioning",
+          "id": "room_facility::11",
+          "style_for_count": 0,
+          "count": 361
+        },
+        {
+          "id": "room_facility::16",
+          "name": "Kitchenette",
+          "selected": 0,
+          "count": 152,
+          "style_for_count": 0
+        },
+        {
+          "id": "room_facility::38",
+          "name": "Private bathroom",
+          "selected": 0,
+          "style_for_count": 0,
+          "count": 342
+        },
+        {
+          "name": "Kitchen/Kitchenette",
+          "id": "room_facility::999",
+          "selected": 0,
+          "style_for_count": 0,
+          "count": 186
+        }
+      ],
+      "experiment_tracking_data": {
+        "track_on_view": [
+          {
+            "experiment_tag": "ctsd_apps_desk_room_facility",
+            "value": 1,
+            "type": 0
+          },
+          {
+            "value": 5,
+            "experiment_tag": "ctsd_apps_desk_room_facility",
+            "type": 0
+          },
+          {
+            "experiment_tag": "ctsd_apps_desk_room_facility",
+            "value": 6,
+            "type": 0
+          },
+          {
+            "experiment_tag": "ctsd_apps_desk_room_facility",
+            "value": 9,
+            "type": 0
+          }
+        ]
+      },
+      "any_text": "No room facilities selected",
+      "title": "Room facilities",
+      "iconfont": "bath",
+      "subtitle": ""
+    },
+    {
+      "subtitle": "",
+      "categories": [
+        {
+          "style_for_count": 0,
+          "count": 86,
+          "selected": 0,
+          "name": "Less than 1 km",
+          "id": "distance::1000"
+        },
+        {
+          "name": "Less than 3 km",
+          "id": "distance::3000",
+          "selected": 0,
+          "count": 335,
+          "style_for_count": 0
+        },
+        {
+          "count": 338,
+          "style_for_count": 0,
+          "name": "Less than 5 km",
+          "id": "distance::5000",
+          "selected": 0
+        }
+      ],
+      "title": "Distance from city center",
+      "any_text": "No Preference",
+      "iconfont": null,
+      "is_group": 0,
+      "irene_resp_id": "distance",
+      "layout": {
+        "is_collapsed": 0,
+        "is_collapsable": 0,
+        "collapsed_count": 5
+      },
+      "id": "distance",
+      "type": "multiple_single_selection"
+    },
+    {
+      "irene_resp_id": "BeachAccessFacilityFilter",
+      "type": "multiple_union",
+      "layout": {
+        "collapsed_count": 5,
+        "is_collapsable": 0,
+        "is_collapsed": 0
+      },
+      "id": "BeachAccessFacilityFilter",
+      "categories": [
+        {
+          "selected": 0,
+          "id": "BeachAccessFacilityFilter::0",
+          "name": "Private beach",
+          "style_for_count": 0,
+          "count": 87
+        },
+        {
+          "id": "BeachAccessFacilityFilter::1",
+          "name": "Beachfront",
+          "selected": 0,
+          "style_for_count": 0,
+          "count": 227
+        },
+        {
+          "count": 345,
+          "style_for_count": 0,
+          "name": "Less than 1 km",
+          "id": "BeachAccessFacilityFilter::2",
+          "selected": 0
+        },
+        {
+          "style_for_count": 0,
+          "count": 359,
+          "selected": 0,
+          "name": "Less than 2 km",
+          "id": "BeachAccessFacilityFilter::3"
+        },
+        {
+          "name": "Less than 3 km",
+          "id": "BeachAccessFacilityFilter::4",
+          "selected": 0,
+          "count": 359,
+          "style_for_count": 0
+        }
+      ],
+      "subtitle": "",
+      "is_group": 0,
+      "iconfont": null,
+      "title": "Beach Access",
+      "any_text": null
+    },
+    {
+      "title": "Review Score",
+      "any_text": "No score selected",
+      "is_group": 0,
+      "iconfont": "reviews",
+      "subtitle": "",
+      "categories": [
+        {
+          "style_for_count": 0,
+          "count": 256,
+          "name": "Fair: 5+",
+          "id": "reviewscorebuckets::50",
+          "selected": 0
+        },
+        {
+          "count": 251,
+          "style_for_count": 0,
+          "id": "reviewscorebuckets::60",
+          "name": "Pleasant: 6+",
+          "selected": 0
+        },
+        {
+          "selected": 0,
+          "popular": 1,
+          "id": "reviewscorebuckets::70",
+          "name": "Good: 7+",
+          "popular_rank": 10,
+          "count": 242,
+          "style_for_count": 0
+        },
+        {
+          "style_for_count": 0,
+          "count": 209,
+          "popular_rank": 6,
+          "popular": 1,
+          "selected": 0,
+          "id": "reviewscorebuckets::80",
+          "name": "Very Good: 8+"
+        },
+        {
+          "count": 84,
+          "style_for_count": 0,
+          "selected": 0,
+          "id": "reviewscorebuckets::90",
+          "name": "Wonderful: 9+"
+        },
+        {
+          "id": "reviewscorebuckets::999",
+          "name": "No rating",
+          "selected": 0,
+          "count": 67,
+          "style_for_count": 0
+        }
+      ],
+      "layout": {
+        "collapsed_count": 5,
+        "is_collapsed": 1,
+        "is_collapsable": 1
+      },
+      "type": "multiple_single_selection",
+      "id": "reviewscorebuckets",
+      "irene_resp_id": "review_score"
+    },
+    {
+      "is_group": 0,
+      "iconfont": "acstar",
+      "title": "Property rating",
+      "any_text": "No stars selected",
+      "categories": [
+        {
+          "style_for_count": 0,
+          "count": 170,
+          "name": "Unrated",
+          "id": "class::0",
+          "selected": 0
+        },
+        {
+          "selected": 0,
+          "id": "class::1",
+          "name": "1 star",
+          "style_for_count": 0,
+          "count": 13
+        },
+        {
+          "selected": 0,
+          "id": "class::2",
+          "name": "2 stars",
+          "style_for_count": 0,
+          "count": 30
+        },
+        {
+          "id": "class::3",
+          "name": "3 stars",
+          "selected": 0,
+          "style_for_count": 0,
+          "count": 57
+        },
+        {
+          "id": "class::4",
+          "name": "4 stars",
+          "selected": 0,
+          "count": 80,
+          "style_for_count": 0
+        },
+        {
+          "selected": 0,
+          "name": "5 stars",
+          "id": "class::5",
+          "style_for_count": 0,
+          "count": 18
+        }
+      ],
+      "subtitle": "Find high-quality hotels and vacation rentals",
+      "layout": {
+        "is_collapsable": 0,
+        "is_collapsed": 0,
+        "collapsed_count": 5
+      },
+      "type": "multiple_union",
+      "id": "class",
+      "irene_resp_id": "class"
+    },
+    {
+      "subtitle": "",
+      "categories": [
+        {
+          "count": 75,
+          "style_for_count": 0,
+          "selected": 0,
+          "name": "2 single beds",
+          "id": "twin_double_bed::2"
+        },
+        {
+          "count": 360,
+          "style_for_count": 0,
+          "name": "Double bed",
+          "id": "twin_double_bed::3",
+          "popular": 1,
+          "selected": 0,
+          "popular_rank": 8
+        }
+      ],
+      "title": "Bed Preference",
+      "any_text": "Select bed type",
+      "iconfont": null,
+      "is_group": 0,
+      "irene_resp_id": "tdb",
+      "layout": {
+        "collapsed_count": 5,
+        "is_collapsed": 0,
+        "is_collapsable": 0
+      },
+      "type": "multiple_union",
+      "id": "twin_double_bed"
+    },
+    {
+      "irene_resp_id": "entire_place_bedroom_count",
+      "layout": {
+        "is_collapsable": 0,
+        "is_collapsed": 0,
+        "collapsed_count": 5
+      },
+      "id": "entire_place_bedroom_count",
+      "type": "multiple_single_selection",
+      "categories": [
+        {
+          "style_for_count": 0,
+          "count": 368,
+          "id": "entire_place_bedroom_count::1",
+          "name": "1+ bedrooms",
+          "selected": 0
+        },
+        {
+          "style_for_count": 0,
+          "count": 165,
+          "name": "2+ bedrooms",
+          "id": "entire_place_bedroom_count::2",
+          "selected": 0
+        },
+        {
+          "name": "3+ bedrooms",
+          "id": "entire_place_bedroom_count::3",
+          "selected": 0,
+          "count": 70,
+          "style_for_count": 0
+        },
+        {
+          "selected": 0,
+          "id": "entire_place_bedroom_count::4",
+          "name": "4+ bedrooms",
+          "count": 12,
+          "style_for_count": 0
+        }
+      ],
+      "subtitle": "",
+      "is_group": 0,
+      "iconfont": null,
+      "any_text": null,
+      "title": "Number of bedrooms"
+    },
+    {
+      "irene_resp_id": "mealplan",
+      "layout": {
+        "is_collapsable": 0,
+        "is_collapsed": 0,
+        "collapsed_count": 5
+      },
+      "type": "multiple_union",
+      "id": "mealplan",
+      "subtitle": "",
+      "categories": [
+        {
+          "popular_rank": 3,
+          "popular": 1,
+          "selected": 0,
+          "name": "Breakfast included",
+          "id": "mealplan::breakfast_included",
+          "style_for_count": 0,
+          "count": 47
+        },
+        {
+          "id": "mealplan::breakfast_and_lunch",
+          "name": "Breakfast & lunch included",
+          "selected": 0,
+          "count": 1,
+          "style_for_count": 0
+        },
+        {
+          "selected": 0,
+          "id": "mealplan::breakfast_and_dinner",
+          "name": "Breakfast & dinner included",
+          "count": 1,
+          "style_for_count": 0
+        },
+        {
+          "id": "mealplan::all_inclusive",
+          "name": "All-inclusive",
+          "selected": 0,
+          "count": 1,
+          "style_for_count": 0
+        },
+        {
+          "id": "mealplan::999",
+          "name": "Kitchen amenities",
+          "selected": 0,
+          "style_for_count": 0,
+          "count": 186
+        }
+      ],
+      "title": "Meals",
+      "any_text": "Any meal options",
+      "iconfont": "restaurants",
+      "is_group": 0
+    }
+  ],
+  "sort": [
+    {
+      "name": "Distance From Downtown",
+      "id": "distance"
+    },
+    {
+      "name": "Popularity",
+      "id": "popularity"
+    },
+    {
+      "name": "Stars (5 to 0)",
+      "id": "class_descending"
+    },
+    {
+      "id": "class_ascending",
+      "name": "Stars (0 to 5)"
+    },
+    {
+      "name": "Guest Review Score",
+      "id": "bayesian_review_score"
+    },
+    {
+      "name": "Price (low to high)",
+      "id": "price"
+    }
+  ],
+  "search_id": "",
+  "map_bounding_box": {
+    "sw_long": 109.068507154578,
+    "ne_long": 109.409449994099,
+    "sw_lat": 13.6611339772166,
+    "ne_lat": 13.9480921120061
+  }
+}
